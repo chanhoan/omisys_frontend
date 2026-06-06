@@ -1,0 +1,10 @@
+import { Link } from 'expo-router'
+import { theme } from '@omi/design-tokens'
+import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { ScreenHeader } from '../../components/screen-header'
+
+const rows = [['01', 'Sign in', '계정에 로그인하거나 새로 가입합니다.'], ['02', 'Orders', '주문 상태와 배송 흐름을 확인합니다.'], ['03', 'Addresses', '배송지를 추가하고 관리합니다.'], ['04', 'Benefits', '쿠폰, 포인트, 회원 등급을 확인합니다.']]
+export default function AccountScreen() { return <SafeAreaView edges={['top']} style={styles.safe}><ScreenHeader title="You" /><View style={styles.wrap}><Text style={styles.label}>MY OMI</Text><Text style={styles.title}>You</Text><Text style={styles.body}>주문과 배송, 혜택을 확인하세요.</Text><Link href="/login" style={styles.signIn}>Sign in</Link><View style={styles.rows}>{rows.slice(1).map(([no, title, body]) => <View key={no} style={styles.row}><Text style={styles.no}>{no}</Text><View><Text style={styles.rowTitle}>{title}</Text><Text style={styles.rowBody}>{body}</Text></View><Text style={styles.arrow}>→</Text></View>)}</View></View></SafeAreaView> }
+const styles = StyleSheet.create({ safe: { flex: 1, backgroundColor: theme.colors.paper }, wrap: { padding: 22, paddingTop: 50 }, label: { color: theme.colors.muted, fontSize: 9, letterSpacing: 1.4 }, title: { fontFamily: 'serif', fontSize: 68, color: theme.colors.ink }, body: { color: theme.colors.muted }, signIn: { marginTop: 28, color: theme.colors.white, backgroundColor: theme.colors.ink, textAlign: 'center', lineHeight: 50, fontWeight: '700' }, rows: { marginTop: 42, borderTopWidth: StyleSheet.hairlineWidth, borderColor: theme.colors.line }, row: { minHeight: 104, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: theme.colors.line, flexDirection: 'row', alignItems: 'center', gap: 16 }, no: { color: theme.colors.muted, fontSize: 9 }, rowTitle: { fontFamily: 'serif', fontSize: 28 }, rowBody: { color: theme.colors.muted, fontSize: 11, marginTop: 3 }, arrow: { marginLeft: 'auto', fontSize: 18 } })

@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.next
+.expo
+coverage
+apps/mobile/web-build
+.superpowers
 
 # Editor directories and files
 .vscode/*
@@ -26,7 +31,9 @@ dist-ssr
 # Environment variables
 .env
 .env.*
+!.env.example
 
 # Claude
 CLAUDE.md
 claude/
+.claude/

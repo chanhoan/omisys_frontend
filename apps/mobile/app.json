@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "OMI",
+    "slug": "omi",
+    "scheme": "omi",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      ["expo-notifications", { "defaultChannel": "transactions" }]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.omi.store"
+    },
+    "android": {
+      "package": "com.omi.store"
+    },
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

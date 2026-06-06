@@ -1,0 +1,36 @@
+{
+  "name": "@omi/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omi/api": "*",
+    "@omi/design-tokens": "*",
+    "@omi/domain": "*",
+    "expo": "latest",
+    "expo-linking": "latest",
+    "expo-notifications": "latest",
+    "expo-router": "latest",
+    "expo-secure-store": "latest",
+    "expo-status-bar": "latest",
+    "react": "latest",
+    "react-dom": "^19.2.7",
+    "react-native": "latest",
+    "react-native-gesture-handler": "^3.0.0",
+    "react-native-reanimated": "^4.4.1",
+    "react-native-safe-area-context": "latest",
+    "react-native-screens": "latest",
+    "react-native-web": "^0.21.2"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "typescript": "latest"
+  }
+}

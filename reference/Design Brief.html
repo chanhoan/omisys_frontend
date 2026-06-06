@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUTE — Design Brief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+  :root{
+    --ink:#0a0a0a; --paper:#f4f3f1; --line:#d8d6d2; --mut:#76736d;
+    --pre:'Pretendard Variable',-apple-system,system-ui,sans-serif;
+    --serif:'Instrument Serif',Georgia,serif;
+    --grot:'Archivo','Space Grotesk',var(--pre);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--pre);line-height:1.55;}
+  .wrap{max-width:980px;margin:0 auto;padding:80px 40px 140px;}
+  .kicker{font-family:var(--grot);font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--mut);}
+  h1{font-family:var(--serif);font-size:clamp(48px,7.4vw,92px);line-height:1.06;font-weight:400;letter-spacing:-.01em;margin:18px 0 0;}
+  h1 em{font-style:italic;}
+  .lede{font-size:20px;max-width:60ch;margin-top:36px;color:#2a2926;}
+  .meta{display:flex;flex-wrap:wrap;gap:36px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);}
+  .meta div{min-width:120px;}
+  .meta dt{font-family:var(--grot);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mut);margin-bottom:7px;}
+  .meta dd{font-size:15px;}
+  section{margin-top:84px;}
+  .sec-h{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:34px;}
+  .sec-h .no{font-family:var(--grot);font-size:13px;font-weight:700;color:var(--mut);}
+  .sec-h h2{font-family:var(--serif);font-size:34px;font-weight:400;letter-spacing:-.01em;}
+  p.body{font-size:16px;max-width:68ch;color:#2a2926;margin-bottom:14px;}
+  /* type specimen */
+  .spec{border:1px solid var(--line);padding:26px 28px;margin-bottom:18px;background:#fff;}
+  .spec .lab{font-family:var(--grot);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-bottom:14px;}
+  .spec .big{font-family:var(--serif);font-size:46px;line-height:1;}
+  .spec .big.g{font-family:var(--grot);font-weight:800;letter-spacing:-.02em;text-transform:uppercase;}
+  .spec .ko{font-family:var(--pre);font-weight:700;font-size:30px;margin-top:10px;}
+  .spec .row{font-size:14px;color:var(--mut);margin-top:14px;font-family:var(--grot);}
+  /* swatches */
+  .sw{display:flex;gap:0;border:1px solid var(--line);overflow:hidden;margin-top:8px;}
+  .sw div{flex:1;height:88px;display:flex;align-items:flex-end;padding:8px;font-family:var(--grot);font-size:10px;font-weight:600;letter-spacing:.04em;}
+  /* directions */
+  .dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .dir{border:1px solid var(--line);background:#fff;overflow:hidden;}
+  .dir .pv{height:230px;position:relative;overflow:hidden;border-bottom:1px solid var(--line);}
+  .dir .meta2{padding:18px 18px 22px;}
+  .dir .dn{font-family:var(--grot);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);}
+  .dir .dt{font-family:var(--serif);font-size:26px;margin:6px 0 8px;}
+  .dir p{font-size:13.5px;color:#3a3935;line-height:1.5;}
+  /* mini mockups */
+  .mk{position:absolute;inset:0;padding:18px;}
+  /* A editorial */
+  .mkA{background:#fff;}
+  .mkA .t{font-family:var(--serif);font-size:30px;line-height:.95;color:#0a0a0a;}
+  .mkA .ph{margin-top:12px;height:118px;background:repeating-linear-gradient(45deg,#ededeb,#ededeb 7px,#f6f5f3 7px,#f6f5f3 14px);border:1px solid #e3e1dd;}
+  .mkA .cap{font-family:var(--grot);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#76736d;margin-top:10px;}
+  /* B brutalist street */
+  .mkB{background:#0a0a0a;color:#fff;}
+  .mkB .t{font-family:var(--grot);font-weight:900;font-size:34px;line-height:.86;letter-spacing:-.03em;text-transform:uppercase;}
+  .mkB .ph{margin-top:10px;height:108px;background:repeating-linear-gradient(45deg,#1a1a1a,#1a1a1a 7px,#141414 7px,#141414 14px);border:1px solid #2a2a2a;}
+  .mkB .cap{font-family:var(--grot);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a;margin-top:10px;display:flex;justify-content:space-between;}
+  /* C soft tactile */
+  .mkC{background:#eceae6;}
+  .mkC .t{font-family:var(--pre);font-weight:800;font-size:24px;line-height:1;letter-spacing:-.02em;color:#1a1a1a;}
+  .mkC .ph{margin-top:12px;height:120px;border-radius:18px;background:repeating-linear-gradient(45deg,#e0ddd7,#e0ddd7 7px,#e7e4de 7px,#e7e4de 14px);border:1px solid #d6d2cb;}
+  .mkC .cap{font-family:var(--pre);font-size:10px;font-weight:600;color:#76736d;margin-top:10px;}
+  .chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+  .chips span{font-family:var(--grot);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border:1px solid currentColor;border-radius:0;}
+  .mkC .chips span{border-radius:20px;}
+  ul.next{list-style:none;margin-top:8px;}
+  ul.next li{font-size:16px;padding:14px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;color:#2a2926;}
+  ul.next li b{font-family:var(--grot);font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--ink);min-width:26px;}
+  .note{margin-top:14px;font-size:13px;color:var(--mut);font-style:italic;}
+  .foot{margin-top:90px;padding-top:24px;border-top:1px solid var(--ink);font-family:var(--grot);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Design Brief · Fashion Commerce · iOS / React Native</div>
+  <h1>MUTE <em>—</em><br>Seoul streetwear,<br>turned all the way <em>down.</em></h1>
+  <p class="lede">A monochrome commerce app for a youth streetwear label. Loud silhouettes, quiet palette. Editorial restraint with the confidence of a lookbook — built to feel hip, intimate, and a little bit sexy.</p>
+
+  <dl class="meta">
+    <div><dt>Brand</dt><dd>MUTE · 뮤트</dd></div>
+    <div><dt>Audience</dt><dd>18–28, street / youth</dd></div>
+    <div><dt>Platform</dt><dd>React Native (iOS-first) + web</dd></div>
+    <div><dt>Palette</dt><dd>Monochrome only</dd></div>
+    <div><dt>Imagery</dt><dd>Lifestyle, model-worn</dd></div>
+    <div><dt>Directions</dt><dd>3 — toggle live</dd></div>
+  </dl>
+
+  <section>
+    <div class="sec-h"><span class="no">01</span><h2>Typography</h2></div>
+    <p class="body">Hangul carries the interface; Latin carries the attitude. <b>Pretendard</b> is the workhorse — the de-facto modern Korean UI face, flawless for prices, sizes, body copy and 한글. On top of it sit two display voices that switch per direction.</p>
+    <div class="spec">
+      <div class="lab">Body / UI · Pretendard</div>
+      <div class="ko">사이즈 가이드 · 무료배송 · 장바구니</div>
+      <div class="row">Aa Bb Cc 0123456789 — weights 400 / 600 / 800</div>
+    </div>
+    <div class="spec">
+      <div class="lab">Display A · Instrument Serif (editorial / sexy)</div>
+      <div class="big">New season, no noise.</div>
+    </div>
+    <div class="spec">
+      <div class="lab">Display B · Archivo Black (street / loud)</div>
+      <div class="big g">Drop 04 — Sold fast</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="no">02</span><h2>Color</h2></div>
+    <p class="body">Strictly monochrome. Three near-neutral grounds — true paper, warm stone, and ink — so a direction can read crisp-white, soft-warm, or blacked-out without ever introducing a hue. Photography is the only place color is allowed to live.</p>
+    <div class="sw">
+      <div style="background:#ffffff;color:#76736d;">#FFFFFF · paper</div>
+      <div style="background:#f4f3f1;color:#76736d;">#F4F3F1 · stone</div>
+      <div style="background:#c9c7c2;color:#3a3935;">#C9C7C2 · ash</div>
+      <div style="background:#76736d;color:#fff;">#76736D · slate</div>
+      <div style="background:#2a2926;color:#fff;">#2A2926 · char</div>
+      <div style="background:#0a0a0a;color:#fff;">#0A0A0A · ink</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="no">03</span><h2>Three directions</h2></div>
+    <p class="body">Same flows, same content — three different attitudes. In the prototype these are a single tap to switch, alongside live tweaks for light/dark, density, corner radius and type.</p>
+    <div class="dirs">
+      <div class="dir">
+        <div class="pv"><div class="mk mkA">
+          <div class="t">Quiet<br>luxury,<br>loud fit.</div>
+          <div class="ph"></div>
+          <div class="cap">Lookbook 04 — F/W</div>
+        </div></div>
+        <div class="meta2">
+          <div class="dn">Direction A</div>
+          <div class="dt">Editorial</div>
+          <p>Gallery-white, serif headlines, huge margins. Product as art object. Sharp corners, hairline rules.</p>
+        </div>
+      </div>
+      <div class="dir">
+        <div class="pv"><div class="mk mkB">
+          <div class="t">Drop<br>04</div>
+          <div class="ph"></div>
+          <div class="cap"><span>SOLD 82%</span><span>₩89,000</span></div>
+        </div></div>
+        <div class="meta2">
+          <div class="dn">Direction B</div>
+          <div class="dt">Brutalist street</div>
+          <p>Blacked-out, fat grotesque type, tight grids and mono tags. High energy, drop-culture urgency.</p>
+        </div>
+      </div>
+      <div class="dir">
+        <div class="pv"><div class="mk mkC">
+          <div class="t">Soft<br>essentials</div>
+          <div class="ph"></div>
+          <div class="chips"><span>New</span><span>Unisex</span></div>
+        </div></div>
+        <div class="meta2">
+          <div class="dn">Direction C</div>
+          <div class="dt">Soft tactile</div>
+          <p>Warm stone, rounded cards, airy and intimate. Friendlier, body-positive, scroll-to-relax.</p>
+        </div>
+      </div>
+    </div>
+    <p class="note">Mini-previews above are indicative — the live prototype renders these full-screen with real components and model-worn placeholders.</p>
+  </section>
+
+  <section>
+    <div class="sec-h"><span class="no">04</span><h2>Scope &amp; plan</h2></div>
+    <ul class="next">
+      <li><b>01</b><span><b style="min-width:0">Home / storefront</b> — hero drop, editorial rows, new-in rail, collections.</span></li>
+      <li><b>02</b><span>Category list (PLP) — filter + sort sheet, grid / single-column toggle.</span></li>
+      <li><b>03</b><span>Product detail (PDP) — gallery, size picker, fit notes, add-to-bag.</span></li>
+      <li><b>04</b><span>Search &amp; discovery — recent, trending, live results.</span></li>
+      <li><b>05</b><span>Bag → checkout — address, shipping, pay, confirmation.</span></li>
+      <li><b>06</b><span>Wishlist + Account / orders.</span></li>
+    </ul>
+    <p class="note">Deliverables: this brief · a clickable iOS prototype with the 3 directions + tweaks · a Claude Code handoff doc for the React Native build.</p>
+  </section>
+
+  <div class="foot"><span>MUTE · 뮤트</span><span>Brief v1 · 06 Jun 2026</span></div>
+</div>
+</body>
+</html>

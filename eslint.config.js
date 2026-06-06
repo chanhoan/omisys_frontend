@@ -1,23 +1,33 @@
 import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import nextVitals from 'eslint-config-next/core-web-vitals'
 import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
 
-export default defineConfig([
-  globalIgnores(['dist']),
+export default tseslint.config(
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
+    ignores: [
+      '**/.next/**',
+      '**/.expo/**',
+      '**/coverage/**',
+      '**/dist/**',
+      '**/node_modules/**',
+      'reference/**',
     ],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...nextVitals.map((config) => ({
+    ...config,
+    files: ['apps/web/**/*.{js,jsx,ts,tsx}'],
+  })),
+  {
+    files: ['apps/web/**/*.{js,jsx,ts,tsx}'],
+    rules: { '@next/next/no-html-link-for-pages': 'off' },
+  },
+  {
+    files: ['apps/mobile/**/*.{ts,tsx}', 'packages/**/*.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   },
-])
+)
