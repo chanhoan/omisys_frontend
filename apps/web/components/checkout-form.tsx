@@ -40,11 +40,14 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
         },
         body: JSON.stringify({
           orderType: 'NORMAL',
-          items: state.items.map(({ product, quantity }) => ({
+          orderProductInfos: state.items.map(({ product, quantity }) => ({
             productId: product.productId,
             quantity,
+            userCouponId: null,
           })),
+          pointPrice: 0,
           addressId,
+          clientChannel: 'WEB',
         }),
       })
       const payload = await res.json() as { data?: { orderId?: number; checkoutUrl?: string }; message?: string }
