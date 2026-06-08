@@ -18,9 +18,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <CartProvider>
           <ToastProvider>
             <SiteHeader />
-            <div className="promo-bar">
-              10만원 이상 무료 배송. 주문 후 14일 이내 무료 반품.
-            </div>
             <main>{children}</main>
             <SiteFooter />
           </ToastProvider>

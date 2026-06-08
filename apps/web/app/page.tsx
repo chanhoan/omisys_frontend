@@ -20,12 +20,6 @@ export default async function HomePage() {
     <>
       <ProductShowcase products={featuredProducts} />
 
-      <section className="section value-strip" aria-label="OMI 서비스">
-        <article><strong>무료 배송</strong><span>10만원 이상 주문</span></article>
-        <article><strong>간편한 반품</strong><span>수령 후 14일 이내</span></article>
-        <article><strong>안전한 결제</strong><span>암호화된 결제 과정</span></article>
-      </section>
-
       <section className="section">
         <div className="section-heading">
           <div><p className="eyebrow">LATEST EDIT</p><h2>새로 나온 제품.</h2></div>
