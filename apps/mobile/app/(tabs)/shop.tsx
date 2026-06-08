@@ -1,5 +1,4 @@
 import { catalogProducts } from '@omi/domain'
-import { theme } from '@omi/design-tokens'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
