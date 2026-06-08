@@ -51,7 +51,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .campaign-split { display: grid; grid-template-columns: 1.25fr .75fr; padding-top: 24px; }
 .campaign-image { min-height: 720px; position: relative; }
 .campaign-copy { background: var(--ink); color: white; display: flex; flex-direction: column; justify-content: center; padding: 64px; }
-.campaign-copy h2 { font-size: clamp(52px, 7vw, 96px); }
+.campaign-copy h2 { font-size: clamp(42px, 5vw, 72px); word-break: keep-all; white-space: nowrap; }
 .campaign-copy p:not(.eyebrow) { color: #cac7bf; line-height: 1.8; }
 .text-link { display: inline-block; margin-top: 24px; border-bottom: 1px solid currentColor; padding-bottom: 6px; width: fit-content; font-size: 13px; }
 .listing-title { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 30px; }
