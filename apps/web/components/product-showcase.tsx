@@ -8,7 +8,10 @@ export function ProductShowcase({ products }: { products: readonly Product[] }) 
     <section className="showcase" aria-labelledby="showcase-title">
       <div className="showcase-copy">
         <p className="eyebrow">F/W 2026 · NIGHT SHIFT</p>
-        <h1 id="showcase-title">이번 계절의<br />새로운 균형.</h1>
+        <h1 id="showcase-title">
+          <span>이번 계절의</span>
+          <span>새로운 균형.</span>
+        </h1>
         <p>꾸미지 않은 듯 분명한 실루엣. 지금 가장 먼저 만나보세요.</p>
         <Link className="more-link" href="/shop">신상품 모두 보기 ›</Link>
       </div>

@@ -129,7 +129,8 @@ main { overflow: clip; }
 .promo-bar { min-height: 44px; display: grid; place-items: center; padding: 8px 20px; background: var(--surface); color: var(--text-muted); font-size: 12px; text-align: center; }
 .showcase { width: min(1440px, 100%); min-height: clamp(560px, 67svh, 760px); margin: 0 auto; padding: clamp(52px, 7vw, 96px) max(24px, 6vw); display: grid; grid-template-columns: minmax(300px, .72fr) minmax(560px, 1.28fr); align-items: center; gap: clamp(30px, 5vw, 90px); background: radial-gradient(circle at 75% 42%, color-mix(in srgb, var(--surface-muted) 78%, transparent), transparent 48%); overflow: hidden; }
 .showcase-copy { position: relative; z-index: 4; }
-.showcase-copy h1 { margin: 14px 0 24px; font-size: clamp(54px, 6.4vw, 96px); font-weight: 700; line-height: .94; letter-spacing: -.065em; }
+.showcase-copy h1 { margin: 14px 0 24px; font-size: clamp(46px, 5.2vw, 76px); font-weight: 700; line-height: .98; letter-spacing: -.06em; word-break: keep-all; }
+.showcase-copy h1 span { display: block; white-space: nowrap; }
 .showcase-copy > p:not(.eyebrow) { max-width: 420px; color: var(--text-muted); font-size: clamp(16px, 1.4vw, 20px); line-height: 1.55; }
 .showcase-stage { position: relative; min-height: 520px; perspective: 1200px; }
 .showcase-product { position: absolute; display: block; color: #1d1d1f; transition: transform var(--motion-standard), filter var(--motion-standard); animation: showcase-float 6s ease-in-out infinite; }
@@ -145,6 +146,10 @@ main { overflow: clip; }
 .showcase-meta { width: calc(100% - 24px); margin: -34px auto 0; position: relative; display: flex; justify-content: space-between; gap: 8px; padding: 13px 15px; border-radius: 15px; background: rgba(255,255,255,.86); backdrop-filter: saturate(180%) blur(18px); font-size: 12px; }
 .showcase-meta strong { white-space: nowrap; }
 @keyframes showcase-float { 0%,100% { margin-top: 0; } 50% { margin-top: -9px; } }
+@media (min-width: 901px) and (max-width: 1100px) {
+  .showcase { padding-inline: 36px; grid-template-columns: minmax(300px, .8fr) minmax(460px, 1.2fr); gap: 24px; }
+  .showcase-copy h1 { font-size: 46px; }
+}
 .eyebrow { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
 .button { min-height: 44px; padding: 0 22px; border-radius: var(--radius-pill); border: 0; font-size: 14px; transition: transform var(--motion-fast), opacity var(--motion-fast), background var(--motion-fast); }
 .button:hover { transform: translateY(-1px); opacity: .9; }
@@ -190,7 +195,7 @@ main { overflow: clip; }
   .utility-nav { gap: 10px; }
   .promo-bar { font-size: 11px; }
   .showcase { min-height: auto; padding: 46px 18px 32px; grid-template-columns: 1fr; gap: 28px; }
-  .showcase-copy h1 { font-size: clamp(48px, 14vw, 68px); }
+  .showcase-copy h1 { font-size: clamp(40px, 11.5vw, 56px); }
   .showcase-stage { min-height: 440px; margin-inline: -18px; overflow-x: auto; overflow-y: hidden; display: flex; align-items: center; gap: 14px; padding: 10px 18px 26px; scroll-snap-type: x mandatory; perspective: none; }
   .showcase-product, .showcase-product-1, .showcase-product-2, .showcase-product-3 { position: relative; inset: auto; width: min(70vw, 310px); flex: 0 0 min(70vw, 310px); transform: none; animation: none; scroll-snap-align: center; }
   .showcase-product:hover { transform: translateY(-4px); }
