@@ -1,32 +1,24 @@
+import { catalogProducts } from '@omi/domain'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Suspense } from 'react'
 
 import { ProductGrid } from '../components/product-grid'
 import { ProductGridSkeleton } from '../components/product-skeleton'
+import { ProductShowcase } from '../components/product-showcase'
 import { getProducts } from '../lib/server-fetch'
 
 export default async function HomePage() {
   const productPage = await getProducts({ sort: 'newest', size: 4 })
+  const featuredProducts = productPage?.content.length
+    ? [...productPage.content, ...catalogProducts]
+        .filter((product, index, products) => products.findIndex((item) => item.productId === product.productId) === index)
+        .slice(0, 3)
+    : catalogProducts.slice(0, 3)
 
   return (
     <>
-      <section className="hero">
-        <Image
-          alt="OMI Drop 04 컬렉션"
-          fill
-          priority
-          sizes="100vw"
-          src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1800&q=90"
-        />
-        <div className="hero-shade" />
-        <div className="hero-copy">
-          <p className="eyebrow">F/W 2026 · NIGHT SHIFT</p>
-          <h1>Drop 04</h1>
-          <p>새벽의 무드. 절제된 색과 느슨한 실루엣.</p>
-          <Link className="button light" href="/shop">컬렉션 쇼핑하기 <span aria-hidden>›</span></Link>
-        </div>
-      </section>
+      <ProductShowcase products={featuredProducts} />
 
       <section className="section value-strip" aria-label="OMI 서비스">
         <article><strong>무료 배송</strong><span>10만원 이상 주문</span></article>
