@@ -3,7 +3,7 @@ import { type ColorValue, Text } from 'react-native'
 
 import { useAppTheme } from '../../lib/use-app-theme'
 
-const icons: Record<string, string> = { Home: '⌂', Shop: '▦', Search: '⌕', Saved: '♡', You: '◎' }
+const icons: Record<string, string> = { Home: '⌂', Shop: '▦', Search: '⌕', You: '◎' }
 
 function tabIcon(label: string) {
   function TabIcon({ color }: { color: ColorValue }) {
@@ -25,7 +25,6 @@ export default function TabLayout() {
       <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: tabIcon('Home') }} />
       <Tabs.Screen name="shop" options={{ title: 'Shop', tabBarIcon: tabIcon('Shop') }} />
       <Tabs.Screen name="search" options={{ title: 'Search', tabBarIcon: tabIcon('Search') }} />
-      <Tabs.Screen name="saved" options={{ title: 'Saved', tabBarIcon: tabIcon('Saved') }} />
       <Tabs.Screen name="account" options={{ title: 'You', tabBarIcon: tabIcon('You') }} />
     </Tabs>
   )

@@ -22,7 +22,6 @@ export async function SiteHeader() {
       </nav>
       <nav className="utility-nav" aria-label="사용자 메뉴">
         <Link href="/search" aria-label="검색">검색</Link>
-        <Link href="/saved" aria-label="저장한 상품">저장</Link>
         {user ? (
           <div className="header-user">
             <Link href="/account" aria-label="내 계정">{user.nickname}</Link>

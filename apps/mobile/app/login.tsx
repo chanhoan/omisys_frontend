@@ -38,7 +38,7 @@ export default function LoginScreen() {
       <View style={styles.wrap}>
         <Text style={styles.label}>MY OMI</Text>
         <Text style={styles.title}>Sign in</Text>
-        <Text style={styles.body}>주문과 배송, 저장한 상품을 이어서 확인하세요.</Text>
+        <Text style={styles.body}>주문과 배송 정보를 이어서 확인하세요.</Text>
         <View style={styles.form}>
           <TextInput autoCapitalize="none" autoComplete="username" accessibilityLabel="아이디" onChangeText={setUsername} placeholder="아이디" style={styles.input} value={username} />
           <TextInput autoCapitalize="none" autoComplete="current-password" accessibilityLabel="비밀번호" onChangeText={setPassword} placeholder="비밀번호" secureTextEntry style={styles.input} value={password} />

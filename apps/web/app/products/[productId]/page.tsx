@@ -63,7 +63,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div><dt>Rating</dt><dd>{product.averageRating} / 5 · {product.reviewCount} reviews</dd></div>
         </dl>
         <AddToCart product={product} />
-        <button className="save-button" type="button">♡ Save</button>
         <div className="pdp-notes">
           <details open><summary>Product notes</summary><p>{product.description}</p></details>
           <details><summary>Delivery &amp; returns</summary><p>결제 완료 후 영업일 기준 2–4일 내 출고됩니다.</p></details>
