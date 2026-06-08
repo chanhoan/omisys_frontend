@@ -6,10 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { ProductCard } from '../../components/product-card'
 import { ScreenHeader } from '../../components/screen-header'
+import { useAppTheme } from '../../lib/use-app-theme'
 
 export default function HomeScreen() {
+  const appTheme = useAppTheme()
   return (
-    <SafeAreaView edges={['top']} style={styles.safe}>
+    <SafeAreaView edges={['top']} style={[styles.safe, { backgroundColor: appTheme.colors.background }]}>
       <ScreenHeader />
       <ScrollView>
         <ImageBackground source={{ uri: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85' }} style={styles.hero}>
@@ -21,13 +23,13 @@ export default function HomeScreen() {
             <Link href="/(tabs)/shop" style={styles.heroButton}>Shop the drop  →</Link>
           </View>
         </ImageBackground>
-        <View style={styles.intro}>
-          <Text style={styles.eyebrow}>NEW ARRIVALS · 01</Text>
-          <Text style={styles.display}>Quiet forms,{`\n`}clear movement.</Text>
-          <Text style={styles.body}>일상에서 오래 머무는 형태를 만듭니다. 과장 없이 선명한 옷, 필요한 만큼의 디테일.</Text>
+        <View style={[styles.intro, { backgroundColor: appTheme.colors.surface, borderBottomColor: appTheme.colors.border }]}>
+          <Text style={[styles.eyebrow, { color: appTheme.colors.textMuted }]}>OMI SERVICES</Text>
+          <Text style={[styles.display, { color: appTheme.colors.text }]}>입을수록 분명해지는 옷.</Text>
+          <Text style={[styles.body, { color: appTheme.colors.textMuted }]}>무료 배송, 14일 이내 반품, 안전한 결제까지 한 번에.</Text>
         </View>
         <View style={styles.section}>
-          <View style={styles.heading}><View><Text style={styles.eyebrow}>LATEST EDIT</Text><Text style={styles.sectionTitle}>New in</Text></View><Link href="/(tabs)/shop" style={styles.viewAll}>View all →</Link></View>
+          <View style={styles.heading}><View><Text style={[styles.eyebrow, { color: appTheme.colors.textMuted }]}>LATEST EDIT</Text><Text style={[styles.sectionTitle, { color: appTheme.colors.text }]}>새로 나온 제품.</Text></View><Link href="/(tabs)/shop" style={[styles.viewAll, { color: appTheme.colors.accent }]}>모두 보기 ›</Link></View>
           <View style={styles.grid}>{catalogProducts.map((product) => <ProductCard key={product.productId} product={product} />)}</View>
         </View>
       </ScrollView>
@@ -44,13 +46,13 @@ const styles = StyleSheet.create({
   heroTitle: { color: theme.colors.white, fontFamily: 'serif', fontSize: 72, lineHeight: 80, marginTop: 8 },
   heroBody: { color: theme.colors.white, fontSize: 13, marginBottom: 24 },
   heroButton: { color: theme.colors.ink, backgroundColor: theme.colors.white, paddingHorizontal: 18, lineHeight: 48, width: 170, textAlign: 'center', fontSize: 12, fontWeight: '700' },
-  intro: { paddingHorizontal: 18, paddingVertical: 64, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.colors.line },
+  intro: { margin: 12, paddingHorizontal: 22, paddingVertical: 40, borderRadius: 26, borderBottomWidth: StyleSheet.hairlineWidth },
   eyebrow: { color: theme.colors.muted, fontSize: 9, letterSpacing: 1.5, fontWeight: '600' },
-  display: { color: theme.colors.ink, fontFamily: 'serif', fontSize: 48, lineHeight: 48, marginVertical: 18 },
+  display: { fontSize: 38, lineHeight: 41, fontWeight: '700', letterSpacing: -1.7, marginVertical: 18 },
   body: { color: theme.colors.muted, lineHeight: 23, fontSize: 13 },
   section: { paddingHorizontal: 12, paddingVertical: 54 },
   heading: { paddingHorizontal: 6, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 20 },
-  sectionTitle: { color: theme.colors.ink, fontFamily: 'serif', fontSize: 42, marginTop: 6 },
+  sectionTitle: { fontSize: 34, fontWeight: '700', letterSpacing: -1.4, marginTop: 6 },
   viewAll: { color: theme.colors.ink, fontSize: 11, lineHeight: 44 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 30 },
 })

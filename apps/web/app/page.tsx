@@ -24,22 +24,20 @@ export default async function HomePage() {
           <p className="eyebrow">F/W 2026 · NIGHT SHIFT</p>
           <h1>Drop 04</h1>
           <p>새벽의 무드. 절제된 색과 느슨한 실루엣.</p>
-          <Link className="button light" href="/shop">Shop the drop <span aria-hidden>→</span></Link>
+          <Link className="button light" href="/shop">컬렉션 쇼핑하기 <span aria-hidden>›</span></Link>
         </div>
       </section>
 
-      <section className="section editorial-intro">
-        <p className="eyebrow">NEW ARRIVALS · 01</p>
-        <div>
-          <h2>Quiet forms,<br />clear movement.</h2>
-          <p>일상에서 오래 머무는 형태를 만듭니다. 과장 없이 선명한 옷, 필요한 만큼의 디테일.</p>
-        </div>
+      <section className="section value-strip" aria-label="OMI 서비스">
+        <article><strong>무료 배송</strong><span>10만원 이상 주문</span></article>
+        <article><strong>간편한 반품</strong><span>수령 후 14일 이내</span></article>
+        <article><strong>안전한 결제</strong><span>암호화된 결제 과정</span></article>
       </section>
 
       <section className="section">
         <div className="section-heading">
-          <div><p className="eyebrow">LATEST EDIT</p><h2>New in</h2></div>
-          <Link href="/shop">View all →</Link>
+          <div><p className="eyebrow">LATEST EDIT</p><h2>새로 나온 제품.</h2></div>
+          <Link className="more-link" href="/shop">모두 보기 ›</Link>
         </div>
         <Suspense fallback={<ProductGridSkeleton count={4} />}>
           {productPage && productPage.content.length > 0 ? (
@@ -50,7 +48,7 @@ export default async function HomePage() {
         </Suspense>
       </section>
 
-      <section className="campaign-split section">
+      <section className="campaign-split section home-card">
         <div className="campaign-image">
           <Image
             alt="OMI 소재 에디토리얼"
@@ -61,9 +59,9 @@ export default async function HomePage() {
         </div>
         <div className="campaign-copy">
           <p className="eyebrow">MATERIAL NOTES · 04</p>
-          <h2>Soft structure</h2>
+          <h2>부드러운 구조.</h2>
           <p>형태는 유지하고 움직임은 방해하지 않는 소재. 이번 에디트의 재킷과 트라우저를 만나보세요.</p>
-          <Link className="text-link" href="/shop">Explore the edit →</Link>
+          <Link className="more-link light-link" href="/shop">에디트 살펴보기 ›</Link>
         </div>
       </section>
     </>

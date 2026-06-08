@@ -1,22 +1,26 @@
 import { Tabs } from 'expo-router'
-import { theme } from '@omi/design-tokens'
 import { type ColorValue, Text } from 'react-native'
+
+import { useAppTheme } from '../../lib/use-app-theme'
+
+const icons: Record<string, string> = { Home: '⌂', Shop: '▦', Search: '⌕', Saved: '♡', You: '◎' }
 
 function tabIcon(label: string) {
   function TabIcon({ color }: { color: ColorValue }) {
-    return <Text style={{ color, fontSize: 10, fontWeight: '700' }}>{label.slice(0, 1)}</Text>
+    return <Text style={{ color, fontSize: 21, fontWeight: '500' }}>{icons[label]}</Text>
   }
   return TabIcon
 }
 
 export default function TabLayout() {
+  const theme = useAppTheme()
   return (
     <Tabs screenOptions={{
       headerShown: false,
-      tabBarActiveTintColor: theme.colors.ink,
-      tabBarInactiveTintColor: '#9b9890',
-      tabBarStyle: { backgroundColor: theme.colors.paper, borderTopColor: theme.colors.line, height: 72, paddingTop: 8 },
-      tabBarLabelStyle: { fontSize: 10, fontWeight: '600', paddingBottom: 8 },
+      tabBarActiveTintColor: theme.colors.accent,
+      tabBarInactiveTintColor: theme.colors.textMuted,
+      tabBarStyle: { backgroundColor: theme.colors.surface, borderTopColor: theme.colors.border, height: 78, paddingTop: 7 },
+      tabBarLabelStyle: { fontSize: 10, fontWeight: '600', paddingBottom: 7 },
     }}>
       <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: tabIcon('Home') }} />
       <Tabs.Screen name="shop" options={{ title: 'Shop', tabBarIcon: tabIcon('Shop') }} />

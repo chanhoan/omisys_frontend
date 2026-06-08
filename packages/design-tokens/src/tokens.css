@@ -1,8 +1,37 @@
 :root {
-  --ink: #11110f;
-  --muted: #706e68;
-  --paper: #f3f1eb;
-  --surface: #faf9f5;
-  --line: #d8d4ca;
-  --danger: #8b2f20;
+  color-scheme: light dark;
+  --background: #f5f5f7;
+  --surface: #ffffff;
+  --surface-muted: #e8e8ed;
+  --text: #1d1d1f;
+  --text-muted: #6e6e73;
+  --border: #d2d2d7;
+  --accent: #0071e3;
+  --accent-text: #ffffff;
+  --danger: #b42318;
+  --radius-control: 12px;
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --motion-fast: 160ms cubic-bezier(.2, 0, 0, 1);
+  --motion-standard: 320ms cubic-bezier(.2, 0, 0, 1);
+
+  /* Legacy aliases used by existing screens during migration. */
+  --ink: var(--text);
+  --muted: var(--text-muted);
+  --paper: var(--background);
+  --line: var(--border);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --surface: #1d1d1f;
+    --surface-muted: #2c2c2e;
+    --text: #f5f5f7;
+    --text-muted: #a1a1a6;
+    --border: #424245;
+    --accent: #2997ff;
+    --accent-text: #ffffff;
+    --danger: #ff6961;
+  }
 }
