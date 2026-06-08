@@ -21,7 +21,13 @@ export async function SiteHeader() {
         {nav.map(([label, href]) => <Link href={href} key={label}>{label}</Link>)}
       </nav>
       <nav className="utility-nav" aria-label="사용자 메뉴">
-        <Link href="/search" aria-label="검색">검색</Link>
+        <Link className="header-icon-link" href="/search" aria-label="검색">
+          <svg aria-hidden="true" className="header-icon" viewBox="0 0 24 24">
+            <circle cx="10.75" cy="10.75" r="6.25" />
+            <path d="m15.5 15.5 4 4" />
+          </svg>
+        </Link>
+        <CartLink />
         {user ? (
           <div className="header-user">
             <Link href="/account" aria-label="내 계정">{user.nickname}</Link>
@@ -30,7 +36,6 @@ export async function SiteHeader() {
         ) : (
           <Link href="/login" aria-label="로그인">로그인</Link>
         )}
-        <CartLink />
       </nav>
     </header>
   )
