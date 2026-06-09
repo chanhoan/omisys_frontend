@@ -13,7 +13,7 @@ interface CheckoutFormProps {
 export function CheckoutForm({ addresses }: CheckoutFormProps) {
   const router = useRouter()
   const { state, clear } = useCart()
-  const [addressId, setAddressId] = useState<number | ''>(addresses[0]?.addressId ?? '')
+  const [addressId, setAddressId] = useState<number | ''>(addresses[0]?.id ?? '')
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -81,18 +81,18 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
           ) : (
             <ul className="address-radio-list">
               {addresses.map((addr) => (
-                <li key={addr.addressId}>
+                <li key={addr.id}>
                   <label className="address-radio">
                     <input
-                      checked={addressId === addr.addressId}
+                      checked={addressId === addr.id}
                       name="addressId"
-                      onChange={() => setAddressId(addr.addressId)}
+                      onChange={() => setAddressId(addr.id)}
                       type="radio"
-                      value={addr.addressId}
+                      value={addr.id}
                     />
                     <span>
-                      <strong>{addr.recipientName}</strong> {addr.phoneNumber}<br />
-                      ({addr.zipCode}) {addr.address}{addr.addressDetail ? ` ${addr.addressDetail}` : ''}
+                      <strong>{addr.recipient}</strong> {addr.phoneNumber}<br />
+                      ({addr.zipcode}) {addr.address}
                     </span>
                   </label>
                 </li>

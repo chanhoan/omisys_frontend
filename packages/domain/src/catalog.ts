@@ -10,6 +10,18 @@ export function formatWon(value: number): string {
   }).format(value)
 }
 
+export function formatDate(value: string | null | undefined): string {
+  if (!value) return '-'
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? '-' : date.toLocaleDateString('ko-KR')
+}
+
+export function formatDateTime(value: string | null | undefined): string {
+  if (!value) return '-'
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? '-' : date.toLocaleString('ko-KR')
+}
+
 export function getProductBadge(product: Product): string | undefined {
   if (product.soldout || product.stock === 0) return 'SOLD OUT'
   if (product.discountPercent > 0) return `${product.discountPercent}% OFF`

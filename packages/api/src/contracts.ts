@@ -104,12 +104,14 @@ export const cartBackendSchema = z.object({
 export type CartBackend = z.infer<typeof cartBackendSchema>
 
 export const addressSchema = z.object({
-  addressId: z.number().int().positive(),
-  recipientName: z.string(),
+  id: z.number().int().positive(),
+  userId: z.number().int().positive().optional(),
+  alias: z.string().nullable().optional(),
+  recipient: z.string(),
   phoneNumber: z.string(),
-  zipCode: z.string(),
+  zipcode: z.string(),
   address: z.string(),
-  addressDetail: z.string().optional(),
+  isDefault: z.boolean().nullable().optional(),
 })
 
 export type Address = z.infer<typeof addressSchema>
@@ -144,3 +146,189 @@ export const orderCreateResponseSchema = z.object({
   orderId: z.number().int().positive(),
   checkoutUrl: z.string().optional(),
 })
+
+// Spring `Page<T>` envelope (content + paging meta). Unknown fields are ignored.
+export const springPage = <T extends z.ZodTypeAny>(item: T) => z.object({
+  content: z.array(item),
+  totalElements: z.number().int().nonnegative(),
+  totalPages: z.number().int().nonnegative(),
+  number: z.number().int().nonnegative(),
+})
+
+// --- Search (Elasticsearch ProductSearchDto + custom PageResponse) ---
+export const searchItemSchema = z.object({
+  productId: z.string(),
+  categoryId: z.number().int().nonnegative(),
+  productName: z.string(),
+  brandName: z.string(),
+  mainColor: z.string(),
+  size: z.string().nullable().optional(),
+  originalPrice: z.coerce.number().nonnegative(),
+  discountedPrice: z.coerce.number().nonnegative(),
+  discountPercent: z.coerce.number().nonnegative(),
+  thumbnailImgUrl: z.string().nullable().optional(),
+  averageRating: z.coerce.number().min(0).max(5),
+  soldout: z.boolean(),
+  reviewCount: z.coerce.number().int().nonnegative(),
+})
+
+export type SearchItem = z.infer<typeof searchItemSchema>
+
+export const searchResultPageSchema = z.object({
+  content: z.array(searchItemSchema),
+  totalElements: z.number().int().nonnegative(),
+  totalPages: z.number().int().nonnegative(),
+  page: z.number().int().nonnegative(),
+  pageSize: z.number().int().positive(),
+})
+
+export type SearchResultPage = z.infer<typeof searchResultPageSchema>
+
+// --- Events ---
+export const eventSchema = z.object({
+  id: z.number().int(),
+  title: z.string(),
+  imgUrl: z.string().nullable().optional(),
+  content: z.string(),
+  startAt: z.string().nullable().optional(),
+  endAt: z.string().nullable().optional(),
+})
+
+export type EventItem = z.infer<typeof eventSchema>
+export const eventPageSchema = springPage(eventSchema)
+export type EventPage = z.infer<typeof eventPageSchema>
+
+// --- Pre-orders ---
+export const preorderSchema = z.object({
+  preOrderId: z.number().int(),
+  productId: z.string(),
+  preOrderTitle: z.string(),
+  state: z.string(),
+  startDateTime: z.string().nullable().optional(),
+  endDateTime: z.string().nullable().optional(),
+  releaseDateTime: z.string().nullable().optional(),
+  availableQuantity: z.number().int().nullable().optional(),
+  isPublic: z.boolean().optional(),
+})
+
+export type Preorder = z.infer<typeof preorderSchema>
+export const preorderPageSchema = springPage(preorderSchema)
+export type PreorderPage = z.infer<typeof preorderPageSchema>
+
+// --- Coupons / Points / Tier (benefits) ---
+export const couponSchema = z.object({
+  couponId: z.number().int(),
+  name: z.string(),
+  type: z.string(),
+  discountType: z.string(),
+  discountValue: z.coerce.number().nonnegative(),
+  minBuyPrice: z.coerce.number().nonnegative().nullable().optional(),
+  maxDiscountPrice: z.coerce.number().nonnegative().nullable().optional(),
+  quantity: z.number().int().nullable().optional(),
+  startDate: z.union([z.string(), z.number()]).nullable().optional(),
+  endDate: z.union([z.string(), z.number()]).nullable().optional(),
+  userTier: z.string().nullable().optional(),
+})
+
+export type Coupon = z.infer<typeof couponSchema>
+export const couponPageSchema = springPage(couponSchema)
+export type CouponPage = z.infer<typeof couponPageSchema>
+
+export const pointSchema = z.object({
+  pointHistoryId: z.number().int(),
+  userId: z.number().int().optional(),
+  orderId: z.number().int().nullable().optional(),
+  point: z.coerce.number(),
+  type: z.string(),
+})
+
+export type PointHistory = z.infer<typeof pointSchema>
+export const pointPageSchema = springPage(pointSchema)
+export type PointPage = z.infer<typeof pointPageSchema>
+
+export const userTierSchema = z.object({
+  userId: z.number().int(),
+  username: z.string(),
+  tier: z.string(),
+})
+
+export type UserTier = z.infer<typeof userTierSchema>
+
+// --- Reviews ---
+export const reviewSchema = z.object({
+  reviewId: z.number().int(),
+  userId: z.number().int(),
+  rating: z.number().int().min(0).max(5),
+  content: z.string(),
+  createdAt: z.string(),
+})
+
+export type Review = z.infer<typeof reviewSchema>
+export const reviewPageSchema = springPage(reviewSchema)
+export type ReviewPage = z.infer<typeof reviewPageSchema>
+
+// --- Delivery ---
+export const deliverySummarySchema = z.object({
+  deliveryId: z.number().int(),
+  orderId: z.number().int(),
+  state: z.string(),
+  courier: z.string().nullable().optional(),
+  invoiceNumber: z.string().nullable().optional(),
+})
+
+export type DeliverySummary = z.infer<typeof deliverySummarySchema>
+export const deliveryPageSchema = springPage(deliverySummarySchema)
+export type DeliveryPage = z.infer<typeof deliveryPageSchema>
+
+export const deliveryDetailSchema = z.object({
+  deliveryId: z.number().int(),
+  orderId: z.number().int(),
+  userId: z.number().int().optional(),
+  state: z.string(),
+  courier: z.string().nullable().optional(),
+  invoiceNumber: z.string().nullable().optional(),
+  recipient: z.string().nullable().optional(),
+  phoneNumber: z.string().nullable().optional(),
+  zipcode: z.string().nullable().optional(),
+  shippingAddress: z.string().nullable().optional(),
+})
+
+export type DeliveryDetail = z.infer<typeof deliveryDetailSchema>
+
+export const trackingHistorySchema = z.object({
+  state: z.string(),
+  memo: z.string().nullable().optional(),
+  occurredAt: z.string(),
+})
+
+export type TrackingHistory = z.infer<typeof trackingHistorySchema>
+
+// --- Order detail (OrderResponse.OrderGetResponse) ---
+export const orderProductSchema = z.object({
+  orderProductId: z.number().int(),
+  productId: z.string(),
+  productName: z.string(),
+  quantity: z.number().int().positive(),
+  purchasePrice: z.coerce.number().nonnegative(),
+})
+
+export const orderDetailSchema = z.object({
+  orderId: z.number().int(),
+  orderNo: z.string().nullable().optional(),
+  orderState: z.string(),
+  orderProducts: z.array(orderProductSchema).default([]),
+  totalQuantity: z.number().int().nonnegative().optional(),
+  totalAmount: z.coerce.number().nonnegative().optional(),
+  shippingAmount: z.coerce.number().nonnegative().optional(),
+  totalRealAmount: z.coerce.number().nonnegative().optional(),
+  pointPrice: z.coerce.number().optional(),
+  couponPrice: z.coerce.number().optional(),
+  invoiceNumber: z.string().nullable().optional(),
+  recipient: z.string().nullable().optional(),
+  phoneNumber: z.string().nullable().optional(),
+  zipcode: z.string().nullable().optional(),
+  shippingAddress: z.string().nullable().optional(),
+  orderDate: z.string().nullable().optional(),
+})
+
+export type OrderDetail = z.infer<typeof orderDetailSchema>

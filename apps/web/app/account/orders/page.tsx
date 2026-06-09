@@ -50,6 +50,7 @@ export default async function OrdersPage() {
               <strong className="order-total">
                 {new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(order.totalPrice)}
               </strong>
+              <Link className="text-link" href={`/account/orders/${order.orderId}`}>주문 상세 →</Link>
             </li>
           ))}
         </ul>
