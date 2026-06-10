@@ -30,7 +30,7 @@ export async function SiteHeader() {
         <CartLink />
         {user ? (
           <div className="header-user">
-            <Link href="/account" aria-label="내 계정">{user.nickname}</Link>
+            <Link href="/account" aria-label="내 계정">{user.nickname ?? user.username}</Link>
             <LogoutButton />
           </div>
         ) : (

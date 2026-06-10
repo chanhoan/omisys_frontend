@@ -1,9 +1,9 @@
-import type { Product } from '@omi/api'
+import type { ProductListItem } from '@omi/api'
 import { formatWon, getProductBadge } from '@omi/domain'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: ProductListItem }) {
   const badge = getProductBadge(product)
   const href = `/products/${product.productId}`
 
@@ -30,7 +30,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="product-meta">
           <span>{product.mainColor}</span>
-          <span>{product.soldout ? '품절' : `${product.stock}개 남음`}</span>
+          {product.soldout ? <span>품절</span> : product.stock != null ? <span>{product.stock}개 남음</span> : null}
         </div>
       </div>
     </article>

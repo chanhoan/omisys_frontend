@@ -15,8 +15,8 @@ import {
   pointPageSchema,
   preorderPageSchema,
   preorderSchema,
+  productDetailSchema,
   productPageSchema,
-  productSchema,
   reviewPageSchema,
   searchResultPageSchema,
   trackingHistorySchema,
@@ -106,9 +106,12 @@ export async function getProducts(query: ProductQuery = {}): Promise<ProductPage
 }
 
 export async function getProduct(productId: string): Promise<Product | null> {
-  return serverGet(`/api/products/detail/${encodeURIComponent(productId)}`, productSchema, {
-    revalidate: 60,
-  })
+  const detail = await serverGet(
+    `/api/products/detail/${encodeURIComponent(productId)}`,
+    productDetailSchema,
+    { revalidate: 60 },
+  )
+  return detail?.product ?? null
 }
 
 export async function getCategories(): Promise<Category[] | null> {

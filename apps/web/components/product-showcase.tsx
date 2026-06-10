@@ -1,9 +1,9 @@
-import type { Product } from '@omi/api'
+import type { ProductListItem } from '@omi/api'
 import { formatWon } from '@omi/domain'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function ProductShowcase({ products }: { products: readonly Product[] }) {
+export function ProductShowcase({ products }: { products: readonly ProductListItem[] }) {
   return (
     <section className="showcase" aria-labelledby="showcase-title">
       <div className="showcase-copy">

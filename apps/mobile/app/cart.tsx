@@ -21,18 +21,18 @@ export default function CartScreen() {
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.content}>
-          {state.items.map(({ product, quantity }) => (
-            <View key={product.productId} style={[styles.item, { borderBottomColor: theme.colors.border }]}>
-              <Image source={{ uri: product.thumbnailImgUrl }} style={styles.thumb} />
+          {state.items.map((item) => (
+            <View key={item.productId} style={[styles.item, { borderBottomColor: theme.colors.border }]}>
+              <Image source={{ uri: item.thumbnailImgUrl }} style={styles.thumb} />
               <View style={styles.itemCopy}>
-                <Text style={[styles.name, { color: theme.colors.text }]}>{product.productName}</Text>
-                <Text style={[styles.meta, { color: theme.colors.textMuted }]}>{product.mainColor} · {product.size}</Text>
-                <Text style={[styles.price, { color: theme.colors.text }]}>{formatWon(product.discountedPrice * quantity)}</Text>
+                <Text style={[styles.name, { color: theme.colors.text }]}>{item.name}</Text>
+                <Text style={[styles.meta, { color: theme.colors.textMuted }]}>{[item.mainColor, item.size].filter(Boolean).join(' · ')}</Text>
+                <Text style={[styles.price, { color: theme.colors.text }]}>{formatWon(item.discountedPrice * item.quantity)}</Text>
                 <View style={styles.actions}>
-                  <Pressable onPress={() => setQuantity(product.productId, quantity - 1)}><Text style={[styles.action, { color: theme.colors.accent }]}>−</Text></Pressable>
-                  <Text style={{ color: theme.colors.text }}>{quantity}</Text>
-                  <Pressable onPress={() => setQuantity(product.productId, quantity + 1)}><Text style={[styles.action, { color: theme.colors.accent }]}>＋</Text></Pressable>
-                  <Pressable onPress={() => remove(product.productId)}><Text style={[styles.remove, { color: theme.colors.textMuted }]}>삭제</Text></Pressable>
+                  <Pressable onPress={() => setQuantity(item.productId, item.quantity - 1)}><Text style={[styles.action, { color: theme.colors.accent }]}>−</Text></Pressable>
+                  <Text style={{ color: theme.colors.text }}>{item.quantity}</Text>
+                  <Pressable onPress={() => setQuantity(item.productId, item.quantity + 1)}><Text style={[styles.action, { color: theme.colors.accent }]}>＋</Text></Pressable>
+                  <Pressable onPress={() => remove(item.productId)}><Text style={[styles.remove, { color: theme.colors.textMuted }]}>삭제</Text></Pressable>
                 </View>
               </View>
             </View>

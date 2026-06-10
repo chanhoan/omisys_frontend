@@ -1,7 +1,7 @@
 'use client'
 
-import type { Product } from '@omi/api'
-import { cartReducer, createEmptyCart, getCartSummary, type CartState } from '@omi/domain'
+import { apiResponseSchema, cartBackendSchema, type Product } from '@omi/api'
+import { cartReducer, createEmptyCart, getCartSummary, type CartItemView, type CartState } from '@omi/domain'
 import { createContext, type ReactNode, useContext, useEffect, useReducer } from 'react'
 
 interface CartContextValue {
@@ -23,22 +23,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetch('/api/carts')
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: unknown) => {
-        if (
-          data &&
-          typeof data === 'object' &&
-          'data' in data &&
-          data.data &&
-          typeof data.data === 'object' &&
-          'items' in data.data &&
-          Array.isArray((data.data as { items: unknown }).items)
-        ) {
-          const items = (data.data as { items: { product: Product; quantity: number }[] }).items
-          dispatch({
-            type: 'replace',
-            items: items.map(({ product, quantity }) => ({ product, quantity })),
-          })
-        }
+      .then((json: unknown) => {
+        const parsed = apiResponseSchema(cartBackendSchema).safeParse(json)
+        if (!parsed.success) return
+        const items: CartItemView[] = parsed.data.data.map((row) => ({
+          productId: row.productId,
+          name: row.name,
+          thumbnailImgUrl: row.thumbnailImgUrl ?? '',
+          originalPrice: row.originalPrice,
+          discountedPrice: row.discountedPrice,
+          discountPercent: row.discountPercent,
+          quantity: row.quantity,
+        }))
+        dispatch({ type: 'replace', items })
       })
       .catch(() => {})
   }, [])

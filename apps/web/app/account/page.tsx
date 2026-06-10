@@ -12,9 +12,9 @@ export default async function AccountPage() {
     <section className="account-page section">
       <div>
         <p className="eyebrow">MY OMI</p>
-        <h1>{user ? user.nickname : 'You'}</h1>
+        <h1>{user ? (user.nickname ?? user.username) : 'You'}</h1>
         {user ? (
-          <p className="account-tier">{user.tier ?? 'MEMBER'} · {(user.points ?? 0).toLocaleString('ko-KR')} P</p>
+          <p className="account-tier">{user.tier ?? 'MEMBER'} · {(user.point ?? 0).toLocaleString('ko-KR')} P</p>
         ) : (
           <p>주문과 배송, 혜택을 확인하세요.</p>
         )}

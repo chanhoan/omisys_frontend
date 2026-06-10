@@ -1,5 +1,5 @@
 import type { Product } from '@omi/api'
-import { cartReducer, catalogProducts, createEmptyCart, getCartSummary, type CartState } from '@omi/domain'
+import { cartReducer, catalogProducts, createEmptyCart, getCartSummary, toCartItem, type CartState } from '@omi/domain'
 import * as SecureStore from 'expo-secure-store'
 import { createContext, type ReactNode, useContext, useEffect, useReducer } from 'react'
 
@@ -28,7 +28,7 @@ export function MobileCartProvider({ children }: { children: ReactNode }) {
         if (!Array.isArray(parsed)) return
         const items = parsed.flatMap(({ productId, quantity }) => {
           const product = catalogProducts.find((item) => item.productId === productId)
-          return product ? [{ product, quantity }] : []
+          return product ? [toCartItem(product, quantity)] : []
         })
         dispatch({ type: 'replace', items })
       })
@@ -36,7 +36,7 @@ export function MobileCartProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    const storedItems = state.items.map(({ product, quantity }) => ({ productId: product.productId, quantity }))
+    const storedItems = state.items.map((item) => ({ productId: item.productId, quantity: item.quantity }))
     SecureStore.setItemAsync(STORAGE_KEY, JSON.stringify(storedItems)).catch(() => {})
   }, [state])
 

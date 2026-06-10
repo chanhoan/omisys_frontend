@@ -34,6 +34,14 @@ export const productSchema = z.object({
 
 export type Product = z.infer<typeof productSchema>
 
+// GET /api/products/detail/{id} returns ProductDetailResponse { product, reviews } — a wrapper, not a flat Product.
+export const productDetailSchema = z.object({
+  product: productSchema,
+  reviews: z.unknown(),
+})
+
+export type ProductDetail = z.infer<typeof productDetailSchema>
+
 export const queueResponseSchema = z.object({
   rank: z.number().int().positive(),
   retryAfterSeconds: z.number().int().positive(),
@@ -41,8 +49,32 @@ export const queueResponseSchema = z.object({
 
 export type QueueResponse = z.infer<typeof queueResponseSchema>
 
+// GET /api/products/search returns Page<ProductSearchDto> (Elasticsearch projection), not a full Product.
+// ProductSearchDto omits stock/originImgUrl/detailImgUrl/limitCountPerUser, so the list uses a lean item.
+// stock is list-only optional: the search index does not carry it, so cards show it only when present.
+export const productListItemSchema = z.object({
+  productId: z.string().uuid(),
+  categoryId: z.coerce.number().int().nonnegative(),
+  brandName: z.string(),
+  mainColor: z.string(),
+  productName: z.string(),
+  originalPrice: z.coerce.number().nonnegative(),
+  discountedPrice: z.coerce.number().nonnegative(),
+  discountPercent: z.coerce.number().nonnegative(),
+  thumbnailImgUrl: z.string(),
+  averageRating: z.coerce.number().min(0).max(5),
+  reviewCount: z.coerce.number().int().nonnegative(),
+  salesCount: z.coerce.number().int().nonnegative(),
+  soldout: z.boolean(),
+  tags: z.array(z.string()),
+  createdAt: z.string(),
+  stock: z.number().int().nonnegative().optional(),
+})
+
+export type ProductListItem = z.infer<typeof productListItemSchema>
+
 export const productPageSchema = z.object({
-  content: z.array(productSchema),
+  content: z.array(productListItemSchema),
   totalElements: z.number().int().nonnegative(),
   totalPages: z.number().int().nonnegative(),
   number: z.number().int().nonnegative(),
@@ -80,28 +112,36 @@ export const categorySchema = z.object({
 
 export type Category = z.infer<typeof categorySchema>
 
+// GET /api/users/me returns UserResponse.Info { userId, username, role, point }.
+// email/nickname are collected at sign-up but not exposed by the backend, so they are optional here.
 export const userSchema = z.object({
   userId: z.number().int().positive(),
   username: z.string(),
-  email: z.string().email(),
-  nickname: z.string(),
+  email: z.string().email().optional(),
+  nickname: z.string().optional(),
+  role: z.string().optional(),
   tier: z.string().optional(),
-  points: z.number().nonnegative().optional(),
+  point: z.coerce.number().nonnegative().optional(),
 })
 
 export type User = z.infer<typeof userSchema>
 
-export const cartItemBackendSchema = z.object({
+// GET /api/carts returns a flat List<CartProductResponse> — no nested product, no items wrapper.
+// thumbnailImgUrl is added on the backend (ProductDto -> CartProductResponse); kept nullable for safety.
+export const cartProductResponseSchema = z.object({
   productId: z.string().uuid(),
-  quantity: z.number().int().positive(),
-  product: productSchema,
+  quantity: z.coerce.number().int().nonnegative(),
+  name: z.string(),
+  originalPrice: z.coerce.number().nonnegative(),
+  discountedPrice: z.coerce.number().nonnegative(),
+  discountPercent: z.coerce.number().nonnegative(),
+  thumbnailImgUrl: z.string().nullable().optional(),
 })
 
-export const cartBackendSchema = z.object({
-  items: z.array(cartItemBackendSchema),
-})
+export const cartBackendSchema = z.array(cartProductResponseSchema)
 
 export type CartBackend = z.infer<typeof cartBackendSchema>
+export type CartProductResponse = z.infer<typeof cartProductResponseSchema>
 
 export const addressSchema = z.object({
   id: z.number().int().positive(),
@@ -116,19 +156,25 @@ export const addressSchema = z.object({
 
 export type Address = z.infer<typeof addressSchema>
 
+// GET /api/orders/me content = OrderResponse.MyOrderGetResponse.
+// The list DTO has no total price field; date is `orderDate` (not createdAt); line items are `myOrderProducts`.
 export const orderItemSchema = z.object({
-  productId: z.string().uuid(),
+  orderProductId: z.number().int().optional(),
+  productId: z.string(),
   productName: z.string(),
   quantity: z.number().int().positive(),
-  price: z.number().nonnegative(),
+  purchasePrice: z.coerce.number().nonnegative().default(0),
 })
 
 export const orderSchema = z.object({
   orderId: z.number().int().positive(),
   orderState: z.string(),
-  totalPrice: z.number().nonnegative(),
-  createdAt: z.string(),
-  items: z.array(orderItemSchema).optional(),
+  orderDate: z.string(),
+  orderNo: z.string().nullable().optional(),
+  orderType: z.string().optional(),
+  totalQuantity: z.number().int().nonnegative().optional(),
+  invoiceNumber: z.string().nullable().optional(),
+  myOrderProducts: z.array(orderItemSchema).default([]),
 })
 
 export type Order = z.infer<typeof orderSchema>

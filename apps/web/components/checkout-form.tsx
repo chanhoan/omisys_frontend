@@ -40,9 +40,9 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
         },
         body: JSON.stringify({
           orderType: 'NORMAL',
-          orderProductInfos: state.items.map(({ product, quantity }) => ({
-            productId: product.productId,
-            quantity,
+          orderProductInfos: state.items.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
             userCouponId: null,
           })),
           pointPrice: 0,
@@ -66,7 +66,7 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
   }
 
   const subtotal = state.items.reduce(
-    (sum, { product, quantity }) => sum + product.discountedPrice * quantity,
+    (sum, item) => sum + item.discountedPrice * item.quantity,
     0,
   )
   const formattedSubtotal = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(subtotal)
@@ -104,11 +104,11 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
         <section className="checkout-section">
           <h2>주문 상품</h2>
           <ul className="checkout-items">
-            {state.items.map(({ product, quantity }) => (
-              <li key={product.productId}>
-                <span>{product.productName}</span>
-                <span>×{quantity}</span>
-                <span>{new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(product.discountedPrice * quantity)}</span>
+            {state.items.map((item) => (
+              <li key={item.productId}>
+                <span>{item.name}</span>
+                <span>×{item.quantity}</span>
+                <span>{new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(item.discountedPrice * item.quantity)}</span>
               </li>
             ))}
           </ul>
