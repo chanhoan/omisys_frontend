@@ -72,20 +72,14 @@ Content-Type: application/json
 
 - mutation은 대기열 통과 후 한 번만 실행되도록 idempotency를 보장합니다.
 
-## 5. 상품·위시리스트
+## 5. 상품
 
 ```text
 POST /api/products/batch
 Body: { "productIds": ["uuid", "uuid"] }
 Response data: ProductResponse[]
-
-GET    /api/wishlists/me
-POST   /api/wishlists/products/{productId}
-DELETE /api/wishlists/products/{productId}
 ```
 
-- 위시리스트는 사용자 ID와 상품 ID만 소유합니다.
-- 카드 정보는 상품 batch API로 조회해 가격·품절 상태를 갱신합니다.
 - 1차 상품 모델은 단일 `mainColor`, `size`, `stock`을 유지합니다. SKU variant는 후속 범위입니다.
 
 ## 6. 주문·결제
@@ -142,4 +136,4 @@ DELETE /api/users/me/devices/{deviceId}
 - 앱 token rotation, 탈취 refresh token 재사용 차단 테스트.
 - 대기 응답과 원 mutation 단일 실행 테스트.
 - Toss sandbox 성공·실패, 웹 callback, 앱 deep link 테스트.
-- 위시리스트 사용자 격리와 push device 소유권 테스트.
+- push device 소유권 테스트.

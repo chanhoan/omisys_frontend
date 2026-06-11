@@ -1,10 +1,50 @@
-import { catalogProducts, formatWon } from '@omi/domain'
+import { formatDate } from '@omi/domain'
 import type { Metadata } from 'next'
-import Image from 'next/image'
+import Link from 'next/link'
+
+import { PreorderButton } from '../../components/preorder-button'
+import { getAddresses, getPreorders } from '../../lib/server-fetch'
 
 export const metadata: Metadata = { title: 'Pre-order' }
 
-export default function PreorderPage() {
-  const product = catalogProducts[1]
-  return <section className="section feature-page"><div className="feature-image"><Image alt={`${product.productName} 사전예약`} fill sizes="(max-width: 900px) 100vw, 55vw" src={product.originImgUrl} /></div><div className="feature-copy"><p className="eyebrow">PRE-ORDER · UPCOMING</p><h1>{product.productName}</h1><p>{product.description}</p><dl className="product-facts"><div><dt>Release</dt><dd>Backend schedule</dd></div><div><dt>Price</dt><dd>{formatWon(product.discountedPrice)}</dd></div></dl><button className="button dark" disabled type="button">Opening schedule pending</button></div></section>
+export default async function PreorderPage() {
+  const [page, addresses] = await Promise.all([getPreorders(0), getAddresses()])
+  const preorders = page?.content ?? []
+  const defaultAddressId = addresses?.[0]?.id
+
+  if (preorders.length === 0) {
+    return (
+      <section className="section simple-page">
+        <p className="eyebrow">PRE-ORDER</p>
+        <h1>Pre-order</h1>
+        <div className="empty-state"><p>예정된 사전예약이 없습니다.</p></div>
+      </section>
+    )
+  }
+
+  return (
+    <section className="section simple-page">
+      <p className="eyebrow">PRE-ORDER · UPCOMING</p>
+      <h1>Pre-order</h1>
+      <ul className="preorder-list">
+        {preorders.map((preorder) => (
+          <li className="preorder-card" key={preorder.preOrderId}>
+            <div className="preorder-copy">
+              <h2><Link href={`/products/${preorder.productId}`}>{preorder.preOrderTitle}</Link></h2>
+              <dl className="product-facts">
+                <div><dt>Release</dt><dd>{formatDate(preorder.releaseDateTime)}</dd></div>
+                <div><dt>Open</dt><dd>{formatDate(preorder.startDateTime)} – {formatDate(preorder.endDateTime)}</dd></div>
+                {preorder.availableQuantity != null ? <div><dt>Quantity</dt><dd>{preorder.availableQuantity}</dd></div> : null}
+              </dl>
+            </div>
+            <PreorderButton
+              addressId={defaultAddressId}
+              open={preorder.state === 'OPEN_FOR_ORDER'}
+              preOrderId={preorder.preOrderId}
+            />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
 }

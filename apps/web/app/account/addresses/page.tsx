@@ -15,13 +15,16 @@ export default async function AddressesPage() {
       {addresses && addresses.length > 0 ? (
         <ul className="address-list">
           {addresses.map((addr) => (
-            <li className="address-card" key={addr.addressId}>
+            <li className="address-card" key={addr.id}>
               <div className="address-info">
-                <strong>{addr.recipientName}</strong>
+                <strong>{addr.recipient}{addr.alias ? ` · ${addr.alias}` : ''}{addr.isDefault ? ' · 기본' : ''}</strong>
                 <span>{addr.phoneNumber}</span>
-                <p>({addr.zipCode}) {addr.address}{addr.addressDetail ? ` ${addr.addressDetail}` : ''}</p>
+                <p>({addr.zipcode}) {addr.address}</p>
               </div>
-              <DeleteAddressButton addressId={addr.addressId} />
+              <div className="address-actions">
+                <AddressForm address={addr} />
+                <DeleteAddressButton addressId={addr.id} />
+              </div>
             </li>
           ))}
         </ul>

@@ -37,10 +37,10 @@ export default async function OrdersPage() {
                   {STATE_LABEL[order.orderState] ?? order.orderState}
                 </span>
               </div>
-              <p className="order-date">{new Date(order.createdAt).toLocaleDateString('ko-KR')}</p>
-              {order.items && order.items.length > 0 && (
+              <p className="order-date">{new Date(order.orderDate).toLocaleDateString('ko-KR')}</p>
+              {order.myOrderProducts.length > 0 && (
                 <ul className="order-items-summary">
-                  {order.items.map((item) => (
+                  {order.myOrderProducts.map((item) => (
                     <li key={item.productId}>
                       {item.productName} × {item.quantity}
                     </li>
@@ -48,8 +48,11 @@ export default async function OrdersPage() {
                 </ul>
               )}
               <strong className="order-total">
-                {new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(order.totalPrice)}
+                {new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(
+                  order.myOrderProducts.reduce((sum, item) => sum + item.purchasePrice * item.quantity, 0),
+                )}
               </strong>
+              <Link className="text-link" href={`/account/orders/${order.orderId}`}>주문 상세 →</Link>
             </li>
           ))}
         </ul>

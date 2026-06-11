@@ -12,9 +12,9 @@ export default async function AccountPage() {
     <section className="account-page section">
       <div>
         <p className="eyebrow">MY OMI</p>
-        <h1>{user ? user.nickname : 'You'}</h1>
+        <h1>{user ? (user.nickname ?? user.username) : 'You'}</h1>
         {user ? (
-          <p className="account-tier">{user.tier ?? 'MEMBER'} · {(user.points ?? 0).toLocaleString('ko-KR')} P</p>
+          <p className="account-tier">{user.tier ?? 'MEMBER'} · {(user.point ?? 0).toLocaleString('ko-KR')} P</p>
         ) : (
           <p>주문과 배송, 혜택을 확인하세요.</p>
         )}
@@ -27,6 +27,7 @@ export default async function AccountPage() {
         )}
         <Link href="/account/addresses"><span>02</span><h2>Addresses</h2><p>배송지를 추가하고 기본 주소를 관리합니다.</p></Link>
         <Link href="/account/benefits"><span>03</span><h2>Benefits</h2><p>쿠폰, 포인트, 회원 등급을 확인합니다.</p></Link>
+        {user ? <Link href="/account/deliveries"><span>04</span><h2>Deliveries</h2><p>배송 상태와 추적 정보를 확인합니다.</p></Link> : null}
       </div>
     </section>
   )

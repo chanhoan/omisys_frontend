@@ -4,7 +4,11 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   transpilePackages: ['@omi/api', '@omi/domain'],
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 's3.amazonaws.com' },
+      { protocol: 'https', hostname: '**.s3.amazonaws.com' },
+    ],
   },
   async headers() {
     return [{
@@ -16,7 +20,7 @@ const nextConfig: NextConfig = {
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         {
           key: 'Content-Security-Policy',
-          value: "default-src 'self'; img-src 'self' https://images.unsplash.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+          value: "default-src 'self'; img-src 'self' https://images.unsplash.com https://s3.amazonaws.com https://*.s3.amazonaws.com data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
         },
       ],
     }]

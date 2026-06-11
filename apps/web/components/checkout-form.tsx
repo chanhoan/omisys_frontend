@@ -13,7 +13,7 @@ interface CheckoutFormProps {
 export function CheckoutForm({ addresses }: CheckoutFormProps) {
   const router = useRouter()
   const { state, clear } = useCart()
-  const [addressId, setAddressId] = useState<number | ''>(addresses[0]?.addressId ?? '')
+  const [addressId, setAddressId] = useState<number | ''>(addresses[0]?.id ?? '')
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
 
@@ -40,9 +40,9 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
         },
         body: JSON.stringify({
           orderType: 'NORMAL',
-          orderProductInfos: state.items.map(({ product, quantity }) => ({
-            productId: product.productId,
-            quantity,
+          orderProductInfos: state.items.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
             userCouponId: null,
           })),
           pointPrice: 0,
@@ -66,7 +66,7 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
   }
 
   const subtotal = state.items.reduce(
-    (sum, { product, quantity }) => sum + product.discountedPrice * quantity,
+    (sum, item) => sum + item.discountedPrice * item.quantity,
     0,
   )
   const formattedSubtotal = new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(subtotal)
@@ -81,18 +81,18 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
           ) : (
             <ul className="address-radio-list">
               {addresses.map((addr) => (
-                <li key={addr.addressId}>
+                <li key={addr.id}>
                   <label className="address-radio">
                     <input
-                      checked={addressId === addr.addressId}
+                      checked={addressId === addr.id}
                       name="addressId"
-                      onChange={() => setAddressId(addr.addressId)}
+                      onChange={() => setAddressId(addr.id)}
                       type="radio"
-                      value={addr.addressId}
+                      value={addr.id}
                     />
                     <span>
-                      <strong>{addr.recipientName}</strong> {addr.phoneNumber}<br />
-                      ({addr.zipCode}) {addr.address}{addr.addressDetail ? ` ${addr.addressDetail}` : ''}
+                      <strong>{addr.recipient}</strong> {addr.phoneNumber}<br />
+                      ({addr.zipcode}) {addr.address}
                     </span>
                   </label>
                 </li>
@@ -104,11 +104,11 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
         <section className="checkout-section">
           <h2>주문 상품</h2>
           <ul className="checkout-items">
-            {state.items.map(({ product, quantity }) => (
-              <li key={product.productId}>
-                <span>{product.productName}</span>
-                <span>×{quantity}</span>
-                <span>{new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(product.discountedPrice * quantity)}</span>
+            {state.items.map((item) => (
+              <li key={item.productId}>
+                <span>{item.name}</span>
+                <span>×{item.quantity}</span>
+                <span>{new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(item.discountedPrice * item.quantity)}</span>
               </li>
             ))}
           </ul>

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { cartReducer, createEmptyCart, getCartSummary } from './cart'
+import { cartReducer, createEmptyCart, getCartSummary, toCartItem } from './cart'
 import { catalogProducts } from './fixtures'
 
 describe('cartReducer', () => {
@@ -9,7 +9,7 @@ describe('cartReducer', () => {
     const next = cartReducer(previous, { type: 'add', product: catalogProducts[0] })
 
     expect(previous.items).toHaveLength(0)
-    expect(next.items).toEqual([{ product: catalogProducts[0], quantity: 1 }])
+    expect(next.items).toEqual([toCartItem(catalogProducts[0], 1)])
     expect(next).not.toBe(previous)
   })
 
