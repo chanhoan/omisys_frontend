@@ -77,10 +77,12 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
   if (action.product.soldout || action.product.stock === 0) return state
   const existing = state.items.find((item) => item.productId === action.product.productId)
   if (!existing) return { items: [...state.items, toCartItem(action.product, 1)] }
-  if (existing.limitCountPerUser != null && existing.quantity >= existing.limitCountPerUser) return state
+  // Prefer the incoming product's limit — hydrated items may lack limitCountPerUser.
+  const limit = action.product.limitCountPerUser ?? existing.limitCountPerUser
+  if (limit != null && existing.quantity >= limit) return state
   return {
     items: state.items.map((item) => item.productId === action.product.productId
-      ? { ...item, quantity: item.quantity + 1 }
+      ? { ...item, quantity: item.quantity + 1, limitCountPerUser: limit }
       : item),
   }
 }

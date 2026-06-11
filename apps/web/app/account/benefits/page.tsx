@@ -2,14 +2,14 @@ import { formatWon } from '@omi/domain'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-import { getMyCoupons, getMyPoints, getMyTier } from '../../../lib/server-fetch'
+import { getCurrentUser, getMyCoupons, getMyPoints, getMyTier } from '../../../lib/server-fetch'
 
 export const metadata: Metadata = { title: 'Benefits' }
 
 export default async function BenefitsPage() {
-  const [tier, coupons, points] = await Promise.all([getMyTier(), getMyCoupons(0), getMyPoints(0)])
+  const [tier, coupons, points, user] = await Promise.all([getMyTier(), getMyCoupons(0), getMyPoints(0), getCurrentUser()])
 
-  if (!tier && !coupons && !points) {
+  if (!tier && !coupons && !points && !user) {
     return (
       <section className="empty-page section">
         <p className="eyebrow">MY OMI · BENEFITS</p>
@@ -20,7 +20,7 @@ export default async function BenefitsPage() {
     )
   }
 
-  const pointBalance = (points?.content ?? []).reduce((sum, entry) => sum + entry.point, 0)
+  const pointBalance = user?.point ?? 0
 
   return (
     <section className="account-section section">
