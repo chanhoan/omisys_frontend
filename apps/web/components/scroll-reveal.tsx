@@ -33,7 +33,10 @@ export function ScrollReveal({ children, className }: ScrollRevealProps) {
           }
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
+      // threshold 0 (not a fraction of the element) so sections taller than the
+      // viewport still reveal — a fractional threshold can never be met by a
+      // multi-viewport-tall wrapper (e.g. a long PDP reviews list on mobile).
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' },
     )
     observer.observe(node)
     return () => observer.disconnect()
