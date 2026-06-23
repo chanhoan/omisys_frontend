@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { AddToCart } from '../../../components/add-to-cart'
+import { ScrollReveal } from '../../../components/scroll-reveal'
 import { getProduct, getReviews } from '../../../lib/server-fetch'
 
 export const dynamic = 'force-dynamic'
@@ -73,26 +74,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </aside>
       </section>
 
-      <section className="pdp-reviews section">
-        <div className="section-heading compact"><h2>Reviews ({reviewPage?.totalElements ?? 0})</h2></div>
-        {reviews.length === 0 ? (
-          <p className="empty-note">아직 등록된 리뷰가 없습니다.</p>
-        ) : (
-          <ul className="review-list">
-            {reviews.map((review) => (
-              <li className="review-item" key={review.reviewId}>
-                <div className="review-head">
-                  <span aria-label={`${review.rating}점`} className="review-stars">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                  </span>
-                  <time className="muted">{formatDate(review.createdAt)}</time>
-                </div>
-                <p>{review.content}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      <ScrollReveal>
+        <section className="pdp-reviews section">
+          <div className="section-heading compact"><h2>Reviews ({reviewPage?.totalElements ?? 0})</h2></div>
+          {reviews.length === 0 ? (
+            <p className="empty-note">아직 등록된 리뷰가 없습니다.</p>
+          ) : (
+            <ul className="review-list">
+              {reviews.map((review) => (
+                <li className="review-item" key={review.reviewId}>
+                  <div className="review-head">
+                    <span aria-label={`${review.rating}점`} className="review-stars">
+                      {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                    </span>
+                    <time className="muted">{formatDate(review.createdAt)}</time>
+                  </div>
+                  <p>{review.content}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </ScrollReveal>
     </>
   )
 }

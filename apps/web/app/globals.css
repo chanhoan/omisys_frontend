@@ -126,31 +126,18 @@ main { overflow: clip; }
 }
 .wordmark { font-family: var(--font-body); font-size: 19px; font-weight: 700; letter-spacing: -.04em; }
 .desktop-nav, .utility-nav { gap: 26px; font-size: 12px; text-transform: none; letter-spacing: 0; }
-.showcase { width: min(1600px, 100%); min-height: calc(100svh - 48px); margin: 0 auto; padding: clamp(58px, 7vw, 104px) max(24px, 6vw); display: grid; grid-template-columns: minmax(300px, .7fr) minmax(600px, 1.3fr); align-items: center; gap: clamp(30px, 5vw, 90px); background: radial-gradient(circle at 75% 42%, color-mix(in srgb, var(--surface-muted) 78%, transparent), transparent 48%); overflow: hidden; }
+.showcase { width: min(1600px, 100%); min-height: calc(100svh - 48px); margin: 0 auto; padding: clamp(58px, 7vw, 104px) max(24px, 6vw); display: grid; grid-template-columns: 1fr; justify-items: center; text-align: center; align-items: center; gap: clamp(30px, 4vw, 58px); background: radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--surface-muted) 72%, transparent), transparent 60%); overflow: hidden; }
 .showcase-copy { position: relative; z-index: 4; }
 .showcase-copy h1 { margin: 14px 0 24px; font-size: clamp(46px, 5.2vw, 76px); font-weight: 700; line-height: .98; letter-spacing: -.06em; word-break: keep-all; }
 .showcase-copy h1 span { display: block; white-space: nowrap; }
 .showcase-copy > p:not(.eyebrow) { max-width: 420px; color: var(--text-muted); font-size: clamp(16px, 1.4vw, 20px); line-height: 1.55; }
-.showcase-stage { position: relative; min-height: clamp(580px, 67svh, 700px); perspective: 1200px; }
-.showcase-product { --showcase-rotate: 0deg; position: absolute; display: block; color: #1d1d1f; transform: translate3d(0,0,0) rotate(var(--showcase-rotate)); transform-origin: center; transition: transform var(--motion-standard); animation: showcase-float 6s ease-in-out infinite; will-change: transform; backface-visibility: hidden; }
-.showcase-product:hover { z-index: 5; animation-play-state: paused; }
-.showcase-product-1 { --showcase-rotate: -3deg; z-index: 3; left: 25%; top: 1%; width: 42%; }
-.showcase-product-1:hover { transform: translate3d(0,-12px,0) rotate(-1deg) scale(1.025); }
-.showcase-product-2 { --showcase-rotate: -9deg; z-index: 2; left: 0; top: 25%; width: 37%; animation-delay: -2s; }
-.showcase-product-2:hover { transform: translate3d(-8px,-10px,0) rotate(-5deg) scale(1.025); }
-.showcase-product-3 { --showcase-rotate: 8deg; z-index: 1; right: 0; top: 18%; width: 37%; animation-delay: -4s; }
-.showcase-product-3:hover { transform: translate3d(8px,-10px,0) rotate(4deg) scale(1.025); }
+.showcase-stage { width: 100%; max-width: 720px; margin-inline: auto; min-height: 0; }
 .showcase-image { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 26px; overflow: hidden; background: var(--surface-muted); box-shadow: 0 18px 50px rgba(0,0,0,.12); }
 .showcase-image img { object-fit: cover; }
-.showcase-meta { width: calc(100% - 24px); margin: -34px auto 0; position: relative; display: flex; justify-content: space-between; gap: 8px; padding: 13px 15px; border-radius: 15px; background: rgba(255,255,255,.86); backdrop-filter: saturate(180%) blur(18px); font-size: 12px; }
+.showcase-meta { width: calc(100% - 24px); margin: -34px auto 0; position: relative; display: flex; justify-content: space-between; gap: 8px; padding: 13px 15px; border-radius: 15px; background: rgba(255,255,255,.86); backdrop-filter: saturate(180%) blur(18px); font-size: 12px; color: #1d1d1f; }
 .showcase-meta strong { white-space: nowrap; }
-@keyframes showcase-float {
-  0%,100% { transform: translate3d(0,0,0) rotate(var(--showcase-rotate)); }
-  50% { transform: translate3d(0,-9px,0) rotate(var(--showcase-rotate)); }
-}
 @media (min-width: 901px) and (max-width: 1100px) {
-  .showcase { padding-inline: 36px; grid-template-columns: minmax(300px, .8fr) minmax(460px, 1.2fr); gap: 24px; }
-  .showcase-stage { min-height: 560px; }
+  .showcase { padding-inline: 36px; }
   .showcase-copy h1 { font-size: 46px; }
 }
 .eyebrow { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
@@ -193,11 +180,9 @@ main { overflow: clip; }
 @media (max-width: 900px) {
   .site-header { grid-template-columns: 1fr auto; padding: 0 18px; }
   .utility-nav { gap: 10px; }
-  .showcase { min-height: auto; padding: 46px 18px 32px; grid-template-columns: 1fr; gap: 28px; }
+  .showcase { min-height: auto; padding: 44px 18px 30px; gap: 26px; }
   .showcase-copy h1 { font-size: clamp(40px, 11.5vw, 56px); }
-  .showcase-stage { min-height: 470px; margin-inline: -18px; overflow-x: auto; overflow-y: hidden; display: flex; align-items: center; gap: 14px; padding: 10px 18px 26px; scroll-snap-type: x mandatory; perspective: none; }
-  .showcase-product, .showcase-product-1, .showcase-product-2, .showcase-product-3 { position: relative; inset: auto; width: min(76vw, 340px); flex: 0 0 min(76vw, 340px); transform: none; animation: none; scroll-snap-align: center; }
-  .showcase-product:hover { transform: translateY(-4px); }
+  .showcase-stage { max-width: 100%; margin-inline: 0; overflow: visible; display: block; }
   .showcase-image { border-radius: 22px; }
   .section { padding: 58px 18px; }
   .product-grid { gap: 30px 10px; }.product-image-link { border-radius: 16px; }
@@ -205,8 +190,6 @@ main { overflow: clip; }
   .pdp { padding-top: 12px; }.pdp-gallery { grid-template-columns: 1fr; }.pdp-image { border-radius: 0; }
   .filter-bar .sort-button:first-of-type { margin-left: 0; }
 }
-
-@media (prefers-reduced-motion: reduce) { .showcase-product { animation: none; } }
 
 /* --- API-connected surfaces (search, events, pre-order, benefits, reviews, deliveries, order detail) --- */
 .muted { color: var(--muted); }
@@ -267,3 +250,90 @@ main { overflow: clip; }
 .address-actions { display: flex; gap: 10px; align-items: flex-start; }
 .address-default { display: flex; flex-direction: row; align-items: center; gap: 8px; font-size: 13px; }
 .address-default input { width: auto; }
+
+/* =====================================================================
+   Apple Store uplift — appended last so these rules win the cascade
+   (single source of truth for hero, bento, bands, PDP, reveal).
+   ===================================================================== */
+
+/* Scroll reveal — visible by default (no-JS / pre-arm), motion only when armed */
+.reveal { transition: opacity var(--motion-standard), transform var(--motion-standard); }
+.reveal[data-reveal='hidden'] { opacity: 0; transform: translateY(22px); }
+.reveal[data-reveal='revealed'] { opacity: 1; transform: none; }
+
+/* Home hero — single product, centered, dual CTA (base layout lives with .showcase above) */
+.showcase-copy { max-width: 720px; }
+.showcase-copy > p:not(.eyebrow) { margin-inline: auto; }
+.showcase-actions { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: center; margin-top: 30px; }
+.showcase-hero { display: block; color: inherit; }
+.showcase-hero .showcase-image {
+  width: 100%; margin: 0; aspect-ratio: 4 / 5;
+  border-radius: var(--radius-card);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, .14);
+}
+.showcase-hero .showcase-image img { transition: transform var(--motion-standard); }
+.showcase-hero:hover .showcase-image img { transform: scale(1.03); }
+.showcase-hero .showcase-meta { margin: -32px auto 0; }
+
+/* Full-bleed surface band (alternating #f5f5f7 / #fff) */
+.section.band-surface {
+  width: 100%; max-width: 100%; margin-inline: 0;
+  padding-inline: max(24px, calc((100vw - 1180px) / 2));
+  padding-block: clamp(64px, 7vw, 100px);
+  background: var(--surface);
+}
+
+/* Bento category tiles */
+.category-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.category-tile {
+  position: relative; display: flex; align-items: flex-end;
+  aspect-ratio: 3 / 4; padding: 28px; overflow: hidden;
+  border-radius: var(--radius-card); background: var(--surface-muted);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+  transition: transform var(--motion-standard), box-shadow var(--motion-standard);
+}
+.category-tile:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(0, 0, 0, .12); }
+.category-tile img { object-fit: cover; z-index: 0; transition: transform 600ms cubic-bezier(.2, 0, 0, 1); }
+.category-tile:hover img { transform: scale(1.05); }
+.category-tile::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(0, 0, 0, .42), transparent 58%); }
+.category-tile-label { position: relative; z-index: 2; color: #fff; }
+.category-tile-label .eyebrow { color: rgba(255, 255, 255, .82); }
+.category-tile-label h2 { font-family: var(--font-body); font-weight: 700; letter-spacing: -.03em; font-size: 28px; margin: 8px 0 0; line-height: 1.05; }
+
+/* Product card — hover lift */
+.product-image-link { transition: transform var(--motion-standard), box-shadow var(--motion-standard); }
+.product-card:hover .product-image-link { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0, 0, 0, .1); }
+
+/* PDP — sticky buy panel + full-width accordion */
+.pdp-info {
+  position: sticky; top: 72px; height: fit-content;
+  background: var(--surface); border-radius: var(--radius-card);
+  padding: clamp(28px, 2.5vw, 40px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .06);
+}
+.pdp-notes { margin-top: 28px; }
+.pdp-notes summary { list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.pdp-notes summary::-webkit-details-marker { display: none; }
+.pdp-notes summary::after {
+  content: ''; width: 9px; height: 9px; margin-right: 4px; flex: none;
+  border-right: 1.6px solid var(--text-muted); border-bottom: 1.6px solid var(--text-muted);
+  transform: rotate(45deg); transition: transform var(--motion-fast);
+}
+.pdp-notes details[open] summary::after { transform: rotate(-135deg); }
+
+/* Serif remnants → Apple SF (Pretendard) body face */
+.event-copy h2, .preorder-copy h2, .benefit-stat strong,
+.cart-item-copy h2, .order-shipping h2 {
+  font-family: var(--font-body); font-weight: 700; letter-spacing: -.03em;
+}
+
+@media (max-width: 900px) {
+  .showcase-actions { gap: 16px; margin-top: 24px; }
+  .category-tiles { grid-template-columns: 1fr; gap: 12px; }
+  .section.band-surface { padding-block: 52px; }
+  .pdp-info { position: static; box-shadow: none; border-radius: 0; padding: 28px 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal[data-reveal='hidden'] { opacity: 1; transform: none; }
+}
