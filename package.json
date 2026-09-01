@@ -12,6 +12,8 @@
     "dev:mobile": "npm run start --workspace @omi/mobile",
     "build": "npm run build --workspace @omi/web && npm run typecheck",
     "lint": "eslint .",
+    "contracts:sync": "node scripts/sync-openapi.mjs",
+    "contracts:check": "node scripts/sync-openapi.mjs --check",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "npm run typecheck --workspaces --if-present"

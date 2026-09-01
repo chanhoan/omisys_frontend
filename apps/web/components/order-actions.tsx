@@ -14,6 +14,8 @@ export function OrderActions({ orderId, orderState }: { orderId: number; orderSt
 
   if (!CANCELLABLE.has(orderState)) return null
 
+  // 고객 경로는 취소만 노출한다. `DELETE /api/orders/{orderId}` 도 존재하지만, 주문을 지우면
+  // 취소 이력이 사라져 배송·정산 추적이 끊긴다. 삭제는 관리자 기능으로 남긴다.
   async function handleCancel() {
     setPending(true)
     try {

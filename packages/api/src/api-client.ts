@@ -96,6 +96,13 @@ export class OmiApiClient {
     return (payload as { data: T }).data
   }
 
+  /**
+   * 계약상의 `POST /api/auth/refresh` 연결점. 401 을 받으면 한 번만 갱신하고 재시도한다.
+   *
+   * 서버 컴포넌트 경로(`apps/web/lib/server-fetch.ts`)에는 이 흐름이 없다 — 서버 렌더는
+   * 만료 시 `null` 을 돌려 로그인으로 유도하는 편이 맞다. 갱신 엔드포인트가 프론트에
+   * 연결되어 있지 않은 것이 아니라, 여기 한 곳에 모여 있는 것이다.
+   */
   private async refresh(): Promise<void> {
     const response = await this.fetcher(`${this.baseUrl}/api/auth/refresh`, {
       method: 'POST',

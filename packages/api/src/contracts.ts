@@ -25,9 +25,13 @@ export const productSchema = z.object({
   averageRating: z.number().min(0).max(5),
   reviewCount: z.number().int().nonnegative(),
   salesCount: z.number().int().nonnegative(),
-  isPublic: z.boolean(),
+  // Lombok `@Getter` on `private boolean isPublic` emits `isPublic()`, and Jackson strips the
+  // `is` prefix — the wire keys are `public` / `deleted`, not `isPublic` / `isDeleted`.
+  // `soldout` has no prefix to strip, so it stays as-is.
+  // SOURCE: ../omisys ProductResponse.java:34,36 · contracts/openapi/product.json ProductResponse
+  public: z.boolean(),
   soldout: z.boolean(),
-  isDeleted: z.boolean(),
+  deleted: z.boolean(),
   tags: z.array(z.string()),
   createdAt: z.string(),
 })
@@ -254,7 +258,10 @@ export const preorderSchema = z.object({
   endDateTime: z.string().nullable().optional(),
   releaseDateTime: z.string().nullable().optional(),
   availableQuantity: z.number().int().nullable().optional(),
-  isPublic: z.boolean().optional(),
+  // PreOrderResponse 도 같은 Jackson 규칙을 따른다 — 와이어 키는 `public` / `deleted` 다.
+  // SOURCE: contracts/openapi/product.json PreOrderResponse
+  public: z.boolean().optional(),
+  deleted: z.boolean().optional(),
 })
 
 export type Preorder = z.infer<typeof preorderSchema>
@@ -312,6 +319,18 @@ export const reviewSchema = z.object({
 export type Review = z.infer<typeof reviewSchema>
 export const reviewPageSchema = springPage(reviewSchema)
 export type ReviewPage = z.infer<typeof reviewPageSchema>
+
+// PATCH /api/reviews/{reviewId} takes ReviewRequest.Update — rating and content are both required.
+// Ownership is enforced server-side (ReviewService.updateReview -> review.validateOwner(userId)),
+// so hiding the controls in the UI is a convenience, not a security boundary.
+// The spec renders content as `minLength: 0` because springdoc cannot express @NotBlank.
+// SOURCE: ../omisys ReviewRequest.java (Update) · contracts/openapi/review.json Update
+export const reviewUpdateSchema = z.object({
+  rating: z.number().int().min(1).max(5),
+  content: z.string().trim().min(1).max(1000),
+})
+
+export type ReviewUpdateRequest = z.infer<typeof reviewUpdateSchema>
 
 // --- Delivery ---
 export const deliverySummarySchema = z.object({
