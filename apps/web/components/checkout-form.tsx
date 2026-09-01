@@ -47,7 +47,6 @@ export function CheckoutForm({ addresses }: CheckoutFormProps) {
           })),
           pointPrice: 0,
           addressId,
-          clientChannel: 'WEB',
         }),
       })
       const payload = await res.json() as { data?: { orderId?: number; checkoutUrl?: string }; message?: string }

@@ -44,7 +44,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
   return (
     <form className="auth-form" onSubmit={submit}>
       <label>아이디<input autoComplete="username" name="username" required /></label>
-      <label>비밀번호<input autoComplete="current-password" minLength={8} name="password" required type="password" /></label>
+      <label>비밀번호<input autoComplete="current-password" name="password" required type="password" /></label>
       {error ? <p className="form-error" role="alert">{error}</p> : null}
       <button className="button dark full" disabled={pending} type="submit">{pending ? 'Signing in…' : 'Sign in'}</button>
       <p className="auth-switch">처음 방문하셨나요? <Link href="/signup">Create account</Link></p>

@@ -105,6 +105,8 @@ export async function getProducts(query: ProductQuery = {}): Promise<ProductPage
   return serverGet(`/api/products/search${qs ? `?${qs}` : ''}`, productPageSchema, { revalidate: 60 })
 }
 
+// `GET /api/products/search/{productId}`(검색 인덱스 단건 조회)는 쓰지 않는다. detail 응답이
+// 재고·상세 이미지·리뷰까지 담은 상위집합이라 같은 목적의 경로를 둘로 늘릴 이유가 없다.
 export async function getProduct(productId: string): Promise<Product | null> {
   const detail = await serverGet(
     `/api/products/detail/${encodeURIComponent(productId)}`,

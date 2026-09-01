@@ -1,0 +1,3 @@
+# 벤더된 OpenAPI 스펙은 백엔드 원본과 내용을 대조한다(`npm run contracts:check`).
+# 체크아웃 때 CRLF 로 바뀌면 원본과 어긋나 보이므로 LF 로 고정한다.
+contracts/openapi/*.json text eol=lf

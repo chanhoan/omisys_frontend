@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { AddToCart } from '../../../components/add-to-cart'
+import { ReviewActions } from '../../../components/review-actions'
 import { ScrollReveal } from '../../../components/scroll-reveal'
-import { getProduct, getReviews } from '../../../lib/server-fetch'
+import { getCurrentUser, getProduct, getReviews } from '../../../lib/server-fetch'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,7 +21,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { productId } = await params
-  const [product, reviewPage] = await Promise.all([getProduct(productId), getReviews(productId)])
+  const [product, reviewPage, user] = await Promise.all([
+    getProduct(productId),
+    getReviews(productId),
+    getCurrentUser(),
+  ])
   if (!product) notFound()
   const reviews = reviewPage?.content ?? []
 
@@ -90,6 +95,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <time className="muted">{formatDate(review.createdAt)}</time>
                   </div>
                   <p>{review.content}</p>
+                  <ReviewActions review={review} viewerId={user?.userId} />
                 </li>
               ))}
             </ul>
