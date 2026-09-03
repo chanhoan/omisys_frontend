@@ -23,7 +23,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const categoryIdNum = Number.isInteger(requestedCategoryId) && requestedCategoryId > 0 ? requestedCategoryId : undefined
   const requestedPage = Number(page)
   const pageNum = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 0
-  const [productPage, categories] = await Promise.all([getProducts({ categoryId: categoryIdNum, sort: sort ?? 'newest', page: pageNum }), getCategories()])
+  const [productPage, categories] = await Promise.all([getProducts({ categoryId: categoryIdNum, sort: sort ?? 'popular', page: pageNum }), getCategories()])
   const baseQuery = new URLSearchParams({ ...(categoryId ? { categoryId } : {}), ...(sort ? { sort } : {}) })
   const currentHref = `/shop${baseQuery.toString() ? `?${baseQuery.toString()}` : ''}`
   const pageHref = (nextPage: number) => { const params = new URLSearchParams(baseQuery); params.set('page', String(nextPage)); return `/shop?${params.toString()}` }
@@ -39,7 +39,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       </div>
       {productPage ? <p>{activeCategory ? `${productPage.totalElements}개 제품` : `전체 ${productPage.totalElements}개 제품`}</p> : null}
     </div>
-    <Suspense fallback={<ProductGridSkeleton count={1} />}><CategoryFilter categories={categories ?? []} currentCategoryId={categoryIdNum} /></Suspense>
+    <Suspense fallback={<ProductGridSkeleton count={1} />}><CategoryFilter categories={categories ?? []} currentCategoryId={categoryIdNum} defaultSort="popular" /></Suspense>
     {productPage === null ? <StateBlock
       action={<div className="form-actions" style={{ justifyContent: 'center' }}><Link className="button dark" href={currentHref}>다시 시도</Link><Link className="button ghost" href="/support">고객지원</Link></div>}
       description={<Sentences sentences={errorSentences} />}
