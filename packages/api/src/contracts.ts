@@ -21,7 +21,9 @@ export const productSchema = z.object({
   originImgUrl: z.string().url(),
   thumbnailImgUrl: z.string().url(),
   detailImgUrl: z.string().url(),
-  limitCountPerUser: z.number().int().positive(),
+  // `0` means "no per-user cap" — Product.java defaults `int limitCountPerUser = 0` and the
+  // wire returns it as-is, so this must accept 0. SOURCE: ../omisys Product.java:40
+  limitCountPerUser: z.number().int().nonnegative(),
   averageRating: z.number().min(0).max(5),
   reviewCount: z.number().int().nonnegative(),
   salesCount: z.number().int().nonnegative(),
