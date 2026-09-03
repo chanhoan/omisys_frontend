@@ -32,7 +32,8 @@ export default async function PreorderPage({ searchParams }: PreorderPageProps) 
   const [page, addresses, user] = await Promise.all([getPreorders(0), getAddresses(), getCurrentUser()])
 
   if (gate === '1' && user === null) {
-    return <section className="listing-page section" style={{ paddingTop: 40 }}>
+    return <section className="listing-page section">
+      <div className="listing-title"><div><p className="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div></div>
       <GateCard
         action={<div className="form-actions" style={{ justifyContent: 'center' }}><Link className="button dark" href="/login?next=/preorder">로그인</Link><Link className="button ghost" href="/signup">회원가입</Link></div>}
         description={<Sentences sentences={gateSentences} />}
@@ -42,7 +43,8 @@ export default async function PreorderPage({ searchParams }: PreorderPageProps) 
   }
 
   if (page === null) {
-    return <section className="listing-page section" style={{ paddingTop: 40 }}>
+    return <section className="listing-page section">
+      <div className="listing-title"><div><p className="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div></div>
       <StateBlock
         action={<div className="form-actions" style={{ justifyContent: 'center' }}><Link className="button dark" href="/preorder">다시 시도</Link><Link className="button ghost" href="/support">고객지원</Link></div>}
         description={<Sentences sentences={errorSentences} />}
@@ -53,8 +55,8 @@ export default async function PreorderPage({ searchParams }: PreorderPageProps) 
   }
 
   if (page.content.length === 0) {
-    return <section className="listing-page section" style={{ paddingTop: 40 }}>
-      <div className="listing-title" style={{ paddingTop: 0 }}><div><p className="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div></div>
+    return <section className="listing-page section">
+      <div className="listing-title"><div><p className="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div></div>
       <StateBlock
         action={<ToastButton label="드롭 알림 신청" message="드롭 알림은 준비 중입니다." />}
         description={<Sentences sentences={emptySentences} />}
