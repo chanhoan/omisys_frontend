@@ -20,7 +20,7 @@ interface CheckoutFormProps {
 }
 
 const DELIVERY_FREE_THRESHOLD = 50_000
-const PAY_METHODS = ['카카오페이', '네이버페이', '토스', '신용·체크카드'] as const
+const PAY_METHODS = ['토스'] as const
 const idemSentences = ['암호화된 경로로 진행됩니다.', '새로고침해도 중복 결제되지 않습니다.'] as const
 
 export function getCouponDiscount(coupon: Coupon, subtotal: number): number {
