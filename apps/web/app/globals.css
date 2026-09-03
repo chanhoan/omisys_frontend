@@ -536,8 +536,8 @@ h1,h2,h3{word-break:keep-all}
 .address-form input{min-height:44px;padding:0 14px;border:1px solid var(--border);border-radius:var(--radius-control);
   background:var(--background);outline:none;font:inherit}
 .address-form input:focus{border-color:var(--accent)}
-.address-default{display:flex;flex-direction:row;align-items:center;gap:9px;font-size:13.5px;color:var(--text)}
-.address-default input{width:auto;min-height:0;accent-color:var(--accent)}
+.address-form label.address-default{display:flex;flex-direction:row;align-items:center;gap:9px;font-size:13.5px;color:var(--text)}
+.address-default input{order:1;width:auto;min-height:0;accent-color:var(--accent)}
 .empty-note{color:var(--text-muted);margin:16px 0 24px;font-size:13.5px}
 
 /* ── 인증 ─────────────────────────────────────────────────────────────── */
