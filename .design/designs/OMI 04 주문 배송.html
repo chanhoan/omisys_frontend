@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 04 — 주문 · 배송</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 04 / 05</p>
+  <h1>주문 · 배송</h1>
+  <p>주문 목록·상세·취소와 배송 목록·추적. 상태 배지는 <code>orderStatus</code>/<code>deliveryStatus</code> 값에 1:1로 대응하고, 추적 타임라인은 <code>trackingHistorySchema</code>의 <code>history[]</code>를 그대로 그린다 — 계약에 있지만 화면이 없던 필드다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a class="is-on" href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<!-- ═══════════════ 주문 목록 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>주문 목록</h2><span>/account/orders · GET /api/orders</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>주문 목록 — 상태 전체</b><code>orderStatus: PENDING · PAID · SHIPPING · DELIVERED · CANCELLED</code></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">ACCOUNT</p>
+          <h1>주문 내역.</h1>
+          <div class="filter-bar" role="group" aria-label="주문 상태 필터">
+            <button class="active" type="button">전체</button>
+            <button type="button">결제 대기</button>
+            <button type="button">결제 완료</button>
+            <button type="button">배송 중</button>
+            <button type="button">배송 완료</button>
+            <button type="button">취소·환불</button>
+          </div>
+          <ul class="order-list">
+            <li class="order-card">
+              <div class="order-meta"><span class="order-id">#OMI-20260901-0042</span><span class="status-badge status-shipping">배송 중</span></div>
+              <p class="order-date">2026.09.01 14:22 결제</p>
+              <ul class="order-items-summary"><li>Night Shirt · Black / M · 2개</li><li>Quiet Wide Trousers · Grey / M · 1개</li></ul>
+              <div class="order-card-foot">
+                <strong class="order-total">₩264,820</strong>
+                <span class="address-actions"><a class="button ghost small" href="#">배송 조회</a><a class="button ghost small" href="#">상세 보기</a></span>
+              </div>
+            </li>
+            <li class="order-card">
+              <div class="order-meta"><span class="order-id">#OMI-20260828-0031</span><span class="status-badge status-pending">결제 대기</span></div>
+              <p class="order-date">2026.08.28 09:10 주문</p>
+              <ul class="order-items-summary"><li>Layer Knit · Oatmeal / L · 1개</li></ul>
+              <div class="order-card-foot">
+                <strong class="order-total">₩128,000</strong>
+                <span class="address-actions"><a class="button dark small" href="#">결제하기</a><button class="button ghost small" type="button">주문 취소</button></span>
+              </div>
+            </li>
+            <li class="order-card">
+              <div class="order-meta"><span class="order-id">#OMI-20260820-0018</span><span class="status-badge status-delivered">배송 완료</span></div>
+              <p class="order-date">2026.08.20 18:44 결제 · 08.23 수령</p>
+              <ul class="order-items-summary"><li>Soft Structure Jacket · Ivory / Free · 1개</li></ul>
+              <div class="order-card-foot">
+                <strong class="order-total">₩151,200</strong>
+                <span class="address-actions"><a class="button dark small" href="#">리뷰 작성</a><a class="button ghost small" href="#">상세 보기</a></span>
+              </div>
+            </li>
+            <li class="order-card">
+              <div class="order-meta"><span class="order-id">#OMI-20260812-0009</span><span class="status-badge status-cancelled">주문 취소</span></div>
+              <p class="order-date">2026.08.12 11:05 주문 · 08.12 취소</p>
+              <ul class="order-items-summary"><li>Frame Mini Bag · Silver / One Size · 1개</li></ul>
+              <div class="order-card-foot">
+                <strong class="order-total" style="color:var(--text-muted)">₩79,000 환불 완료</strong>
+                <span class="address-actions"><a class="button ghost small" href="#">상세 보기</a></span>
+              </div>
+            </li>
+          </ul>
+          <nav class="pagination" aria-label="페이지"><a href="#" aria-disabled="true">‹</a><a href="#" aria-current="page">1</a><a href="#">2</a><a href="#">›</a></nav>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 상태 배지 색이 토큰 밖의 임의값(<code>#1a3a1a</code>, <code>#3a1a1a</code>)이라 다크모드에서 대비가 무너졌다 → <code>--success-soft/--danger-soft</code> 등 소프트 배경 + 동일 계열 텍스트. <b>신규:</b> 상태별 다음 행동(결제하기 / 배송 조회 / 리뷰 작성)을 카드에 붙였다. 기존에는 모든 카드가 '상세 보기' 하나로 끝나 <code>PENDING</code> 주문을 결제할 경로가 목록에 없었다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>주문 목록 — 비어 있음</b></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">ACCOUNT</p>
+            <h1>주문 내역.</h1>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></span>
+              <h2>아직 주문이 없습니다</h2>
+              <p><span class="s">첫 주문을 하시면 이곳에 표시됩니다.</span><span class="s">배송 상태와 영수증을 확인할 수 있습니다.</span></p>
+              <a class="button dark" href="#">스토어 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>주문 목록 — 로딩</b><em>스켈레톤</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">ACCOUNT</p>
+            <h1>주문 내역.</h1>
+            <ul class="order-list">
+              <li class="order-card"><span class="skeleton-line" style="width:38%"></span><span class="skeleton-line" style="width:22%;margin-top:10px"></span><span class="skeleton-line" style="width:60%;margin-top:14px"></span><span class="skeleton-line" style="width:26%;margin-top:14px"></span></li>
+              <li class="order-card"><span class="skeleton-line" style="width:34%"></span><span class="skeleton-line" style="width:20%;margin-top:10px"></span><span class="skeleton-line" style="width:52%;margin-top:14px"></span><span class="skeleton-line" style="width:24%;margin-top:14px"></span></li>
+              <li class="order-card"><span class="skeleton-line" style="width:40%"></span><span class="skeleton-line" style="width:24%;margin-top:10px"></span><span class="skeleton-line" style="width:56%;margin-top:14px"></span><span class="skeleton-line" style="width:22%;margin-top:14px"></span></li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 주문 상세 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>주문 상세</h2><span>/account/orders/[orderId] · OrderDetailResponse</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>주문 상세 — 배송 중</b><code>GET /api/orders/{orderId}</code><em>금액 내역 · 배송 정보</em></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="장바구니"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">ORDER · #OMI-20260901-0042</p>
+          <h1>주문 상세.</h1>
+          <div class="order-detail-meta">
+            <span class="status-badge status-shipping">배송 중</span>
+            <span class="muted" style="font-size:13.5px">2026.09.01 14:22 결제 · 카카오페이</span>
+          </div>
+
+          <div class="order-detail-items">
+            <div class="order-detail-item">
+              <div>
+                <p class="eyebrow">OMI</p>
+                <strong style="font-size:15px">Night Shirt</strong>
+                <span class="muted" style="font-size:13px">Black · M · 2개</span>
+              </div>
+              <div class="order-detail-item-right">
+                <strong>₩178,000</strong>
+                <a class="button ghost small" href="#">재구매</a>
+              </div>
+            </div>
+            <div class="order-detail-item">
+              <div>
+                <p class="eyebrow">OMI</p>
+                <strong style="font-size:15px">Quiet Wide Trousers</strong>
+                <span class="muted" style="font-size:13px">Grey · M · 1개</span>
+              </div>
+              <div class="order-detail-item-right">
+                <strong>₩119,000</strong>
+                <a class="button ghost small" href="#">재구매</a>
+              </div>
+            </div>
+          </div>
+
+          <dl class="order-amounts">
+            <div><dt>상품 금액</dt><dd>₩297,000</dd></div>
+            <div><dt>배송비</dt><dd>무료</dd></div>
+            <div><dt>쿠폰 할인</dt><dd class="is-discount">−₩29,700</dd></div>
+            <div><dt>포인트 사용</dt><dd class="is-discount">−₩2,480</dd></div>
+            <div class="order-summary-total"><dt>결제 금액</dt><dd>₩264,820</dd></div>
+          </dl>
+
+          <div class="order-shipping">
+            <h2>배송 정보</h2>
+            <p><strong>김민준</strong> · 010-1234-5678</p>
+            <p class="muted">(04050) 서울특별시 마포구 와우산로 94</p>
+            <p class="muted">요청사항: 부재 시 문 앞에 놓아주세요</p>
+            <div class="invoice-card">
+              <dl>
+                <div><dt>택배사</dt><dd>CJ대한통운</dd></div>
+                <div><dt>운송장 번호</dt><dd>1234-5678-9012</dd></div>
+                <div><dt>도착 예정</dt><dd>2026.09.04</dd></div>
+              </dl>
+              <a class="button dark" href="#">배송 추적</a>
+            </div>
+          </div>
+
+          <div class="form-actions" style="margin-top:30px">
+            <a class="button ghost" href="#">영수증 보기</a>
+            <a class="button ghost" href="#">문의하기</a>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 금액 내역이 상품·합계 두 줄뿐이어서 쿠폰·포인트가 어디에 쓰였는지 확인할 수 없었다. <code>OrderDetailResponse</code>의 <code>couponDiscount</code>·<code>pointPrice</code>·<code>deliveryFee</code>를 모두 노출하고 할인 항목은 <code>--accent</code>로 구분했다. <b>신규:</b> 운송장 카드(<code>.invoice-card</code>) — 운송장 번호가 화면에 전혀 없었다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>주문 상세 — 결제 대기</b><code>PENDING</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">ORDER · #OMI-20260828-0031</p>
+            <h1>주문 상세.</h1>
+            <div class="order-detail-meta">
+              <span class="status-badge status-pending">결제 대기</span>
+              <span class="muted" style="font-size:13.5px">2026.08.28 09:10 주문</span>
+            </div>
+            <div class="banner is-warn">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.01"></path></svg>
+              <span>결제가 완료되지 않은 주문입니다. <b>2026.08.29 09:10</b>까지 결제하지 않으면 자동 취소됩니다.</span>
+            </div>
+            <div class="order-detail-items">
+              <div class="order-detail-item">
+                <div><p class="eyebrow">OMI</p><strong style="font-size:15px">Layer Knit</strong><span class="muted" style="font-size:13px">Oatmeal · L · 1개</span></div>
+                <div class="order-detail-item-right"><strong>₩128,000</strong></div>
+              </div>
+            </div>
+            <dl class="order-amounts">
+              <div><dt>상품 금액</dt><dd>₩128,000</dd></div>
+              <div><dt>배송비</dt><dd>무료</dd></div>
+              <div class="order-summary-total"><dt>결제 예정</dt><dd>₩128,000</dd></div>
+            </dl>
+            <div class="form-actions" style="margin-top:26px"><button class="button dark" type="button">결제하기</button><button class="button ghost" type="button">주문 취소</button></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>주문 취소 확인</b><code>POST /api/orders/{orderId}/cancel</code></div>
+      <div class="pv-frame">
+        <div class="dialog-scrim">
+          <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-cancel">
+            <h2 id="dlg-cancel">주문을 취소할까요?</h2>
+            <p><span class="s">#OMI-20260828-0031 주문이 취소되고 재고가 복구됩니다.</span><span class="s">사용한 쿠폰과 포인트는 함께 반환됩니다.</span><span class="s">취소한 주문은 되돌릴 수 없습니다.</span></p>
+            <div class="dialog-actions"><button class="button ghost" type="button">닫기</button><button class="button danger" type="button">주문 취소</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="pv-note"><b>신규:</b> 취소가 확인 없이 즉시 실행됐고, 쿠폰·포인트 반환 여부도 안내되지 않았다. 백엔드가 재고 복구와 보상 트랜잭션을 수행하므로 그 결과를 문장으로 명시한다.</p>
+    </div>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>주문 상세 — 취소 완료</b><code>CANCELLED</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">ORDER · #OMI-20260812-0009</p>
+            <h1>주문 상세.</h1>
+            <div class="order-detail-meta">
+              <span class="status-badge status-cancelled">주문 취소</span>
+              <span class="muted" style="font-size:13.5px">2026.08.12 11:05 주문 · 11:31 취소</span>
+            </div>
+            <div class="banner is-info">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></svg>
+              <span><span class="s">환불이 완료되었습니다.</span><span class="s">카드사에 따라 실제 입금까지 3~5 영업일이 걸릴 수 있습니다.</span></span>
+            </div>
+            <div class="order-detail-items">
+              <div class="order-detail-item" style="opacity:.62">
+                <div><p class="eyebrow">OMI</p><strong style="font-size:15px">Frame Mini Bag</strong><span class="muted" style="font-size:13px">Silver · One Size · 1개</span></div>
+                <div class="order-detail-item-right"><strong>₩79,000</strong><a class="button ghost small" href="#">재구매</a></div>
+              </div>
+            </div>
+            <dl class="order-amounts">
+              <div><dt>결제 금액</dt><dd>₩79,000</dd></div>
+              <div><dt>환불 금액</dt><dd>₩79,000</dd></div>
+              <div><dt>포인트 반환</dt><dd>1,200 P</dd></div>
+              <div class="order-summary-total"><dt>환불 상태</dt><dd>완료</dd></div>
+            </dl>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>주문 상세 — 접근 불가</b><code>403 / 404</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="empty-page section">
+            <p class="eyebrow">NOT FOUND</p>
+            <h1>주문을 찾을 수 없습니다</h1>
+            <p><span class="s">삭제되었거나 다른 계정의 주문입니다.</span><span class="s">주문 내역에서 다시 확인해주세요.</span></p>
+            <div class="form-actions" style="justify-content:center"><a class="button dark" href="#">주문 내역</a><a class="button ghost" href="#">고객지원</a></div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note">타 사용자 주문 접근은 백엔드가 차단한다. 프론트는 <code>403</code>과 <code>404</code>를 같은 화면으로 수렴시켜 주문 존재 여부를 노출하지 않는다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 배송 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>배송 목록 · 추적</h2><span>/account/deliveries · trackingHistorySchema</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>배송 목록</b><code>GET /api/deliveries</code><em>deliveryStatus 전체</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">ACCOUNT</p>
+          <h1>배송 조회.</h1>
+          <div class="filter-bar" role="group" aria-label="배송 상태 필터">
+            <button class="active" type="button">전체</button>
+            <button type="button">배송 준비</button>
+            <button type="button">배송 중</button>
+            <button type="button">배송 완료</button>
+          </div>
+          <ul class="delivery-list">
+            <li class="delivery-card">
+              <div class="delivery-card-body">
+                <strong>#OMI-20260901-0042</strong>
+                <span>CJ대한통운 · 1234-5678-9012</span>
+                <span>도착 예정 2026.09.04</span>
+              </div>
+              <div class="address-actions">
+                <span class="status-badge status-shipping">배송 중</span>
+                <a class="button ghost small" href="#">추적</a>
+              </div>
+            </li>
+            <li class="delivery-card">
+              <div class="delivery-card-body">
+                <strong>#OMI-20260830-0037</strong>
+                <span>운송장 등록 대기</span>
+                <span>출고 예정 2026.09.02</span>
+              </div>
+              <div class="address-actions">
+                <span class="status-badge status-ready">배송 준비</span>
+                <a class="button ghost small" href="#" aria-disabled="true">추적</a>
+              </div>
+            </li>
+            <li class="delivery-card">
+              <div class="delivery-card-body">
+                <strong>#OMI-20260820-0018</strong>
+                <span>한진택배 · 8877-1122-3344</span>
+                <span>2026.08.23 14:08 수령</span>
+              </div>
+              <div class="address-actions">
+                <span class="status-badge status-delivered">배송 완료</span>
+                <a class="button ghost small" href="#">추적</a>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> 운송장이 아직 없는 <code>READY</code> 상태를 별도로 표현하고 추적 버튼을 비활성화했다. 기존에는 모든 배송이 동일하게 보여 추적 실패로 이어졌다.</p>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>배송 추적 — 진행 중</b><code>GET /api/deliveries/{id}/tracking</code><em>history[] 타임라인</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">DELIVERY · #OMI-20260901-0042</p>
+          <h1>배송 추적.</h1>
+          <div class="order-detail-meta"><span class="status-badge status-shipping">배송 중</span><span class="muted" style="font-size:13.5px">2026.09.04 도착 예정</span></div>
+
+          <div class="invoice-card" style="margin-top:0">
+            <dl>
+              <div><dt>택배사</dt><dd>CJ대한통운</dd></div>
+              <div><dt>운송장 번호</dt><dd>1234-5678-9012</dd></div>
+              <div><dt>받는 분</dt><dd>김민준</dd></div>
+            </dl>
+            <a class="button ghost" href="#">택배사에서 보기</a>
+          </div>
+
+          <ol class="track-timeline">
+            <li class="track-step is-current">
+              <span class="track-rail"><span class="track-dot"></span></span>
+              <div class="track-body">
+                <strong>배송 출발</strong>
+                <time>2026.09.03 08:12</time>
+                <p>서울 마포 배송지점 · 담당 기사 배정 완료. 오늘 중 배송 예정입니다.</p>
+              </div>
+            </li>
+            <li class="track-step is-done">
+              <span class="track-rail"><span class="track-dot"></span></span>
+              <div class="track-body">
+                <strong>배송지 도착</strong>
+                <time>2026.09.03 05:40</time>
+                <p>서울 마포 배송지점</p>
+              </div>
+            </li>
+            <li class="track-step is-done">
+              <span class="track-rail"><span class="track-dot"></span></span>
+              <div class="track-body">
+                <strong>간선 상차</strong>
+                <time>2026.09.02 21:15</time>
+                <p>옥천 HUB</p>
+              </div>
+            </li>
+            <li class="track-step is-done">
+              <span class="track-rail"><span class="track-dot"></span></span>
+              <div class="track-body">
+                <strong>집화 완료</strong>
+                <time>2026.09.02 16:02</time>
+                <p>성수 물류센터 · 상품이 택배사에 인계되었습니다.</p>
+              </div>
+            </li>
+            <li class="track-step is-pending">
+              <span class="track-rail"><span class="track-dot"></span></span>
+              <div class="track-body">
+                <strong>배송 완료</strong>
+                <time>예정 2026.09.04</time>
+              </div>
+            </li>
+          </ol>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규 (계약 활용):</b> <code>trackingHistorySchema.history[] {status, location, description, occurredAt}</code>이 정의돼 있는데 이를 그리는 화면이 없었다. 최신 이벤트가 위로 오는 역순 정렬에 현재 단계는 <code>.is-current</code>로 강조하고, 아직 오지 않은 단계는 <code>.is-pending</code>으로 흐리게 예고한다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>배송 추적 — 완료</b><code>DELIVERED</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">DELIVERY · #OMI-20260820-0018</p>
+            <h1>배송 추적.</h1>
+            <div class="order-detail-meta"><span class="status-badge status-delivered">배송 완료</span><span class="muted" style="font-size:13.5px">2026.08.23 14:08 수령</span></div>
+            <ol class="track-timeline">
+              <li class="track-step is-done"><span class="track-rail"><span class="track-dot"></span></span><div class="track-body"><strong>배송 완료</strong><time>2026.08.23 14:08</time><p>문 앞 · 수령인 본인</p></div></li>
+              <li class="track-step is-done"><span class="track-rail"><span class="track-dot"></span></span><div class="track-body"><strong>배송 출발</strong><time>2026.08.23 09:20</time><p>서울 마포 배송지점</p></div></li>
+              <li class="track-step is-done"><span class="track-rail"><span class="track-dot"></span></span><div class="track-body"><strong>집화 완료</strong><time>2026.08.21 17:40</time><p>성수 물류센터</p></div></li>
+            </ol>
+            <div class="form-actions"><a class="button dark" href="#">리뷰 작성</a><a class="button ghost" href="#">반품 신청</a></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>배송 추적 — 정보 없음</b><code>history: [] · 운송장 미등록</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">DELIVERY · #OMI-20260830-0037</p>
+            <h1>배송 추적.</h1>
+            <div class="order-detail-meta"><span class="status-badge status-ready">배송 준비</span></div>
+            <div class="state-block" style="margin-top:20px">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="7" width="12" height="9"></rect><path d="M14.5 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg></span>
+              <h2>아직 배송 정보가 없습니다</h2>
+              <p><span class="s">상품 준비가 완료되면 운송장 번호가 등록됩니다.</span><span class="s">등록 시 알림으로 안내드립니다.</span></p>
+              <a class="button ghost" href="#">주문 상세 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

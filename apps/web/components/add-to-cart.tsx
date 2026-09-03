@@ -25,7 +25,7 @@ export function AddToCart({ product }: { product: Product }) {
       onClick={handleAdd}
       type="button"
     >
-      {product.soldout ? 'Sold out' : pending ? 'Adding…' : 'Add to bag'}
+      {product.soldout ? '품절' : pending ? '장바구니에 담는 중' : '장바구니에 담기'}
     </button>
   )
 }

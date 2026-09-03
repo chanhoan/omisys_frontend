@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { apiResponseSchema, productSchema, queueResponseSchema } from './contracts'
+import { apiResponseSchema, productSchema, queueApiResponseSchema, queueResponseSchema } from './contracts'
 
 describe('backend contracts', () => {
   it('accepts an OMISYS product response', () => {
@@ -33,12 +33,27 @@ describe('backend contracts', () => {
     expect(product.productName).toBe('Night Shirt')
   })
 
-  it('requires positive queue rank and retry interval', () => {
-    expect(() => queueResponseSchema.parse({ rank: 0, retryAfterSeconds: 3 })).toThrow()
-    expect(queueResponseSchema.parse({ rank: 5, retryAfterSeconds: 3 })).toEqual({
+  it('requires positive queue rank and retry interval while waiting', () => {
+    expect(() => queueResponseSchema.parse({ state: 'WAITING', rank: 0, retryAfterSeconds: 3 })).toThrow()
+    expect(queueResponseSchema.parse({ state: 'WAITING', rank: 5, retryAfterSeconds: 3 })).toEqual({
+      state: 'WAITING',
       rank: 5,
       retryAfterSeconds: 3,
     })
+  })
+
+  it('requires null queue metadata after admission or expiry', () => {
+    expect(queueResponseSchema.parse({ state: 'READY', rank: null, retryAfterSeconds: null }).state).toBe('READY')
+    expect(queueResponseSchema.parse({ state: 'EXPIRED', rank: null, retryAfterSeconds: null }).state).toBe('EXPIRED')
+    expect(() => queueResponseSchema.parse({ state: 'READY', rank: 1, retryAfterSeconds: 3 })).toThrow()
+  })
+
+  it('parses the queue protocol in the standard API envelope', () => {
+    expect(queueApiResponseSchema.parse({
+      statusName: 'ACCEPTED',
+      message: null,
+      data: { state: 'WAITING', rank: 5, retryAfterSeconds: 30 },
+    }).data).toEqual({ state: 'WAITING', rank: 5, retryAfterSeconds: 30 })
   })
 
   it('builds a typed API response schema', () => {

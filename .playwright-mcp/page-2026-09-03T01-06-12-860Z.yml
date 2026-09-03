@@ -1,0 +1,149 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "OMI 홈" [ref=e3] [cursor=pointer]:
+      - /url: /
+      - text: OMI
+    - navigation "주요 메뉴" [ref=e4]:
+      - link "스토어" [ref=e5] [cursor=pointer]:
+        - /url: /shop
+      - link "신상품" [ref=e6] [cursor=pointer]:
+        - /url: /shop?sort=newest
+      - link "프리오더" [ref=e7] [cursor=pointer]:
+        - /url: /preorder
+      - link "이벤트" [ref=e8] [cursor=pointer]:
+        - /url: /events
+    - navigation "사용자 메뉴" [ref=e9]:
+      - link "검색" [ref=e10] [cursor=pointer]:
+        - /url: /search
+      - link "장바구니, 상품 0개" [ref=e14] [cursor=pointer]:
+        - /url: /cart
+      - link "로그인" [ref=e18] [cursor=pointer]:
+        - /url: /login
+  - main [ref=e19]:
+    - region [ref=e20]:
+      - generic [ref=e21]:
+        - paragraph [ref=e22]: F/W 2026 · NIGHT SHIFT
+        - heading "조용한 형태, 매일의 움직임." [level=1] [ref=e23]:
+          - generic [ref=e24]: 조용한 형태,
+          - generic [ref=e25]: 매일의 움직임.
+        - paragraph [ref=e26]: 형태는 유지하고 움직임은 방해하지 않는 소재. 이번 시즌의 새로운 균형을 만나보세요.
+        - generic [ref=e27]:
+          - link "구매하기" [ref=e28] [cursor=pointer]:
+            - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+          - link "더 알아보기 ›" [ref=e29] [cursor=pointer]:
+            - /url: /shop
+      - link "[포레스트] 스탠다드 벨트 브라운 상품 보기" [ref=e31] [cursor=pointer]:
+        - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+        - img "[포레스트] 스탠다드 벨트 브라운 상품 이미지" [ref=e33]
+        - generic [ref=e34]:
+          - generic [ref=e35]: "[포레스트] 스탠다드 벨트 브라운"
+          - strong [ref=e36]: ₩240,291
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: EXPLORE
+          - heading "카테고리." [level=2] [ref=e42]
+        - link "전체 보기 ›" [ref=e43] [cursor=pointer]:
+          - /url: /shop
+      - generic [ref=e44]:
+        - link [ref=e45] [cursor=pointer]:
+          - /url: /shop
+          - img "겨울 아우터 카테고리" [ref=e46]
+          - generic [ref=e47]:
+            - text: OUTERWEAR
+            - heading "겨울 아우터" [level=2] [ref=e48]
+        - link [ref=e49] [cursor=pointer]:
+          - /url: /shop
+          - img "데일리 니트 카테고리" [ref=e50]
+          - generic [ref=e51]:
+            - text: KNITWEAR
+            - heading "데일리 니트" [level=2] [ref=e52]
+        - link [ref=e53] [cursor=pointer]:
+          - /url: /shop
+          - img "마무리 액세서리 카테고리" [ref=e54]
+          - generic [ref=e55]:
+            - text: ACCESSORIES
+            - heading "마무리 액세서리" [level=2] [ref=e56]
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - paragraph [ref=e60]: LATEST EDIT
+          - heading "새로 나온 제품." [level=2] [ref=e61]
+        - link "모두 보기 ›" [ref=e62] [cursor=pointer]:
+          - /url: /shop
+      - generic [ref=e64]:
+        - article [ref=e65]:
+          - link "[포레스트] 스탠다드 벨트 브라운 상품 보기" [ref=e66] [cursor=pointer]:
+            - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+            - img "[포레스트] 스탠다드 벨트 브라운 제품 이미지" [ref=e67]
+            - generic [ref=e68]: 10% OFF
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - paragraph [ref=e71]: 포레스트
+              - link "[포레스트] 스탠다드 벨트 브라운" [ref=e72] [cursor=pointer]:
+                - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+            - generic [ref=e73]:
+              - strong [ref=e74]: ₩240,291
+              - deletion [ref=e75]: ₩266,990
+            - generic [ref=e76]: 브라운
+        - article [ref=e78]:
+          - link "[스튜디오온] 데일리 모자 베이지 상품 보기" [ref=e79] [cursor=pointer]:
+            - /url: /products/0a774844-c243-4965-a166-c1fbbeed0297
+            - img "[스튜디오온] 데일리 모자 베이지 제품 이미지" [ref=e80]
+            - generic [ref=e81]: 5% OFF
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - paragraph [ref=e84]: 스튜디오온
+              - link "[스튜디오온] 데일리 모자 베이지" [ref=e85] [cursor=pointer]:
+                - /url: /products/0a774844-c243-4965-a166-c1fbbeed0297
+            - generic [ref=e86]:
+              - strong [ref=e87]: ₩96,891
+              - deletion [ref=e88]: ₩101,990
+            - generic [ref=e89]: 베이지
+        - article [ref=e91]:
+          - link "[베이직핏] 와이드 지갑 버건디 상품 보기" [ref=e92] [cursor=pointer]:
+            - /url: /products/eeda8d9a-4227-4b45-96d6-1fbd5d19d8d8
+            - img "[베이직핏] 와이드 지갑 버건디 제품 이미지" [ref=e93]
+            - generic [ref=e94]: 선물추천
+          - generic [ref=e95]:
+            - generic [ref=e96]:
+              - paragraph [ref=e97]: 베이직핏
+              - link "[베이직핏] 와이드 지갑 버건디" [ref=e98] [cursor=pointer]:
+                - /url: /products/eeda8d9a-4227-4b45-96d6-1fbd5d19d8d8
+            - strong [ref=e100]: ₩117,990
+            - generic [ref=e101]: 버건디
+        - article [ref=e103]:
+          - link "[베이직핏] 클래식 가방 네이비 상품 보기" [ref=e104] [cursor=pointer]:
+            - /url: /products/bf3e6fcc-c2e5-4e11-bccb-c4fefccab29b
+            - img "[베이직핏] 클래식 가방 네이비 제품 이미지" [ref=e105]
+            - generic [ref=e106]: 30% OFF
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - paragraph [ref=e109]: 베이직핏
+              - link "[베이직핏] 클래식 가방 네이비" [ref=e110] [cursor=pointer]:
+                - /url: /products/bf3e6fcc-c2e5-4e11-bccb-c4fefccab29b
+            - generic [ref=e111]:
+              - strong [ref=e112]: ₩205,093
+              - deletion [ref=e113]: ₩292,990
+            - generic [ref=e114]: 네이비
+    - generic [ref=e117]:
+      - img "OMI 소재 에디토리얼" [ref=e119]
+      - generic [ref=e120]:
+        - paragraph [ref=e121]: MATERIAL NOTES · 04
+        - heading "부드러운 구조." [level=2] [ref=e122]
+        - paragraph [ref=e123]: 형태는 유지하고 움직임은 방해하지 않는 소재. 이번 시즌의 새로운 균형을 만나보세요.
+        - link "에디토리얼 보기 ›" [ref=e124] [cursor=pointer]:
+          - /url: /shop
+  - contentinfo [ref=e125]:
+    - generic [ref=e126]:
+      - paragraph [ref=e127]: OMI
+      - paragraph [ref=e128]: 일상의 움직임을 위한 조용한 형태.
+    - generic [ref=e129]:
+      - link "주문 조회" [ref=e130] [cursor=pointer]:
+        - /url: /account/orders
+      - link "배송지 관리" [ref=e131] [cursor=pointer]:
+        - /url: /account/addresses
+      - link "고객 지원" [ref=e132] [cursor=pointer]:
+        - /url: /support
+    - paragraph [ref=e133]: © 2026 OMI
+  - button "Open Next.js Dev Tools" [ref=e139] [cursor=pointer]

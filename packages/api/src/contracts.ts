@@ -46,12 +46,38 @@ export const productDetailSchema = z.object({
 
 export type ProductDetail = z.infer<typeof productDetailSchema>
 
-export const queueResponseSchema = z.object({
+/**
+ * Gateway queue protocol. The HTTP status is intentionally not duplicated in
+ * this payload: WAITING is returned with 202, READY with 200, and EXPIRED
+ * with 410. Consumers must validate both the response status and this
+ * discriminated payload at their HTTP boundary.
+ */
+export const queueWaitingSchema = z.object({
+  state: z.literal('WAITING'),
   rank: z.number().int().positive(),
   retryAfterSeconds: z.number().int().positive(),
 })
 
+export const queueReadySchema = z.object({
+  state: z.literal('READY'),
+  rank: z.null(),
+  retryAfterSeconds: z.null(),
+})
+
+export const queueExpiredSchema = z.object({
+  state: z.literal('EXPIRED'),
+  rank: z.null(),
+  retryAfterSeconds: z.null(),
+})
+
+export const queueResponseSchema = z.discriminatedUnion('state', [
+  queueWaitingSchema,
+  queueReadySchema,
+  queueExpiredSchema,
+])
+
 export type QueueResponse = z.infer<typeof queueResponseSchema>
+export const queueApiResponseSchema = apiResponseSchema(queueResponseSchema)
 
 // GET /api/products/search returns Page<ProductSearchDto> (Elasticsearch projection), not a full Product.
 // ProductSearchDto omits stock/originImgUrl/detailImgUrl/limitCountPerUser, so the list uses a lean item.

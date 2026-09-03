@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 01 — 홈 · 스토어 · 검색</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 01 / 05</p>
+  <h1>홈 · 스토어 · 검색</h1>
+  <p>발견 경로의 모든 화면과 상태. 헤더는 <b>비로그인 / 로그인</b>에서 구조가 달라지고, 홈은 로그인 시 개인화 밴드가 추가된다. 목록은 <code>ProductListItem</code>(검색 인덱스 투영)을 쓰므로 <code>stock</code>이 없을 수 있고, 그때 카드는 재고 문구를 숨긴다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a class="is-on" href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<!-- ═══════════════ 홈 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>홈</h2><span>/ · apps/web/app/page.tsx</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>홈 — 비로그인</b><code>GET /api/products?sort=newest&size=4</code><em>기본 진입</em></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav" aria-label="주요 메뉴"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav" aria-label="사용자 메뉴">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></a>
+          <a href="#">로그인</a>
+        </nav>
+      </header>
+      <main>
+        <section class="showcase">
+          <div class="showcase-copy">
+            <p class="eyebrow">DROP 04 · F/W 2026</p>
+            <h1><span>조용한 형태,</span><span>매일의 움직임.</span></h1>
+            <p><span class="s">형태는 유지하고 움직임은 방해하지 않는 소재.</span><span class="s">이번 시즌 24피스를 먼저 만나보세요.</span></p>
+            <div class="showcase-actions">
+              <a class="button dark" href="#">스토어 보기</a>
+              <a class="more-link" href="#">드롭 04 살펴보기 ›</a>
+            </div>
+          </div>
+          <div class="showcase-stage">
+            <a class="showcase-hero" href="#">
+              <span class="showcase-image"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"></span>
+              <span class="showcase-meta"><span>Night Shirt</span><strong>₩89,000</strong></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading"><div><p class="eyebrow">EXPLORE</p><h2>카테고리.</h2></div><a class="more-link" href="#">전체 보기 ›</a></div>
+          <div class="category-tiles">
+            <a class="category-tile" href="#"><img alt="겨울 아우터" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=900&q=85"><span class="category-tile-label"><span class="eyebrow">OUTERWEAR</span><h2>겨울 아우터</h2></span></a>
+            <a class="category-tile" href="#"><img alt="데일리 니트" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=900&q=85"><span class="category-tile-label"><span class="eyebrow">KNITWEAR</span><h2>데일리 니트</h2></span></a>
+            <a class="category-tile" href="#"><img alt="액세서리" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85"><span class="category-tile-label"><span class="eyebrow">ACCESSORIES</span><h2>마무리 한 끗</h2></span></a>
+          </div>
+        </section>
+
+        <section class="section band-surface">
+          <div class="section-heading"><div><p class="eyebrow">LATEST EDIT</p><h2>새로 나온 제품.</h2></div><a class="more-link" href="#">모두 보기 ›</a></div>
+          <div class="product-grid">
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=720&q=80"><span class="product-badge">10% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Night Shirt</a></div><div class="product-price"><strong>₩89,000</strong><del>₩99,000</del></div><div class="product-meta"><span>Black</span><span>12개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge">20% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Soft Structure Jacket</a></div><div class="product-price"><strong>₩151,200</strong><del>₩189,000</del></div><div class="product-meta"><span>Ivory</span><span>7개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=720&q=80"><span class="product-badge">BEST</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Quiet Wide Trousers</a></div><div class="product-price"><strong>₩119,000</strong></div><div class="product-meta"><span>Grey</span><span>20개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Frame Mini Bag" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge soldout">SOLD OUT</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Frame Mini Bag</a></div><div class="product-price"><strong>₩79,000</strong></div><div class="product-meta"><span>Silver</span><span>품절</span></div></div></article>
+          </div>
+        </section>
+
+        <section class="campaign-split section home-card">
+          <div class="campaign-image"><img alt="소재 에디토리얼" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85"></div>
+          <div class="campaign-copy">
+            <p class="eyebrow">MATERIAL NOTES · 04</p>
+            <h2>부드러운 구조.</h2>
+            <p><span class="s">형태를 지키는 소재.</span><span class="s">이번 에디트에서 만나보세요.</span></p>
+            <a class="text-link light-link" href="#">에디트 살펴보기 ›</a>
+          </div>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <div><p class="wordmark">OMI</p><p>조용한 형태, 매일의 움직임.</p></div>
+        <nav class="footer-links" aria-label="푸터 메뉴"><a href="#">스토어</a><a href="#">고객지원</a><a href="#">배송·반품</a><a href="#">이용약관</a></nav>
+        <p class="footer-meta">© 2026 OMI. 사업자등록번호 000-00-00000. 서울특별시 성동구.</p>
+      </footer>
+    </div>
+    <p class="pv-note"><b>수정:</b> 캠페인 카피의 <code>white-space:nowrap</code>을 제거해 한글이 넘치지 않게 했다. 밴드 배경은 원본의 하드코딩 <code>#161617</code>을 <code>--band</code> / <code>--band-text</code> 전용 토큰 쌍으로 바꿨다 — 이 밴드는 <b>양 테마에서 의도적으로 어둡게</b> 유지해 흰 글씨 대비(라이트 15.8:1)를 보장한다. 상품 배지·메타는 9~10px에서 11px 이상으로 올렸다.</p>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>홈 — 로그인</b><code>GET /api/users/me</code><em>헤더 교체 + 개인화 밴드 추가</em></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav" aria-label="주요 메뉴"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav" aria-label="사용자 메뉴">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 2개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">2</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="section" style="padding-bottom:0">
+          <div class="benefits-summary" style="margin:0">
+            <div class="benefit-stat"><span>등급</span><strong>GOLD</strong></div>
+            <div class="benefit-stat"><span>포인트</span><strong>2,480 P</strong></div>
+            <div class="benefit-stat"><span>사용 가능 쿠폰</span><strong>3</strong></div>
+          </div>
+          <div class="banner is-info" style="margin-top:16px">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></svg>
+            <span>GOLD 등급 전용 <b>10% 쿠폰</b>이 4일 후 만료됩니다.</span>
+          </div>
+        </section>
+
+        <section class="showcase" style="min-height:0;padding-top:44px">
+          <div class="showcase-copy">
+            <p class="eyebrow">DROP 04 · F/W 2026 · 회원 선공개</p>
+            <h1><span>조용한 형태,</span><span>매일의 움직임.</span></h1>
+            <p>GOLD 등급은 드롭 04를 24시간 먼저 구매할 수 있습니다.</p>
+            <div class="showcase-actions"><a class="button dark" href="#">먼저 구매하기</a><a class="more-link" href="#">드롭 04 살펴보기 ›</a></div>
+          </div>
+          <div class="showcase-stage">
+            <a class="showcase-hero" href="#">
+              <span class="showcase-image"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"></span>
+              <span class="showcase-meta"><span>Night Shirt</span><strong>₩89,000</strong></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="section band-surface">
+          <div class="section-heading"><div><p class="eyebrow">CONTINUE</p><h2>이어서 보기.</h2></div><a class="more-link" href="#">모두 보기 ›</a></div>
+          <div class="product-grid">
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI · 최근 본</p><a href="#">Quiet Wide Trousers</a></div><div class="product-price"><strong>₩119,000</strong></div><div class="product-meta"><span>Grey</span><span>20개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge">20% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI · 장바구니에 있음</p><a href="#">Soft Structure Jacket</a></div><div class="product-price"><strong>₩151,200</strong><del>₩189,000</del></div><div class="product-meta"><span>Ivory</span><span>7개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=720&q=80"><span class="product-badge">10% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI · 최근 본</p><a href="#">Night Shirt</a></div><div class="product-price"><strong>₩89,000</strong><del>₩99,000</del></div><div class="product-meta"><span>Black</span><span>12개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Frame Mini Bag" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge soldout">SOLD OUT</span></a><div class="product-copy"><div><p class="product-brand">OMI · 재입고 알림</p><a href="#">Frame Mini Bag</a></div><div class="product-price"><strong>₩79,000</strong></div><div class="product-meta"><span>Silver</span><span>품절</span></div></div></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> 로그인 후 홈은 헤더가 <code>.header-user</code>(닉네임 + 로그아웃)로 바뀌고, 상단에 등급·포인트·쿠폰 요약과 만료 임박 배너가 붙는다. 히어로 카피도 등급 선공개 문구로 교체된다. <code>GET /api/users/me</code>의 <code>point</code>와 <code>GET /api/users/me/tier</code>, <code>GET /api/coupons/me</code>의 <code>totalElements</code>만으로 구성해 추가 계약이 필요 없다.</p>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>홈 — 로딩</b><code>Suspense fallback</code><em>ProductGridSkeleton</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="section band-surface">
+          <div class="section-heading"><div><p class="eyebrow">LATEST EDIT</p><h2>새로 나온 제품.</h2></div></div>
+          <div class="product-grid">
+            <article class="product-card"><span class="skeleton product-image-link"></span><div class="product-copy"><span class="skeleton-line" style="width:32%"></span><span class="skeleton-line" style="width:72%"></span><span class="skeleton-line" style="width:44%"></span></div></article>
+            <article class="product-card"><span class="skeleton product-image-link"></span><div class="product-copy"><span class="skeleton-line" style="width:32%"></span><span class="skeleton-line" style="width:64%"></span><span class="skeleton-line" style="width:50%"></span></div></article>
+            <article class="product-card"><span class="skeleton product-image-link"></span><div class="product-copy"><span class="skeleton-line" style="width:32%"></span><span class="skeleton-line" style="width:80%"></span><span class="skeleton-line" style="width:40%"></span></div></article>
+            <article class="product-card"><span class="skeleton product-image-link"></span><div class="product-copy"><span class="skeleton-line" style="width:32%"></span><span class="skeleton-line" style="width:58%"></span><span class="skeleton-line" style="width:46%"></span></div></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 스켈레톤 배경이 <code>--line</code>(테두리색)이라 카드가 아니라 선처럼 보였다. <code>--surface-muted</code>로 바꾸고 카드 라운드(22px)를 그대로 물려 실제 카드 자리와 정확히 겹치게 했다.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 스토어 / PLP ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>스토어 (PLP)</h2><span>/shop · apps/web/app/shop/page.tsx</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>스토어 — 기본</b><code>GET /api/products?page=0&size=20</code></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 2개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">2</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="listing-page section">
+          <div class="listing-title"><div><p class="eyebrow">STORE</p><h1>스토어.</h1></div><p>전체 24개 제품</p></div>
+          <div class="filter-bar" role="group" aria-label="카테고리 및 정렬">
+            <button class="active" type="button">전체</button>
+            <button type="button">아우터</button>
+            <button type="button">니트</button>
+            <button type="button">셔츠</button>
+            <button type="button">팬츠</button>
+            <button type="button">액세서리</button>
+            <button class="sort-button" type="button">신상품순</button>
+            <button class="sort-button" type="button">가격 낮은순</button>
+            <button class="sort-button" type="button">인기순</button>
+          </div>
+          <div class="product-grid">
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=720&q=80"><span class="product-badge">10% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Night Shirt</a></div><div class="product-price"><strong>₩89,000</strong><del>₩99,000</del></div><div class="product-meta"><span>Black</span><span>12개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge">20% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Soft Structure Jacket</a></div><div class="product-price"><strong>₩151,200</strong><del>₩189,000</del></div><div class="product-meta"><span>Ivory</span><span>7개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=720&q=80"><span class="product-badge">BEST</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Quiet Wide Trousers</a></div><div class="product-price"><strong>₩119,000</strong></div><div class="product-meta"><span>Grey</span><span>20개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Frame Mini Bag" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge soldout">SOLD OUT</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Frame Mini Bag</a></div><div class="product-price"><strong>₩79,000</strong></div><div class="product-meta"><span>Silver</span><span>품절</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Layer Knit" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=720&q=80"><span class="product-badge">NEW</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Layer Knit</a></div><div class="product-price"><strong>₩128,000</strong></div><div class="product-meta"><span>Oatmeal</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Wool Coat" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Wool Coat</a></div><div class="product-price"><strong>₩298,000</strong></div><div class="product-meta"><span>Charcoal</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Silk Scarf" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Silk Scarf</a></div><div class="product-price"><strong>₩64,000</strong></div><div class="product-meta"><span>Ivory</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Motion Trouser" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Motion Trouser</a></div><div class="product-price"><strong>₩139,000</strong></div><div class="product-meta"><span>Black</span></div></div></article>
+          </div>
+          <nav class="pagination" aria-label="페이지"><a href="#" aria-disabled="true">‹</a><a href="#" aria-current="page">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a></nav>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 필터 버튼이 <code>--surface</code> 위에 <code>--surface</code>라 눌린 상태 외에는 경계가 안 보였다. hover에 <code>--surface-muted</code>를 주고 active는 <code>--text</code> 반전으로 명확히 했다. 후반 4개 카드는 <code>stock</code>이 없는 검색 인덱스 응답 — 재고 문구를 <b>비우지 않고 숨긴다</b>(빈 <code>&lt;span&gt;</code>이 아니라 미출력).</p>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>스토어 — 필터 적용</b><code>?categoryId=1&sort=price-low</code><em>적용된 조건 요약 + 해제</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="listing-page section">
+          <div class="listing-title"><div><p class="eyebrow">STORE · 아우터</p><h1>아우터.</h1></div><p>3개 제품</p></div>
+          <div class="filter-bar">
+            <button type="button">전체</button>
+            <button class="active" type="button">아우터</button>
+            <button type="button">니트</button>
+            <button type="button">셔츠</button>
+            <button type="button">팬츠</button>
+            <button type="button">액세서리</button>
+            <button class="sort-button" type="button">신상품순</button>
+            <button class="sort-button active" type="button">가격 낮은순</button>
+            <button class="sort-button" type="button">인기순</button>
+          </div>
+          <div class="filter-summary">
+            <span>적용된 조건</span>
+            <span class="filter-tag">아우터<button type="button" aria-label="아우터 필터 해제"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+            <span class="filter-tag">가격 낮은순<button type="button" aria-label="정렬 초기화"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+            <a class="more-link" href="#" style="font-size:13px">모두 해제</a>
+          </div>
+          <div class="product-grid">
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=720&q=80"><span class="product-badge">20% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Soft Structure Jacket</a></div><div class="product-price"><strong>₩151,200</strong><del>₩189,000</del></div><div class="product-meta"><span>Ivory</span><span>7개 남음</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Wool Coat" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Wool Coat</a></div><div class="product-price"><strong>₩298,000</strong></div><div class="product-meta"><span>Charcoal</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Padded Vest" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Padded Vest</a></div><div class="product-price"><strong>₩168,000</strong></div><div class="product-meta"><span>Black</span></div></div></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> 기존에는 어떤 조건이 걸렸는지 칩의 활성 상태로만 알 수 있었다. <code>.filter-summary</code>로 적용 조건을 명시하고 개별·전체 해제를 제공한다. 칩이 스크롤로 밀려 안 보이는 상황을 방지한다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>스토어 — 결과 없음</b><code>content.length === 0</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="listing-page section">
+            <div class="listing-title"><div><p class="eyebrow">STORE · 액세서리</p><h1>액세서리.</h1></div><p>0개 제품</p></div>
+            <div class="filter-bar"><button type="button">전체</button><button class="active" type="button">액세서리</button><button class="sort-button" type="button">신상품순</button></div>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></span>
+              <h2>조건에 맞는 제품이 없습니다</h2>
+              <p><span class="s">이 카테고리에 공개된 제품이 아직 없습니다.</span><span class="s">필터를 해제하거나 전체 스토어를 확인해보세요.</span></p>
+              <a class="button dark" href="#">전체 스토어 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> 기존에는 빈 그리드만 남아 로딩 실패와 구분되지 않았다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>스토어 — 조회 실패</b><code>safeParse 실패 / 5xx</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="listing-page section">
+            <div class="listing-title"><div><p class="eyebrow">STORE</p><h1>스토어.</h1></div></div>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l8.5 15h-17z"></path><path d="M12 10v4M12 17v.01"></path></svg></span>
+              <h2>제품을 불러오지 못했습니다</h2>
+              <p><span class="s">일시적인 오류입니다. 잠시 후 다시 시도해주세요.</span><span class="s">문제가 계속되면 고객지원으로 알려주세요.</span></p>
+              <div class="form-actions" style="justify-content:center"><button class="button dark" type="button">다시 시도</button><a class="button ghost" href="#">고객지원</a></div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> <code>getProducts</code>가 <code>null</code>을 반환하는 경로(zod 실패 포함)의 화면이 없었다. D1 같은 계약 드리프트가 조용히 빈 화면으로 나타나던 원인.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 검색 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>검색</h2><span>/search · apps/web/app/search/page.tsx</span></div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>검색 — 초기</b><em>쿼리 없음</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="simple-page section">
+            <p class="eyebrow">SEARCH</p>
+            <h1>검색.</h1>
+            <form class="search-form">
+              <label for="q1">제품명, 브랜드, 색상으로 검색</label>
+              <div><input id="q1" type="search" placeholder="예: 니트, 트라우저, 아이보리"><button type="submit">검색</button></div>
+            </form>
+            <p class="eyebrow">추천 검색어</p>
+            <div class="search-suggest"><a href="#">니트</a><a href="#">아우터</a><a href="#">와이드 팬츠</a><a href="#">아이보리</a><a href="#">드롭 04</a><a href="#">액세서리</a></div>
+            <p class="search-hint">색상, 소재, 사이즈로도 검색할 수 있습니다.</p>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> 추천 검색어를 추가했다. 빈 입력 화면에 안내 문구 한 줄만 있던 자리.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>검색 — 결과 없음</b><code>totalElements === 0</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="simple-page section">
+            <p class="eyebrow">SEARCH</p>
+            <h1>검색.</h1>
+            <form class="search-form">
+              <label for="q2">제품명, 브랜드, 색상으로 검색</label>
+              <div><input id="q2" type="search" value="레더 자켓"><button type="submit">검색</button></div>
+            </form>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg></span>
+              <h2>“레더 자켓” 결과가 없습니다</h2>
+              <p><span class="s">철자를 확인하거나 더 짧은 단어로 검색해보세요.</span><span class="s">추천 검색어로도 둘러볼 수 있습니다.</span></p>
+              <div class="search-suggest" style="justify-content:center"><a href="#">아우터</a><a href="#">자켓</a><a href="#">코트</a></div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>검색 — 결과</b><code>GET /api/products/search?keyword=니트</code><em>SearchItem · 재고 없음</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="simple-page section">
+          <p class="eyebrow">SEARCH</p>
+          <h1>검색.</h1>
+          <form class="search-form">
+            <label for="q3">제품명, 브랜드, 색상으로 검색</label>
+            <div><input id="q3" type="search" value="니트"><button type="submit">검색</button></div>
+          </form>
+          <p class="search-meta"><b>니트</b> 검색 결과 <b>5</b>개</p>
+          <div class="product-grid">
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Layer Knit" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=720&q=80"><span class="product-badge">NEW</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Layer Knit</a></div><div class="product-price"><strong>₩128,000</strong></div><div class="product-meta"><span>Oatmeal</span><span>★ 4.7 (12)</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Half Zip Knit" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=720&q=80"></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Half Zip Knit</a></div><div class="product-price"><strong>₩112,000</strong></div><div class="product-meta"><span>Grey</span><span>★ 4.5 (8)</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Mohair Knit" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=720&q=80"><span class="product-badge">15% OFF</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Mohair Knit</a></div><div class="product-price"><strong>₩108,800</strong><del>₩128,000</del></div><div class="product-meta"><span>Ivory</span><span>★ 4.9 (21)</span></div></div></article>
+            <article class="product-card"><a class="product-image-link" href="#"><img class="product-image" alt="Knit Vest" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=720&q=80"><span class="product-badge soldout">SOLD OUT</span></a><div class="product-copy"><div><p class="product-brand">OMI</p><a href="#">Knit Vest</a></div><div class="product-price"><strong>₩86,000</strong></div><div class="product-meta"><span>Black</span><span>품절</span></div></div></article>
+          </div>
+          <nav class="pagination" aria-label="페이지"><a href="#" aria-disabled="true">‹</a><a href="#" aria-current="page">1</a><a href="#">2</a><a href="#">›</a></nav>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>계약 근거:</b> <code>searchItemSchema</code>에는 <code>stock</code>·<code>limitCountPerUser</code>가 없다. 그래서 검색 카드의 메타 슬롯은 재고 대신 <b>평점·리뷰수</b>를 쓴다 — 같은 카드 컴포넌트가 목록/검색 두 응답에서 서로 다른 필드로 채워지도록 <code>getProductBadge</code>와 동일한 방식의 분기를 둔다.</p>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

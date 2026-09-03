@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 03 — 장바구니 · 체크아웃 · 결제</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 03 / 05</p>
+  <h1>장바구니 · 체크아웃 · 결제</h1>
+  <p>구매 전환 경로 전체. 체크아웃은 <code>POST /api/orders</code>의 실제 body(<code>orderProductInfos[].userCouponId</code>, <code>pointPrice</code>, <code>addressId</code>)를 화면으로 노출한다 — 현재 코드가 <code>null</code>·<code>0</code>으로 하드코딩한 <b>쿠폰과 포인트를 사용자가 선택</b>할 수 있게 하는 것이 이 문서의 핵심 변경이다. 게이트웨이 대기열 <code>202 QUEUE_WAITING</code> 화면도 신규로 정의한다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a class="is-on" href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<!-- ═══════════════ 장바구니 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>장바구니</h2><span>/cart · CartProductResponse</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>장바구니 — 상품 있음</b><em>한도 도달 포함</em></div>
+    <div class="pv-true"><div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 3개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">3</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="cart-page section">
+          <div class="cart-title"><p class="eyebrow">CART</p><h1>장바구니.</h1></div>
+          <div class="cart-layout">
+            <div class="cart-items">
+              <article class="cart-item">
+                <span class="cart-thumb"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=400&q=80"></span>
+                <div class="cart-item-copy">
+                  <p class="eyebrow">OMI</p>
+                  <h2>Night Shirt</h2>
+                  <p>Black · M</p>
+                  <div class="quantity-control" role="group" aria-label="수량">
+                    <button type="button" aria-label="수량 줄이기">−</button><span>2</span><button type="button" aria-label="수량 늘리기" disabled>+</button>
+                  </div>
+                  <p class="app-note" style="margin-top:8px">1인 구매 한도 2개에 도달했습니다.</p>
+                  <button class="remove-button" type="button">삭제</button>
+                </div>
+                <strong>₩178,000</strong>
+              </article>
+              <article class="cart-item">
+                <span class="cart-thumb"><img alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=400&q=80"></span>
+                <div class="cart-item-copy">
+                  <p class="eyebrow">OMI</p>
+                  <h2>Quiet Wide Trousers</h2>
+                  <p>Grey · M</p>
+                  <div class="quantity-control" role="group" aria-label="수량">
+                    <button type="button" aria-label="수량 줄이기">−</button><span>1</span><button type="button" aria-label="수량 늘리기">+</button>
+                  </div>
+                  <button class="remove-button" type="button">삭제</button>
+                </div>
+                <strong>₩119,000</strong>
+              </article>
+            </div>
+            <aside class="order-summary">
+              <p class="eyebrow">ORDER SUMMARY</p>
+              <div><span>상품 금액</span><strong>₩297,000</strong></div>
+              <div><span>할인</span><span>−₩29,000</span></div>
+              <div><span>배송비</span><span>무료</span></div>
+              <div style="border-bottom:0;padding-top:16px;font-weight:600"><span>결제 예정</span><strong style="font-size:21px;letter-spacing:-.035em">₩268,000</strong></div>
+              <p class="summary-note">₩50,000 이상 무료배송. 쿠폰과 포인트는 다음 단계에서 적용합니다.</p>
+              <a class="button dark full" href="#">주문하기</a>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div></div>
+    <p class="pv-note"><b>수정:</b> 썸네일 배경이 웜 베이지 <code>#e5e1d8</code>였다 → <code>--surface-muted</code>, 라운드 16px 부여(상품 카드와 동일 재질). 상품명이 세리프 30px이라 페이지 제목과 충돌했다 → 19px Pretendard. <b>신규:</b> 수량 <code>+</code> 비활성 + 한도 안내를 붙였다 — <code>cartReducer</code>가 <code>limitCountPerUser</code>에서 조용히 증가를 무시하던 동작이 화면에 설명되지 않았다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>장바구니 — 비어 있음</b></div>
+      <div class="pv-frame">
+        <main>
+          <section class="cart-page section">
+            <div class="cart-title"><p class="eyebrow">CART</p><h1>장바구니.</h1></div>
+            <div class="cart-empty">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></span>
+              <p class="muted">담긴 제품이 없습니다.</p>
+              <a class="button dark" href="#">스토어 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>장바구니 — 품절 항목 포함</b><em>담은 뒤 품절된 경우</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="cart-page section">
+            <div class="cart-title"><p class="eyebrow">CART</p><h1>장바구니.</h1></div>
+            <div class="banner is-warn" style="margin-top:20px">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l8.5 15h-17z"></path><path d="M12 10v4M12 17v.01"></path></svg>
+              <span><span class="s">품절된 제품 1개가 있습니다.</span><span class="s">주문하려면 해당 제품을 삭제해주세요.</span></span>
+            </div>
+            <div class="cart-items" style="border-top:1px solid var(--border-soft)">
+              <article class="cart-item" style="opacity:.6">
+                <span class="cart-thumb"><img alt="Frame Mini Bag" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=400&q=80"></span>
+                <div class="cart-item-copy">
+                  <p class="eyebrow">OMI</p>
+                  <h2>Frame Mini Bag</h2>
+                  <p>Silver · One Size</p>
+                  <span class="status-badge status-cancelled" style="margin-top:10px">품절</span>
+                  <button class="remove-button" type="button">삭제</button>
+                </div>
+                <strong>₩79,000</strong>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> 담은 뒤 품절되는 경로의 화면이 없었다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 체크아웃 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>체크아웃</h2><span>/checkout · POST /api/orders</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>체크아웃 — 기본</b><code>Idempotency-Key: &lt;uuid&gt;</code><em>주소 · 쿠폰 · 포인트 · 결제수단</em></div>
+    <div class="pv-true"><div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 3개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">3</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="checkout-page section">
+          <p class="eyebrow">CHECKOUT</p>
+          <h1>주문.</h1>
+          <form class="checkout-layout">
+            <div class="checkout-main">
+              <section class="checkout-section">
+                <h2>배송지</h2>
+                <ul class="address-radio-list">
+                  <li><label class="address-radio"><input checked name="addr" type="radio"><span><strong>김민준</strong> 010-1234-5678 <span class="address-default-tag">기본</span><br>(04050) 서울특별시 마포구 와우산로 94</span></label></li>
+                  <li><label class="address-radio"><input name="addr" type="radio"><span><strong>회사</strong> 010-1234-5678<br>(06236) 서울특별시 강남구 테헤란로 152</span></label></li>
+                </ul>
+                <div class="form-actions"><a class="button ghost small" href="#">배송지 추가</a><a class="button ghost small" href="#">배송지 관리</a></div>
+              </section>
+
+              <section class="checkout-section">
+                <h2>주문 상품</h2>
+                <ul class="checkout-items">
+                  <li><span>Night Shirt · Black / M</span><span>×2</span><span>₩178,000</span></li>
+                  <li><span>Quiet Wide Trousers · Grey / M</span><span>×1</span><span>₩119,000</span></li>
+                </ul>
+              </section>
+
+              <section class="checkout-section">
+                <h2>쿠폰</h2>
+                <div class="coupon-select">
+                  <label class="coupon-option"><input checked name="coupon" type="radio"><span class="coupon-option-body"><strong>GOLD 등급 10% 할인</strong><span>₩100,000 이상 · 최대 ₩30,000 · 2026.09.05 만료</span></span><span class="coupon-option-cut">−₩29,700</span></label>
+                  <label class="coupon-option"><input name="coupon" type="radio"><span class="coupon-option-body"><strong>첫 구매 15% 쿠폰</strong><span>₩50,000 이상 · 최대 ₩20,000</span></span><span class="coupon-option-cut">−₩20,000</span></label>
+                  <label class="coupon-option is-disabled"><input name="coupon" type="radio" disabled><span class="coupon-option-body"><strong>배송비 무료 쿠폰</strong><span>이미 무료배송이 적용된 주문입니다</span></span><span class="coupon-option-cut">−₩0</span></label>
+                  <label class="coupon-option"><input name="coupon" type="radio"><span class="coupon-option-body"><strong>사용하지 않음</strong><span>쿠폰을 다음 주문에 사용합니다</span></span></label>
+                </div>
+              </section>
+
+              <section class="checkout-section">
+                <h2>포인트</h2>
+                <div class="point-field">
+                  <div class="point-input">
+                    <input type="text" inputmode="numeric" value="2,480" aria-label="사용할 포인트">
+                    <button class="button ghost" type="button">전액 사용</button>
+                  </div>
+                  <p class="point-avail">보유 <b>2,480 P</b> · 이 주문에 최대 <b>2,480 P</b> 사용 가능</p>
+                </div>
+              </section>
+
+              <section class="checkout-section">
+                <h2>결제 수단</h2>
+                <div class="pay-methods">
+                  <label class="pay-method"><input checked name="pay" type="radio">카카오페이</label>
+                  <label class="pay-method"><input name="pay" type="radio">네이버페이</label>
+                  <label class="pay-method"><input name="pay" type="radio">토스</label>
+                  <label class="pay-method"><input name="pay" type="radio">신용·체크카드</label>
+                </div>
+                <p class="app-note" style="margin-top:12px">결제처 화면으로 이동한 뒤 자동으로 돌아옵니다.</p>
+              </section>
+            </div>
+
+            <aside class="checkout-summary">
+              <p class="eyebrow">ORDER TOTAL</p>
+              <div class="summary-row"><span>상품 금액</span><strong>₩297,000</strong></div>
+              <div class="summary-row"><span>배송비</span><span>무료</span></div>
+              <div class="summary-row discount-row"><span>쿠폰 할인</span><span>−₩29,700</span></div>
+              <div class="summary-row discount-row"><span>포인트 사용</span><span>−₩2,480</span></div>
+              <div class="summary-row summary-total"><span>결제 금액</span><strong>₩264,820</strong></div>
+              <button class="button dark full" type="submit" style="margin-top:16px">₩264,820 결제하기</button>
+              <p class="idem-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V8a6 6 0 0 1 12 0v3"></path><rect x="5" y="11" width="14" height="9" rx="2"></rect></svg><span><span class="s">암호화된 경로로 진행됩니다.</span><span class="s">새로고침해도 중복 결제되지 않습니다.</span></span></p>
+            </aside>
+          </form>
+        </section>
+      </main>
+    </div></div>
+    <p class="pv-note"><b>신규 (계약 활용):</b> 쿠폰 선택과 포인트 입력이 화면에 없었고, 코드는 <code>userCouponId: null</code>·<code>pointPrice: 0</code>을 고정 전송했다. 쿠폰은 <code>couponSchema</code>의 <code>minBuyPrice</code>·<code>maxDiscountPrice</code>로 할인액을 미리 계산해 보여주고, 조건 미달 쿠폰은 사유와 함께 비활성한다. 포인트 상한은 <code>GET /api/users/me</code>의 <code>point</code>. <b>주의:</b> <code>Idempotency-Key</code>는 프론트가 보내지만 주문 서비스에 처리 코드가 없다 — 백엔드 구현이 전제다.</p>
+  </div>
+
+  <div class="pv-stack">
+    <div class="pv">
+      <div class="pv-label"><b>체크아웃 — 배송지 없음</b><code>addresses.length === 0</code></div>
+      <div class="pv-true"><div class="pv-frame">
+        <main>
+          <section class="checkout-page section">
+            <p class="eyebrow">CHECKOUT</p>
+            <h1>주문.</h1>
+            <div class="checkout-layout">
+              <div class="checkout-main">
+                <section class="checkout-section">
+                  <h2>배송지</h2>
+                  <div class="state-block" style="padding:44px 24px">
+                    <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10z"></path><circle cx="12" cy="11" r="2"></circle></svg></span>
+                    <h2>등록된 배송지가 없습니다</h2>
+                    <p>주문을 진행하려면 배송지를 먼저 등록해주세요.</p>
+                    <a class="button dark" href="#">배송지 추가</a>
+                  </div>
+                </section>
+              </div>
+              <aside class="checkout-summary">
+                <p class="eyebrow">ORDER TOTAL</p>
+                <div class="summary-row"><span>상품 금액</span><strong>₩297,000</strong></div>
+                <div class="summary-row summary-total"><span>결제 금액</span><strong>₩297,000</strong></div>
+                <button class="button dark full" type="button" disabled style="margin-top:16px">배송지를 선택해주세요</button>
+              </aside>
+            </div>
+          </section>
+        </main>
+      </div></div>
+      <p class="pv-note"><b>수정:</b> 안내가 본문 텍스트 링크 한 줄이었고 결제 버튼은 활성 상태로 남아 클릭 후 에러가 났다. 버튼을 비활성 + 사유 라벨로 바꿨다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>체크아웃 — 처리 중 / 실패</b><code>pending · 4xx</code></div>
+      <div class="pv-true"><div class="pv-frame">
+        <main>
+          <section class="checkout-page section">
+            <p class="eyebrow">CHECKOUT</p>
+            <h1>주문.</h1>
+            <div class="checkout-layout">
+              <div class="checkout-main">
+                <section class="checkout-section">
+                  <h2>주문 상품</h2>
+                  <ul class="checkout-items"><li><span>Night Shirt · Black / M</span><span>×2</span><span>₩178,000</span></li></ul>
+                </section>
+              </div>
+              <aside class="checkout-summary">
+                <p class="eyebrow">ORDER TOTAL</p>
+                <div class="summary-row"><span>상품 금액</span><strong>₩178,000</strong></div>
+                <div class="summary-row summary-total"><span>결제 금액</span><strong>₩178,000</strong></div>
+                <div class="form-error-box" style="margin-top:14px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.01"></path></svg><span><span class="s">재고가 부족합니다.</span><span class="s">수량을 조정한 뒤 다시 시도해주세요.</span></span></div>
+                <button class="button dark full" type="button" disabled style="margin-top:14px">주문 처리 중…</button>
+              </aside>
+            </div>
+          </section>
+        </main>
+      </div></div>
+      <p class="pv-note"><b>수정:</b> 에러가 12px 빨간 텍스트 한 줄이었다 → <code>.form-error-box</code>로 배경·아이콘을 갖춘 블록. 서버 <code>message</code>를 그대로 노출하는 구조는 유지한다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 대기열 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>대기열 (신규)</h2><span>202 QUEUE_WAITING · X-Queue-Rank · Retry-After</span></div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>대기열 — 순번 대기</b><code>rank: 154 · retryAfterSeconds: 3</code></div>
+      <div class="pv-frame">
+        <header class="site-header">
+          <a class="wordmark" href="#">OMI</a>
+          <nav class="desktop-nav"><a href="#">스토어</a><a href="#">프리오더</a></nav>
+          <nav class="utility-nav"><span class="header-user"><a href="#">민준</a></span></nav>
+        </header>
+        <main>
+          <section class="queue-page">
+            <p class="eyebrow">DROP 04 · 접속 대기</p>
+            <div class="queue-dial">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="54"></circle>
+                <circle class="bar" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="98"></circle>
+              </svg>
+              <b>154<small>내 순번</small></b>
+            </div>
+            <h1>접속을 기다리고 있습니다</h1>
+            <p><span class="s">동시 접속이 많아 순서대로 입장하고 있습니다.</span><span class="s">이 화면을 유지하면 자동으로 입장됩니다.</span></p>
+            <div class="queue-meta">
+              <span class="queue-chip">앞에 <b>154</b>명</span>
+              <span class="queue-chip">예상 <b>약 2분</b></span>
+              <span class="queue-chip"><b>3</b>초 후 재확인</span>
+            </div>
+            <div class="queue-bar"><i style="width:71%"></i></div>
+            <p class="queue-hint"><span class="s">창을 닫으면 순번이 사라집니다.</span><span class="s">새로고침해도 순번은 유지됩니다.</span></p>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> 게이트웨이가 대기 시 <code>202</code> + <code>{ rank, retryAfterSeconds }</code>를 주는데 이를 표시할 화면이 없었다(현재는 빈 body <code>200</code>이라 정상 성공과 구분 불가 — 백엔드 계약 수정이 전제). 다이얼은 <code>rank</code>, 게이지는 최초 진입 순번 대비 진행률, 칩은 <code>retryAfterSeconds</code> 카운트다운.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>대기열 — 입장 직전</b><code>rank &lt;= 10</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="queue-page">
+            <p class="eyebrow">DROP 04 · 접속 대기</p>
+            <div class="queue-dial">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="54"></circle>
+                <circle class="bar" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="17"></circle>
+              </svg>
+              <b>4<small>내 순번</small></b>
+            </div>
+            <h1>거의 다 왔습니다</h1>
+            <p><span class="s">곧 입장합니다.</span><span class="s">결제 정보를 미리 준비해두시면 더 빠르게 주문할 수 있습니다.</span></p>
+            <div class="queue-meta">
+              <span class="queue-chip">앞에 <b>4</b>명</span>
+              <span class="queue-chip">예상 <b>10초 이내</b></span>
+              <span class="queue-chip"><b>2</b>초 후 재확인</span>
+            </div>
+            <div class="queue-bar"><i style="width:95%"></i></div>
+            <p class="queue-hint">입장하면 자동으로 주문 화면으로 이동합니다.</p>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>대기열 — 만료 / 이탈</b><em>순번 소실</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="queue-page">
+            <p class="eyebrow">DROP 04</p>
+            <div class="result-mark is-fail" style="margin-bottom:20px"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+            <h1>대기 순번이 만료되었습니다</h1>
+            <p><span class="s">일정 시간 응답이 없어 순번이 해제되었습니다.</span><span class="s">다시 시도하면 새 순번을 받습니다.</span></p>
+            <div class="result-actions"><button class="button dark" type="button">다시 대기하기</button><a class="button ghost" href="#">스토어로</a></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>대기열 — 판매 종료</b><em>대기 중 매진</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="queue-page">
+            <p class="eyebrow">DROP 04</p>
+            <div class="state-icon" style="width:64px;height:64px;margin:0 auto 20px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12h8"></path></svg></div>
+            <h1>준비된 수량이 모두 소진되었습니다</h1>
+            <p><span class="s">대기 중 재고가 마감되었습니다.</span><span class="s">재입고 알림을 신청하시면 다음 입고 시 먼저 안내합니다.</span></p>
+            <div class="result-actions"><button class="button dark" type="button">재입고 알림 신청</button><a class="button ghost" href="#">다른 제품 보기</a></div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note">대기열을 통과한 mutation은 <b>한 번만</b> 실행되어야 하므로 이 화면에서 재시도 버튼은 주문을 재전송하지 않는다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 결제 결과 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>결제 결과</h2><span>/checkout/result?status=success|fail&orderId=</span></div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>결제 성공</b><code>status=success</code></div>
+      <div class="pv-frame">
+        <header class="site-header">
+          <a class="wordmark" href="#">OMI</a>
+          <nav class="desktop-nav"><a href="#">스토어</a></nav>
+          <nav class="utility-nav"><span class="header-user"><a href="#">민준</a></span></nav>
+        </header>
+        <main>
+          <section class="result-page">
+            <div class="result-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"></path></svg></div>
+            <h1>주문이 완료되었습니다</h1>
+            <p><span class="s">결제가 정상 처리되었습니다.</span><span class="s">주문 확인 메일을 보냈습니다.</span></p>
+            <dl class="result-card">
+              <div><dt>주문번호</dt><dd>#OMI-20260901-0042</dd></div>
+              <div><dt>결제 금액</dt><dd>₩264,820</dd></div>
+              <div><dt>결제 수단</dt><dd>카카오페이</dd></div>
+              <div><dt>배송 예정</dt><dd>2026.09.04 – 09.06</dd></div>
+            </dl>
+            <div class="result-actions"><a class="button dark" href="#">주문 상세 보기</a><a class="button ghost" href="#">계속 쇼핑하기</a></div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note">앱 복귀 후에는 <code>GET /api/orders/{orderId}</code>를 재조회해 <b>서버 상태를 최종 기준</b>으로 사용한다 — 딥링크 파라미터를 신뢰하지 않는다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>결제 실패</b><code>status=fail</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="result-page">
+            <div class="result-mark is-fail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+            <h1>결제가 완료되지 않았습니다</h1>
+            <p><span class="s">결제가 취소되었거나 승인되지 않았습니다.</span><span class="s">장바구니는 그대로 남아 있으니 다시 시도할 수 있습니다.</span></p>
+            <dl class="result-card">
+              <div><dt>주문번호</dt><dd>#OMI-20260901-0043</dd></div>
+              <div><dt>상태</dt><dd><span class="status-badge status-failed">결제 실패</span></dd></div>
+              <div><dt>사유</dt><dd>사용자 취소</dd></div>
+            </dl>
+            <div class="result-actions"><a class="button dark" href="#">다시 결제하기</a><a class="button ghost" href="#">장바구니로</a></div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>수정:</b> 성공·실패가 같은 레이아웃에 문구만 달랐다. 상태 마크와 결과 카드로 구분하고, 실패 시 장바구니가 유지된다는 사실을 명시했다(<code>clear()</code>가 결제창 이동 전에 호출되는 현재 구현과 상충 — 실패 복구를 위해 <b>결제 확정 후 비우기</b>로 옮길 것을 권장).</p>
+    </div>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>결제 결과 — 확인 중</b><em>앱 복귀 직후 서버 재조회</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="result-page">
+          <div class="app-spinner" style="margin:0 auto 22px"></div>
+          <h1>결제 결과를 확인하고 있습니다</h1>
+          <p><span class="s">결제사 응답을 확인하는 중입니다.</span><span class="s">이 화면을 닫지 말아주세요.</span></p>
+          <p class="queue-hint">최대 10초가 걸릴 수 있습니다.</p>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> 딥링크·리다이렉트 복귀와 서버 재조회 사이의 공백 상태. 이 화면이 없으면 사용자가 성공 여부를 모르는 순간이 생긴다.</p>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

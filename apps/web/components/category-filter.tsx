@@ -1,78 +1,51 @@
 'use client'
 
 import type { Category } from '@omi/api'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-interface CategoryFilterProps {
-  categories: Category[]
-  currentCategoryId?: number
-}
+import { CloseIcon } from './icons'
+
+interface CategoryFilterProps { categories: Category[]; currentCategoryId?: number }
 
 export function CategoryFilter({ categories, currentCategoryId }: CategoryFilterProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const currentSort = searchParams.get('sort') ?? 'newest'
+  const selectedCategory = categories.find((category) => category.categoryId === currentCategoryId)
+  const hasCategoryFilter = currentCategoryId !== undefined
+  const hasSortFilter = currentSort !== 'newest'
 
+  function push(params: URLSearchParams) { const query = params.toString(); router.push(query ? `${pathname}?${query}` : pathname) }
   function selectCategory(categoryId: number | undefined) {
     const params = new URLSearchParams(searchParams.toString())
-    if (categoryId !== undefined) {
-      params.set('categoryId', String(categoryId))
-    } else {
-      params.delete('categoryId')
-    }
-    params.delete('page')
-    router.push(`${pathname}?${params.toString()}`)
+    if (categoryId === undefined) params.delete('categoryId'); else params.set('categoryId', String(categoryId))
+    params.delete('page'); push(params)
   }
-
   function selectSort(sort: string) {
     const params = new URLSearchParams(searchParams.toString())
-    params.set('sort', sort)
-    params.delete('page')
-    router.push(`${pathname}?${params.toString()}`)
+    if (sort === 'newest') params.delete('sort'); else params.set('sort', sort)
+    params.delete('page'); push(params)
   }
 
-  const currentSort = searchParams.get('sort') ?? 'newest'
-
-  return (
-    <div className="filter-bar" aria-label="상품 필터">
-      <button
-        className={currentCategoryId === undefined ? 'active' : ''}
-        onClick={() => selectCategory(undefined)}
-        type="button"
-      >
-        All
-      </button>
-      {categories.map((cat) => (
-        <button
-          className={currentCategoryId === cat.categoryId ? 'active' : ''}
-          key={cat.categoryId}
-          onClick={() => selectCategory(cat.categoryId)}
-          type="button"
-        >
-          {cat.name}
-        </button>
-      ))}
-      <button
-        className={`sort-button ${currentSort === 'newest' ? 'active' : ''}`}
-        onClick={() => selectSort('newest')}
-        type="button"
-      >
-        Newest ↓
-      </button>
-      <button
-        className={`sort-button ${currentSort === 'price-low' ? 'active' : ''}`}
-        onClick={() => selectSort('price-low')}
-        type="button"
-      >
-        Price ↑
-      </button>
-      <button
-        className={`sort-button ${currentSort === 'popular' ? 'active' : ''}`}
-        onClick={() => selectSort('popular')}
-        type="button"
-      >
-        Popular
-      </button>
+  return <>
+    <div className="filter-bar" aria-label="카테고리 및 정렬" role="group">
+      <button className={!hasCategoryFilter ? 'active' : ''} onClick={() => selectCategory(undefined)} type="button">전체</button>
+      {categories.map((category) => <button className={currentCategoryId === category.categoryId ? 'active' : ''} key={category.categoryId} onClick={() => selectCategory(category.categoryId)} type="button">{category.name}</button>)}
+      <button className={currentSort === 'newest' ? 'sort-button active' : 'sort-button'} onClick={() => selectSort('newest')} type="button">신상품순</button>
+      <button className={currentSort === 'price-low' ? 'sort-button active' : 'sort-button'} onClick={() => selectSort('price-low')} type="button">가격 낮은순</button>
+      <button className={currentSort === 'popular' ? 'sort-button active' : 'sort-button'} onClick={() => selectSort('popular')} type="button">인기순</button>
     </div>
-  )
+    {hasCategoryFilter || hasSortFilter ? <div className="filter-summary">
+      <span>적용된 조건</span>
+      {hasCategoryFilter ? <FilterTag label={selectedCategory?.name ?? '선택한 카테고리'} onRemove={() => selectCategory(undefined)} removeLabel={`${selectedCategory?.name ?? '카테고리'} 필터 해제`} /> : null}
+      {hasSortFilter ? <FilterTag label={currentSort === 'price-low' ? '가격 낮은순' : '인기순'} onRemove={() => selectSort('newest')} removeLabel="정렬 초기화" /> : null}
+      <Link className="more-link" href={pathname} style={{ fontSize: 13 }}>모두 해제</Link>
+    </div> : null}
+  </>
+}
+
+function FilterTag({ label, onRemove, removeLabel }: { label: string; onRemove: () => void; removeLabel: string }) {
+  return <span className="filter-tag">{label}<button aria-label={removeLabel} onClick={onRemove} type="button"><CloseIcon /></button></span>
 }

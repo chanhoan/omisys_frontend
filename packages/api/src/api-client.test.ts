@@ -11,15 +11,44 @@ describe('OmiApiClient', () => {
   })
 
   it('converts a queue response into QueueRequiredError', async () => {
-    const fetcher = async () => new Response('', {
+    const fetcher = async () => new Response(JSON.stringify({
+      statusName: 'ACCEPTED',
+      message: null,
+      data: { state: 'WAITING', rank: 7, retryAfterSeconds: 3 },
+    }), {
       status: 202,
-      headers: { 'X-Queue-Rank': '7', 'Retry-After': '3' },
+      headers: { 'Retry-After': '3' },
     })
     const client = new OmiApiClient({ baseUrl: 'https://api.example.com', fetcher })
 
     await expect(client.get('/api/orders/me')).rejects.toEqual(
       new QueueRequiredError(7, 3),
     )
+  })
+
+  it('temporarily supports the legacy queue header during gateway rollout', async () => {
+    const client = new OmiApiClient({
+      baseUrl: 'https://api.example.com',
+      fetcher: async () => new Response('', {
+        status: 202,
+        headers: { 'X-Queue-Rank': '7', 'Retry-After': '3' },
+      }),
+    })
+
+    await expect(client.get('/api/orders/me')).rejects.toEqual(new QueueRequiredError(7, 3))
+  })
+
+  it('does not mistake a non-queue accepted response for queue admission', async () => {
+    const client = new OmiApiClient({
+      baseUrl: 'https://api.example.com',
+      fetcher: async () => new Response(JSON.stringify({
+        statusName: 'BAD_GATEWAY',
+        message: 'Queue response is unavailable',
+        data: null,
+      }), { status: 202 }),
+    })
+
+    await expect(client.get('/api/orders/me')).resolves.toBeNull()
   })
 
   it('refreshes once after unauthorized and retries the original request', async () => {

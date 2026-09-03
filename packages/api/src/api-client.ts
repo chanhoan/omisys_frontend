@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { queueApiResponseSchema } from './contracts'
+
 const errorResponseSchema = z.object({
   statusName: z.string(),
   message: z.string().nullable(),
@@ -74,20 +76,32 @@ export class OmiApiClient {
       headers,
     })
 
-    const queueRank = response.headers.get('X-Queue-Rank')
-    if (response.status === 202 || queueRank) {
-      throw new QueueRequiredError(
-        Number(queueRank ?? 1),
-        Number(response.headers.get('Retry-After') ?? 3),
-      )
-    }
-
     if (response.status === 401 && canRefresh && path !== '/api/auth/refresh') {
       await this.refresh()
       return this.request<T>(path, init, false)
     }
 
     const payload = await this.readPayload(response)
+    const queueRank = response.headers.get('X-Queue-Rank')
+    if (response.status === 202) {
+      const queued = queueApiResponseSchema.safeParse(payload)
+      if (queued.success && queued.data.data.state === 'WAITING') {
+        throw new QueueRequiredError(
+          queued.data.data.rank,
+          queued.data.data.retryAfterSeconds,
+        )
+      }
+
+      // During the coordinated gateway rollout, retain the legacy header
+      // fallback for older gateway instances. New code must use the envelope.
+      if (queueRank) {
+        throw new QueueRequiredError(
+          Number(queueRank),
+          Number(response.headers.get('Retry-After') ?? 3),
+        )
+      }
+    }
+
     if (!response.ok) {
       const error = errorResponseSchema.parse(payload)
       throw new ApiError(response.status, error.statusName, error.message ?? '요청을 처리하지 못했습니다.')

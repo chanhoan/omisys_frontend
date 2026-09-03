@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 05 — 계정 · 혜택 · 인증</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 05 / 05</p>
+  <h1>계정 · 혜택 · 인증</h1>
+  <p>마이페이지, 쿠폰·포인트·등급, 주소 관리, 로그인·회원가입. 등급은 <code>GET /api/users/me/tier</code>의 <code>tier</code>·<code>totalSpent</code>·<code>nextTierAmount</code>로 진척도를 그리고, 쿠폰은 <code>userCouponSchema</code>의 <code>used</code>·<code>expiresAt</code>으로 사용 가능·만료 임박·사용 완료를 구분한다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a class="is-on" href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<!-- ═══════════════ 마이페이지 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>마이페이지</h2><span>/account · GET /api/users/me</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>마이페이지 — 로그인</b><code>UserResponse + TierResponse</code></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 2개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">2</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="account-page section">
+          <div>
+            <p class="eyebrow">ACCOUNT</p>
+            <h1>마이페이지.</h1>
+            <div class="account-hero">
+              <span class="account-avatar" aria-hidden="true">민</span>
+              <div>
+                <b>김민준</b>
+                <span class="account-tier">GOLD 등급 · minjun@example.com</span>
+              </div>
+              <a class="button ghost small" href="#" style="margin-left:auto">프로필 수정</a>
+            </div>
+          </div>
+
+          <div class="benefits-summary">
+            <div class="benefit-stat"><span>보유 포인트</span><strong>2,480 P</strong></div>
+            <div class="benefit-stat"><span>사용 가능 쿠폰</span><strong>3장</strong></div>
+            <div class="benefit-stat"><span>진행 중 주문</span><strong>2건</strong></div>
+          </div>
+
+          <div class="tier-track">
+            <div class="tier-track-head"><span>현재 등급 <b>GOLD</b></span><span class="muted">PLATINUM까지 ₩320,000</span></div>
+            <div class="queue-bar" style="max-width:none;margin:0"><i style="width:68%"></i></div>
+            <div class="tier-steps"><span>SILVER</span><span><b>GOLD</b></span><span>PLATINUM</span><span>DIAMOND</span></div>
+            <p class="app-note" style="margin-top:14px">최근 12개월 구매액 <b>₩1,680,000</b> 기준. 등급은 매월 1일 갱신됩니다.</p>
+          </div>
+
+          <div class="account-grid">
+            <a href="#"><span>ORDERS</span><h2>주문 내역</h2><p>주문 상태 확인, 취소, 재구매</p></a>
+            <a href="#"><span>DELIVERIES</span><h2>배송 조회</h2><p>운송장 추적과 수령 확인</p></a>
+            <a href="#"><span>BENEFITS</span><h2>쿠폰 · 포인트</h2><p>보유 쿠폰 3장 · 2,480 P</p></a>
+            <a href="#"><span>ADDRESSES</span><h2>배송지 관리</h2><p>기본 배송지 · 서울 마포</p></a>
+            <a href="#"><span>REVIEWS</span><h2>내 리뷰</h2><p>작성한 리뷰 4건</p></a>
+            <a href="#"><span>SUPPORT</span><h2>고객지원</h2><p>문의, 반품, 자주 묻는 질문</p></a>
+          </div>
+
+          <div class="form-actions" style="margin-top:34px">
+            <button class="button ghost" type="button">로그아웃</button>
+            <button class="button ghost" type="button">회원 탈퇴</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 링크 그리드 제목이 세리프 30px + 웜 베이지 구분선이었다 → Pretendard + <code>--border-soft</code>, hover에 <code>--accent</code>. <b>신규:</b> 프로필 헤더·요약 3칸·등급 진척도. 기존 마이페이지는 링크 목록만 있어 <code>point</code>와 등급이 어디에도 보이지 않았다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>마이페이지 — 비로그인 접근</b><code>세션 없음</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-page section" style="padding-top:48px">
+            <div class="gate-card">
+              <h2>로그인이 필요합니다</h2>
+              <p>주문 내역과 혜택은 회원 계정에서 확인할 수 있습니다.</p>
+              <div class="form-actions" style="justify-content:center"><a class="button dark" href="#">로그인</a><a class="button ghost" href="#">회원가입</a></div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note">미들웨어 리다이렉트 전 짧게 노출되는 상태와 SSR 게이트 모두 이 화면을 쓴다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>세션 만료</b><code>401 · 토큰 갱신 실패</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-page section" style="padding-top:48px">
+            <div class="gate-card">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11V8a6 6 0 0 1 12 0v3"></path><rect x="5" y="11" width="14" height="9" rx="2"></rect></svg></span>
+              <h2>로그인이 만료되었습니다</h2>
+              <p><span class="s">보안을 위해 일정 시간이 지나면 자동으로 로그아웃됩니다.</span><span class="s">다시 로그인하면 이 페이지로 돌아옵니다.</span></p>
+              <a class="button dark" href="#">다시 로그인</a>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><b>신규:</b> 액세스 토큰 만료 경로의 화면이 없어 401이 빈 화면으로 나타났다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 혜택 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>혜택 — 쿠폰 · 포인트 · 등급</h2><span>/account/benefits</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>혜택 — 보유</b><code>GET /api/coupons/me · GET /api/users/me/tier</code></div>
+    <div class="pv-frame">
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">BENEFITS</p>
+          <h1>쿠폰 · 포인트.</h1>
+
+          <div class="benefits-summary">
+            <div class="benefit-stat"><span>보유 포인트</span><strong>2,480 P</strong></div>
+            <div class="benefit-stat"><span>사용 가능 쿠폰</span><strong>3장</strong></div>
+            <div class="benefit-stat"><span>이번 달 적립</span><strong>1,340 P</strong></div>
+          </div>
+
+          <div class="tier-track">
+            <div class="tier-track-head"><span>현재 등급 <b>GOLD</b> · 적립률 3%</span><span class="muted">PLATINUM까지 ₩320,000</span></div>
+            <div class="queue-bar" style="max-width:none;margin:0"><i style="width:68%"></i></div>
+            <div class="tier-steps"><span>SILVER</span><span><b>GOLD</b></span><span>PLATINUM</span><span>DIAMOND</span></div>
+          </div>
+
+          <div class="section-heading compact"><h2>쿠폰</h2></div>
+          <div class="filter-bar" role="group" aria-label="쿠폰 필터">
+            <button class="active" type="button">사용 가능 3</button>
+            <button type="button">사용 완료 8</button>
+            <button type="button">기간 만료 2</button>
+          </div>
+          <ul class="coupon-list">
+            <li class="coupon-card is-expiring">
+              <strong>GOLD 등급 10% 할인</strong>
+              <span>10%</span>
+              <span class="coupon-min">₩100,000 이상 · 최대 ₩30,000</span>
+              <span class="coupon-expiry">2026.09.05 만료 · 3일 남음</span>
+            </li>
+            <li class="coupon-card">
+              <strong>첫 구매 15% 쿠폰</strong>
+              <span>15%</span>
+              <span class="coupon-min">₩50,000 이상 · 최대 ₩20,000</span>
+              <span class="coupon-expiry">2026.12.31 만료</span>
+            </li>
+            <li class="coupon-card">
+              <strong>배송비 무료</strong>
+              <span>₩3,000</span>
+              <span class="coupon-min">금액 조건 없음</span>
+              <span class="coupon-expiry">2026.10.15 만료</span>
+            </li>
+          </ul>
+
+          <div class="section-heading compact"><h2>포인트 내역</h2></div>
+          <ul class="point-list">
+            <li class="point-row"><div class="point-row-body"><strong>구매 적립 · #OMI-20260901-0042</strong><span>2026.09.01</span></div><span class="point-plus">+1,340 P</span></li>
+            <li class="point-row"><div class="point-row-body"><strong>주문 사용 · #OMI-20260901-0042</strong><span>2026.09.01</span></div><span class="point-minus">−2,480 P</span></li>
+            <li class="point-row"><div class="point-row-body"><strong>리뷰 작성 적립</strong><span>2026.08.25</span></div><span class="point-plus">+500 P</span></li>
+            <li class="point-row"><div class="point-row-body"><strong>취소 반환 · #OMI-20260812-0009</strong><span>2026.08.12</span></div><span class="point-plus">+1,200 P</span></li>
+            <li class="point-row"><div class="point-row-body"><strong>구매 적립 · #OMI-20260820-0018</strong><span>2026.08.20</span></div><span class="point-plus">+1,920 P</span></li>
+          </ul>
+          <div class="form-actions" style="justify-content:center"><button class="button ghost" type="button">더 보기</button></div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 쿠폰 카드 왼쪽 강조선이 웜 베이지 <code>#cac7bf</code>여서 장식으로만 보였다 → <code>--accent</code>, 만료 임박은 <code>--warning</code>. <b>신규:</b> 등급 진척도, 쿠폰 상태 필터, 포인트 내역. <code>tierResponse</code>와 포인트 이력은 계약에 있었지만 표시되는 곳이 없었다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>혜택 — 쿠폰 없음</b></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">BENEFITS</p>
+            <h1>쿠폰 · 포인트.</h1>
+            <div class="benefits-summary">
+              <div class="benefit-stat"><span>보유 포인트</span><strong>0 P</strong></div>
+              <div class="benefit-stat"><span>사용 가능 쿠폰</span><strong>0장</strong></div>
+              <div class="benefit-stat"><span>등급</span><strong>SILVER</strong></div>
+            </div>
+            <div class="state-block" style="margin-top:22px">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="10" rx="2"></rect><path d="M9 7v10"></path></svg></span>
+              <h2>사용할 수 있는 쿠폰이 없습니다</h2>
+              <p>진행 중인 이벤트에서 쿠폰을 받을 수 있습니다.</p>
+              <a class="button dark" href="#">이벤트 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>혜택 — 사용 완료 · 만료</b><code>used: true / expiresAt &lt; now</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">BENEFITS</p>
+            <h1>쿠폰 · 포인트.</h1>
+            <div class="filter-bar"><button type="button">사용 가능 3</button><button class="active" type="button">사용 완료 8</button><button type="button">기간 만료 2</button></div>
+            <ul class="coupon-list">
+              <li class="coupon-card" style="opacity:.55;border-left-color:var(--border)">
+                <strong>여름 클리어런스 20%</strong><span style="color:var(--text-muted)">20%</span>
+                <span class="coupon-min">₩80,000 이상</span>
+                <span class="coupon-expiry">2026.08.20 사용 · #OMI-20260820-0018</span>
+              </li>
+              <li class="coupon-card" style="opacity:.55;border-left-color:var(--border)">
+                <strong>웰컴 5,000원</strong><span style="color:var(--text-muted)">₩5,000</span>
+                <span class="coupon-min">₩30,000 이상</span>
+                <span class="coupon-expiry">2026.07.14 사용 · #OMI-20260714-0004</span>
+              </li>
+            </ul>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 주소 관리 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>배송지 관리</h2><span>/account/addresses · AddressResponse</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>배송지 — 목록 + 추가 폼</b><code>POST · PATCH · DELETE /api/users/me/addresses</code></div>
+    <div class="pv-frame">
+      <main>
+        <section class="account-section section">
+          <p class="eyebrow">ADDRESSES</p>
+          <h1>배송지 관리.</h1>
+          <ul class="address-list">
+            <li class="address-card">
+              <div class="address-info">
+                <strong>김민준 <span class="address-default-tag">기본 배송지</span></strong>
+                <span>010-1234-5678</span>
+                <p>(04050) 서울특별시 마포구 와우산로 94</p>
+              </div>
+              <div class="address-actions">
+                <button class="button ghost small" type="button">수정</button>
+                <button class="button ghost small" type="button">삭제</button>
+              </div>
+            </li>
+            <li class="address-card">
+              <div class="address-info">
+                <strong>회사</strong>
+                <span>010-1234-5678</span>
+                <p>(06236) 서울특별시 강남구 테헤란로 152 8층</p>
+              </div>
+              <div class="address-actions">
+                <button class="button ghost small" type="button">기본으로</button>
+                <button class="button ghost small" type="button">수정</button>
+                <button class="button ghost small" type="button">삭제</button>
+              </div>
+            </li>
+          </ul>
+
+          <div class="address-form-wrapper">
+            <form class="address-form">
+              <h3>배송지 추가</h3>
+              <label>받는 분<input placeholder="이름" type="text"></label>
+              <label>연락처<input placeholder="010-0000-0000" type="tel"></label>
+              <label>우편번호
+                <span style="display:flex;gap:8px"><input placeholder="00000" type="text" style="flex:1"><button class="button ghost" type="button">주소 검색</button></span>
+              </label>
+              <label>기본 주소<input placeholder="도로명 주소" type="text"></label>
+              <label>상세 주소<input placeholder="동 · 호수" type="text"></label>
+              <label class="address-default"><input type="checkbox">기본 배송지로 설정</label>
+              <div class="form-actions" style="margin:0"><button class="button dark" type="submit">저장</button><button class="button ghost" type="button">취소</button></div>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 기본 배송지 표시가 본문과 같은 회색 텍스트라 구분되지 않았다 → <code>.address-default-tag</code> 배지. 폼 입력 높이가 38px였던 것을 44px로 올려 모바일 터치 기준을 맞췄다. <b>신규:</b> '기본으로' 전환 버튼 — <code>PATCH</code>로 <code>isDefault</code>를 바꿀 수 있는데 UI 경로가 없었다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>배송지 — 없음</b></div>
+      <div class="pv-frame">
+        <main>
+          <section class="account-section section">
+            <p class="eyebrow">ADDRESSES</p>
+            <h1>배송지 관리.</h1>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.5-6-10a6 6 0 0 1 12 0c0 4.5-6 10-6 10z"></path><circle cx="12" cy="11" r="2"></circle></svg></span>
+              <h2>등록된 배송지가 없습니다</h2>
+              <p>배송지를 등록하면 주문할 때 바로 선택할 수 있습니다.</p>
+              <button class="button dark" type="button">배송지 추가</button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>배송지 — 삭제 확인</b><code>DELETE</code></div>
+      <div class="pv-frame">
+        <div class="dialog-scrim">
+          <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-addr">
+            <h2 id="dlg-addr">배송지를 삭제할까요?</h2>
+            <p><span class="s">'회사' 배송지가 목록에서 제거됩니다.</span><span class="s">이미 진행 중인 주문의 배송지는 변경되지 않습니다.</span></p>
+            <div class="dialog-actions"><button class="button ghost" type="button">취소</button><button class="button danger" type="button">삭제</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 인증 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>로그인 · 회원가입</h2><span>/login · /signup</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>로그인</b><code>POST /api/auth/login</code></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a href="#">로그인</a>
+        </nav>
+      </header>
+      <main>
+        <section class="auth-page section">
+          <div>
+            <p class="eyebrow">SIGN IN</p>
+            <h1>다시 만나<br>반갑습니다.</h1>
+            <p><span class="s">주문과 혜택을 한곳에서.</span><span class="s">GOLD부터는 신규 드롭 선공개.</span></p>
+          </div>
+          <form class="auth-form">
+            <label>이메일<input autocomplete="email" placeholder="you@example.com" type="email"></label>
+            <label>비밀번호<input autocomplete="current-password" placeholder="8자 이상" type="password"></label>
+            <button class="button dark full" type="submit">로그인</button>
+            <p class="auth-switch">계정이 없으신가요? <a href="#">회원가입</a></p>
+          </form>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 입력 필드가 <code>--paper</code> 배경이라 카드와 같은 색이어서 경계가 사라졌다 → <code>--background</code> + <code>--border</code>, 포커스에 <code>--accent</code>. 라벨을 12.5px로 올렸다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>로그인 — 오류</b><code>401 · 검증 실패</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="auth-page section" style="grid-template-columns:1fr">
+            <form class="auth-form">
+              <p class="eyebrow">SIGN IN</p>
+              <div class="form-error-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.01"></path></svg><span>이메일 또는 비밀번호가 올바르지 않습니다.</span></div>
+              <label>이메일<input aria-invalid="true" type="email" value="minjun@example.com"></label>
+              <label>비밀번호<input aria-invalid="true" type="password" value="wrongpass"></label>
+              <button class="button dark full" type="submit">로그인</button>
+              <p class="auth-switch">계정이 없으신가요? <a href="#">회원가입</a></p>
+            </form>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>로그인 — 처리 중</b><code>pending</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="auth-page section" style="grid-template-columns:1fr">
+            <form class="auth-form">
+              <p class="eyebrow">SIGN IN</p>
+              <label>이메일<input type="email" value="minjun@example.com" disabled></label>
+              <label>비밀번호<input type="password" value="••••••••" disabled></label>
+              <button class="button dark full" type="submit" disabled>로그인 중…</button>
+              <p class="auth-switch">계정이 없으신가요? <a href="#">회원가입</a></p>
+            </form>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>회원가입</b><code>POST /api/auth/signup</code><em>필드 검증 힌트</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="auth-page section">
+          <div>
+            <p class="eyebrow">SIGN UP</p>
+            <h1>OMI를<br>시작하세요.</h1>
+            <p><span class="s">가입 즉시 15% 쿠폰.</span><span class="s">구매할수록 적립률이 오릅니다.</span></p>
+          </div>
+          <form class="auth-form">
+            <label>이름<input autocomplete="name" placeholder="김민준" type="text"></label>
+            <label>이메일<input autocomplete="email" placeholder="you@example.com" type="email"><span class="field-hint">주문 확인과 배송 안내를 보낼 주소입니다.</span></label>
+            <label>비밀번호<input autocomplete="new-password" placeholder="8자 이상" type="password"><span class="field-hint">영문·숫자를 포함해 8자 이상 입력해주세요.</span></label>
+            <label>연락처<input autocomplete="tel" placeholder="010-0000-0000" type="tel"></label>
+            <button class="button dark full" type="submit">가입하기</button>
+            <p class="auth-switch">이미 계정이 있으신가요? <a href="#">로그인</a></p>
+          </form>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> 필드별 힌트(<code>.field-hint</code>)를 추가했다. 서버 검증 메시지만 의존하던 구조라 제출 후에야 규칙을 알 수 있었다.</p>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 
+import { FormErrorBox } from './form-error-box'
+
 export function SignupForm() {
   const router = useRouter()
   const [error, setError] = useState<string>()
@@ -45,13 +47,24 @@ export function SignupForm() {
 
   return (
     <form className="auth-form" onSubmit={submit}>
-      <label>아이디<input autoComplete="username" maxLength={10} minLength={4} name="username" pattern="[a-z0-9]{4,10}" required /></label>
-      <label>이메일<input autoComplete="email" name="email" required type="email" /></label>
-      <label>닉네임<input autoComplete="nickname" maxLength={30} name="nickname" required /></label>
-      <label>비밀번호<input autoComplete="new-password" maxLength={15} minLength={8} name="password" required type="password" /></label>
-      {error ? <p className="form-error" role="alert">{error}</p> : null}
-      <button className="button dark full" disabled={pending} type="submit">{pending ? 'Creating…' : 'Create account'}</button>
-      <p className="auth-switch">이미 계정이 있나요? <Link href="/login">Sign in</Link></p>
+      {error ? <FormErrorBox>{error}</FormErrorBox> : null}
+      <label>아이디
+        <input autoComplete="username" disabled={pending} maxLength={10} minLength={4} name="username" pattern="[a-z0-9]{4,10}" placeholder="영문 소문자·숫자 4~10자" required />
+        <span className="field-hint">로그인에 사용할 아이디입니다. 가입 후에는 변경할 수 없습니다.</span>
+      </label>
+      <label>이메일
+        <input autoComplete="email" disabled={pending} name="email" placeholder="you@example.com" required type="email" />
+        <span className="field-hint">주문 확인과 배송 안내를 보낼 주소입니다.</span>
+      </label>
+      <label>닉네임
+        <input autoComplete="nickname" disabled={pending} maxLength={30} name="nickname" placeholder="김민준" required />
+      </label>
+      <label>비밀번호
+        <input autoComplete="new-password" disabled={pending} maxLength={15} minLength={8} name="password" placeholder="8자 이상" required type="password" />
+        <span className="field-hint">영문·숫자를 포함해 8자 이상 입력해주세요.</span>
+      </label>
+      <button className="button dark full" disabled={pending} type="submit">{pending ? '가입 중…' : '가입하기'}</button>
+      <p className="auth-switch">이미 계정이 있으신가요? <Link href="/login">로그인</Link></p>
     </form>
   )
 }
