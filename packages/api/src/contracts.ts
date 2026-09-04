@@ -21,7 +21,9 @@ export const productSchema = z.object({
   originImgUrl: z.string().url(),
   thumbnailImgUrl: z.string().url(),
   detailImgUrl: z.string().url(),
-  limitCountPerUser: z.number().int().positive(),
+  // `0` means "no per-user cap" — Product.java defaults `int limitCountPerUser = 0` and the
+  // wire returns it as-is, so this must accept 0. SOURCE: ../omisys Product.java:40
+  limitCountPerUser: z.number().int().nonnegative(),
   averageRating: z.number().min(0).max(5),
   reviewCount: z.number().int().nonnegative(),
   salesCount: z.number().int().nonnegative(),
@@ -46,12 +48,38 @@ export const productDetailSchema = z.object({
 
 export type ProductDetail = z.infer<typeof productDetailSchema>
 
-export const queueResponseSchema = z.object({
+/**
+ * Gateway queue protocol. The HTTP status is intentionally not duplicated in
+ * this payload: WAITING is returned with 202, READY with 200, and EXPIRED
+ * with 410. Consumers must validate both the response status and this
+ * discriminated payload at their HTTP boundary.
+ */
+export const queueWaitingSchema = z.object({
+  state: z.literal('WAITING'),
   rank: z.number().int().positive(),
   retryAfterSeconds: z.number().int().positive(),
 })
 
+export const queueReadySchema = z.object({
+  state: z.literal('READY'),
+  rank: z.null(),
+  retryAfterSeconds: z.null(),
+})
+
+export const queueExpiredSchema = z.object({
+  state: z.literal('EXPIRED'),
+  rank: z.null(),
+  retryAfterSeconds: z.null(),
+})
+
+export const queueResponseSchema = z.discriminatedUnion('state', [
+  queueWaitingSchema,
+  queueReadySchema,
+  queueExpiredSchema,
+])
+
 export type QueueResponse = z.infer<typeof queueResponseSchema>
+export const queueApiResponseSchema = apiResponseSchema(queueResponseSchema)
 
 // GET /api/products/search returns Page<ProductSearchDto> (Elasticsearch projection), not a full Product.
 // ProductSearchDto omits stock/originImgUrl/detailImgUrl/limitCountPerUser, so the list uses a lean item.
@@ -159,6 +187,21 @@ export const addressSchema = z.object({
 })
 
 export type Address = z.infer<typeof addressSchema>
+
+// 쓰기 요청은 응답과 형태가 다르다. 배포된 user-service 의 주소 요청 DTO 는 `alias` 에 @NotBlank 를
+// 걸어 두어 별칭이 비면 400 "must not be blank" 로 떨어진다. 반면 응답의 alias 는 별칭 도입 전에
+// 만들어진 행 때문에 여전히 null 일 수 있어 addressSchema 와 분리해 둔다.
+// user.json 의 `Create`/`Update` 는 회원가입·티어 DTO 와 이름이 충돌해 이 본문을 기술하지 못한다.
+export const addressWriteSchema = z.object({
+  alias: z.string().min(1),
+  recipient: z.string().min(1),
+  phoneNumber: z.string().min(1),
+  zipcode: z.string().min(1),
+  address: z.string().min(1),
+  isDefault: z.boolean(),
+})
+
+export type AddressWrite = z.infer<typeof addressWriteSchema>
 
 // GET /api/orders/me content = OrderResponse.MyOrderGetResponse.
 // The list DTO has no total price field; date is `orderDate` (not createdAt); line items are `myOrderProducts`.

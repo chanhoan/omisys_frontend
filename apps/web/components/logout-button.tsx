@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export function LogoutButton() {
+export function LogoutButton({ className = 'button small ghost' }: { className?: string }) {
   const router = useRouter()
   const [pending, setPending] = useState(false)
 
@@ -20,12 +20,12 @@ export function LogoutButton() {
 
   return (
     <button
-      className="logout-button"
+      className={className}
       disabled={pending}
       onClick={handleLogout}
       type="button"
     >
-      {pending ? '…' : 'Sign out'}
+      {pending ? '로그아웃 중' : '로그아웃'}
     </button>
   )
 }

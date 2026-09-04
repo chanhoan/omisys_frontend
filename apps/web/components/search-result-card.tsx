@@ -11,7 +11,7 @@ export function SearchResultCard({ item }: { item: SearchItem }) {
       <Link className="product-image-link" href={href} aria-label={`${item.productName} 상품 보기`}>
         {item.thumbnailImgUrl ? (
           <Image
-            alt={`${item.productName} 제품 이미지`}
+            alt={item.productName}
             className="product-image"
             fill
             sizes="(max-width: 720px) 50vw, 25vw"
@@ -35,7 +35,7 @@ export function SearchResultCard({ item }: { item: SearchItem }) {
         </div>
         <div className="product-meta">
           <span>{item.mainColor}</span>
-          <span>★ {item.averageRating.toFixed(1)} ({item.reviewCount})</span>
+          {item.soldout ? <span>품절</span> : <span>{"\u2605"} {item.averageRating.toFixed(1)} ({item.reviewCount})</span>}
         </div>
       </div>
     </article>

@@ -1,0 +1,453 @@
+- generic [active] [ref=f2e1]:
+  - banner [ref=f2e2]:
+    - link "OMI 홈" [ref=f2e3] [cursor=pointer]:
+      - /url: /
+      - text: OMI
+    - navigation "주요 메뉴" [ref=f2e4]:
+      - link "스토어" [ref=f2e5] [cursor=pointer]:
+        - /url: /shop
+      - link "신상품" [ref=f2e6] [cursor=pointer]:
+        - /url: /shop?sort=newest
+      - link "프리오더" [ref=f2e7] [cursor=pointer]:
+        - /url: /preorder
+      - link "이벤트" [ref=f2e8] [cursor=pointer]:
+        - /url: /events
+    - navigation "사용자 메뉴" [ref=f2e9]:
+      - link "검색" [ref=f2e10] [cursor=pointer]:
+        - /url: /search
+      - link "장바구니, 상품 0개" [ref=f2e14] [cursor=pointer]:
+        - /url: /cart
+      - link "로그인" [ref=f2e18] [cursor=pointer]:
+        - /url: /login
+  - main [ref=f2e19]:
+    - generic [ref=f2e20]:
+      - generic [ref=f2e21]:
+        - generic [ref=f2e22]:
+          - paragraph [ref=f2e23]: ALL PRODUCTS
+          - heading "Shop" [level=1] [ref=f2e24]
+        - paragraph [ref=f2e25]: 300 items
+      - generic "상품 필터" [ref=f2e26]:
+        - button "전체" [ref=f2e27] [cursor=pointer]
+        - button "패션의류" [ref=f2e28] [cursor=pointer]
+        - button "패션잡화" [ref=f2e29] [cursor=pointer]
+        - button "디지털/가전" [ref=f2e30] [cursor=pointer]
+        - button "홈/리빙" [ref=f2e31] [cursor=pointer]
+        - button "스포츠/레저" [ref=f2e32] [cursor=pointer]
+        - button "뷰티" [ref=f2e33] [cursor=pointer]
+        - button "신상품순" [ref=f2e34] [cursor=pointer]
+        - button "가격 낮은순" [ref=f2e35] [cursor=pointer]
+        - button "인기순" [ref=f2e36] [cursor=pointer]
+      - generic [ref=f2e37]:
+        - article [ref=f2e38]:
+          - link "[포레스트] 스탠다드 벨트 브라운 상품 보기" [ref=f2e39] [cursor=pointer]:
+            - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+            - img "[포레스트] 스탠다드 벨트 브라운 제품 이미지" [ref=f2e40]
+            - generic [ref=f2e41]: 10% OFF
+          - generic [ref=f2e42]:
+            - generic [ref=f2e43]:
+              - paragraph [ref=f2e44]: 포레스트
+              - link "[포레스트] 스탠다드 벨트 브라운" [ref=f2e45] [cursor=pointer]:
+                - /url: /products/3ba04504-4bfa-44ee-b682-e9118fb8d3f1
+            - generic [ref=f2e46]:
+              - strong [ref=f2e47]: ₩240,291
+              - deletion [ref=f2e48]: ₩266,990
+            - generic [ref=f2e49]: 브라운
+        - article [ref=f2e51]:
+          - link "[스튜디오온] 데일리 모자 베이지 상품 보기" [ref=f2e52] [cursor=pointer]:
+            - /url: /products/0a774844-c243-4965-a166-c1fbbeed0297
+            - img "[스튜디오온] 데일리 모자 베이지 제품 이미지" [ref=f2e53]
+            - generic [ref=f2e54]: 5% OFF
+          - generic [ref=f2e55]:
+            - generic [ref=f2e56]:
+              - paragraph [ref=f2e57]: 스튜디오온
+              - link "[스튜디오온] 데일리 모자 베이지" [ref=f2e58] [cursor=pointer]:
+                - /url: /products/0a774844-c243-4965-a166-c1fbbeed0297
+            - generic [ref=f2e59]:
+              - strong [ref=f2e60]: ₩96,891
+              - deletion [ref=f2e61]: ₩101,990
+            - generic [ref=f2e62]: 베이지
+        - article [ref=f2e64]:
+          - link "[베이직핏] 와이드 지갑 버건디 상품 보기" [ref=f2e65] [cursor=pointer]:
+            - /url: /products/eeda8d9a-4227-4b45-96d6-1fbd5d19d8d8
+            - img "[베이직핏] 와이드 지갑 버건디 제품 이미지" [ref=f2e66]
+            - generic [ref=f2e67]: 선물추천
+          - generic [ref=f2e68]:
+            - generic [ref=f2e69]:
+              - paragraph [ref=f2e70]: 베이직핏
+              - link "[베이직핏] 와이드 지갑 버건디" [ref=f2e71] [cursor=pointer]:
+                - /url: /products/eeda8d9a-4227-4b45-96d6-1fbd5d19d8d8
+            - strong [ref=f2e73]: ₩117,990
+            - generic [ref=f2e74]: 버건디
+        - article [ref=f2e76]:
+          - link "[베이직핏] 클래식 가방 네이비 상품 보기" [ref=f2e77] [cursor=pointer]:
+            - /url: /products/bf3e6fcc-c2e5-4e11-bccb-c4fefccab29b
+            - img "[베이직핏] 클래식 가방 네이비 제품 이미지" [ref=f2e78]
+            - generic [ref=f2e79]: 30% OFF
+          - generic [ref=f2e80]:
+            - generic [ref=f2e81]:
+              - paragraph [ref=f2e82]: 베이직핏
+              - link "[베이직핏] 클래식 가방 네이비" [ref=f2e83] [cursor=pointer]:
+                - /url: /products/bf3e6fcc-c2e5-4e11-bccb-c4fefccab29b
+            - generic [ref=f2e84]:
+              - strong [ref=f2e85]: ₩205,093
+              - deletion [ref=f2e86]: ₩292,990
+            - generic [ref=f2e87]: 네이비
+        - article [ref=f2e89]:
+          - link "[글로우업] 미니멀 구두 그레이 상품 보기" [ref=f2e90] [cursor=pointer]:
+            - /url: /products/f801d882-8788-4924-abb0-6aff2a21aac6
+            - img "[글로우업] 미니멀 구두 그레이 제품 이미지" [ref=f2e91]
+            - generic [ref=f2e92]: 시즌오프
+          - generic [ref=f2e93]:
+            - generic [ref=f2e94]:
+              - paragraph [ref=f2e95]: 글로우업
+              - link "[글로우업] 미니멀 구두 그레이" [ref=f2e96] [cursor=pointer]:
+                - /url: /products/f801d882-8788-4924-abb0-6aff2a21aac6
+            - strong [ref=f2e98]: ₩93,990
+            - generic [ref=f2e99]: 그레이
+        - article [ref=f2e101]:
+          - link "[어반스텝] 오버핏 운동화 카키 상품 보기" [ref=f2e102] [cursor=pointer]:
+            - /url: /products/81617c5b-8e27-4967-9a92-13681cdaa71c
+            - img "[어반스텝] 오버핏 운동화 카키 제품 이미지" [ref=f2e103]
+            - generic [ref=f2e104]: 재입고
+          - generic [ref=f2e105]:
+            - generic [ref=f2e106]:
+              - paragraph [ref=f2e107]: 어반스텝
+              - link "[어반스텝] 오버핏 운동화 카키" [ref=f2e108] [cursor=pointer]:
+                - /url: /products/81617c5b-8e27-4967-9a92-13681cdaa71c
+            - strong [ref=f2e110]: ₩231,990
+            - generic [ref=f2e111]: 카키
+        - article [ref=f2e113]:
+          - link "[베이직핏] 슬림 원피스 브라운 상품 보기" [ref=f2e114] [cursor=pointer]:
+            - /url: /products/f59b4426-f359-40f6-899c-8afcf63c0ef4
+            - img "[베이직핏] 슬림 원피스 브라운 제품 이미지" [ref=f2e115]
+            - generic [ref=f2e116]: 당일발송
+          - generic [ref=f2e117]:
+            - generic [ref=f2e118]:
+              - paragraph [ref=f2e119]: 베이직핏
+              - link "[베이직핏] 슬림 원피스 브라운" [ref=f2e120] [cursor=pointer]:
+                - /url: /products/f59b4426-f359-40f6-899c-8afcf63c0ef4
+            - strong [ref=f2e122]: ₩110,990
+            - generic [ref=f2e123]: 브라운
+        - article [ref=f2e125]:
+          - link "[포레스트] 미니멀 바지 카키 상품 보기" [ref=f2e126] [cursor=pointer]:
+            - /url: /products/e31c5d48-ce84-4058-8eb2-22309030f8c8
+            - img "[포레스트] 미니멀 바지 카키 제품 이미지" [ref=f2e127]
+            - generic [ref=f2e128]: 30% OFF
+          - generic [ref=f2e129]:
+            - generic [ref=f2e130]:
+              - paragraph [ref=f2e131]: 포레스트
+              - link "[포레스트] 미니멀 바지 카키" [ref=f2e132] [cursor=pointer]:
+                - /url: /products/e31c5d48-ce84-4058-8eb2-22309030f8c8
+            - generic [ref=f2e133]:
+              - strong [ref=f2e134]: ₩16,093
+              - deletion [ref=f2e135]: ₩22,990
+            - generic [ref=f2e136]: 카키
+        - article [ref=f2e138]:
+          - link "[글로우업] 프리미엄 아우터 브라운 상품 보기" [ref=f2e139] [cursor=pointer]:
+            - /url: /products/033f1919-7eda-46ca-a816-f283dd761539
+            - img "[글로우업] 프리미엄 아우터 브라운 제품 이미지" [ref=f2e140]
+            - generic [ref=f2e141]: 신상
+          - generic [ref=f2e142]:
+            - generic [ref=f2e143]:
+              - paragraph [ref=f2e144]: 글로우업
+              - link "[글로우업] 프리미엄 아우터 브라운" [ref=f2e145] [cursor=pointer]:
+                - /url: /products/033f1919-7eda-46ca-a816-f283dd761539
+            - strong [ref=f2e147]: ₩10,990
+            - generic [ref=f2e148]: 브라운
+        - article [ref=f2e150]:
+          - link "[노르딕랩] 베이직 니트 아이보리 상품 보기" [ref=f2e151] [cursor=pointer]:
+            - /url: /products/409f1613-319c-46c2-9127-0155b4dfc709
+            - img "[노르딕랩] 베이직 니트 아이보리 제품 이미지" [ref=f2e152]
+            - generic [ref=f2e153]: 5% OFF
+          - generic [ref=f2e154]:
+            - generic [ref=f2e155]:
+              - paragraph [ref=f2e156]: 노르딕랩
+              - link "[노르딕랩] 베이직 니트 아이보리" [ref=f2e157] [cursor=pointer]:
+                - /url: /products/409f1613-319c-46c2-9127-0155b4dfc709
+            - generic [ref=f2e158]:
+              - strong [ref=f2e159]: ₩28,491
+              - deletion [ref=f2e160]: ₩29,990
+            - generic [ref=f2e161]: 아이보리
+        - article [ref=f2e163]:
+          - link "[하루상점] 클래식 셔츠 아이보리 상품 보기" [ref=f2e164] [cursor=pointer]:
+            - /url: /products/8e13e6c4-701f-472f-8e4d-6afb31153773
+            - img "[하루상점] 클래식 셔츠 아이보리 제품 이미지" [ref=f2e165]
+            - generic [ref=f2e166]: 5% OFF
+          - generic [ref=f2e167]:
+            - generic [ref=f2e168]:
+              - paragraph [ref=f2e169]: 하루상점
+              - link "[하루상점] 클래식 셔츠 아이보리" [ref=f2e170] [cursor=pointer]:
+                - /url: /products/8e13e6c4-701f-472f-8e4d-6afb31153773
+            - generic [ref=f2e171]:
+              - strong [ref=f2e172]: ₩123,491
+              - deletion [ref=f2e173]: ₩129,990
+            - generic [ref=f2e174]: 아이보리
+        - article [ref=f2e176]:
+          - link "[스튜디오온] 미니멀 티셔츠 카키 상품 보기" [ref=f2e177] [cursor=pointer]:
+            - /url: /products/fe56b33e-12f3-4965-873e-a638b39b5117
+            - img "[스튜디오온] 미니멀 티셔츠 카키 제품 이미지" [ref=f2e178]
+            - generic [ref=f2e179]: 한정수량
+          - generic [ref=f2e180]:
+            - generic [ref=f2e181]:
+              - paragraph [ref=f2e182]: 스튜디오온
+              - link "[스튜디오온] 미니멀 티셔츠 카키" [ref=f2e183] [cursor=pointer]:
+                - /url: /products/fe56b33e-12f3-4965-873e-a638b39b5117
+            - strong [ref=f2e185]: ₩82,990
+            - generic [ref=f2e186]: 카키
+        - article [ref=f2e188]:
+          - link "[글로우업] 소프트 바디케어 아이보리 상품 보기" [ref=f2e189] [cursor=pointer]:
+            - /url: /products/e703972c-76da-4c30-ad53-d7875fb2819d
+            - img "[글로우업] 소프트 바디케어 아이보리 제품 이미지" [ref=f2e190]
+            - generic [ref=f2e191]: 5% OFF
+          - generic [ref=f2e192]:
+            - generic [ref=f2e193]:
+              - paragraph [ref=f2e194]: 글로우업
+              - link "[글로우업] 소프트 바디케어 아이보리" [ref=f2e195] [cursor=pointer]:
+                - /url: /products/e703972c-76da-4c30-ad53-d7875fb2819d
+            - generic [ref=f2e196]:
+              - strong [ref=f2e197]: ₩63,641
+              - deletion [ref=f2e198]: ₩66,990
+            - generic [ref=f2e199]: 아이보리
+        - article [ref=f2e201]:
+          - link "[스튜디오온] 프리미엄 향수 화이트 상품 보기" [ref=f2e202] [cursor=pointer]:
+            - /url: /products/b40566ad-dce4-476a-96c7-9317b651a59c
+            - img "[스튜디오온] 프리미엄 향수 화이트 제품 이미지" [ref=f2e203]
+            - generic [ref=f2e204]: 가성비
+          - generic [ref=f2e205]:
+            - generic [ref=f2e206]:
+              - paragraph [ref=f2e207]: 스튜디오온
+              - link "[스튜디오온] 프리미엄 향수 화이트" [ref=f2e208] [cursor=pointer]:
+                - /url: /products/b40566ad-dce4-476a-96c7-9317b651a59c
+            - strong [ref=f2e210]: ₩92,990
+            - generic [ref=f2e211]: 화이트
+        - article [ref=f2e213]:
+          - link "[포레스트] 베이직 헤어케어 카키 상품 보기" [ref=f2e214] [cursor=pointer]:
+            - /url: /products/f948bfd3-7cec-4670-bf81-3b4ec0bbadf5
+            - img "[포레스트] 베이직 헤어케어 카키 제품 이미지" [ref=f2e215]
+            - generic [ref=f2e216]: 가성비
+          - generic [ref=f2e217]:
+            - generic [ref=f2e218]:
+              - paragraph [ref=f2e219]: 포레스트
+              - link "[포레스트] 베이직 헤어케어 카키" [ref=f2e220] [cursor=pointer]:
+                - /url: /products/f948bfd3-7cec-4670-bf81-3b4ec0bbadf5
+            - strong [ref=f2e222]: ₩32,990
+            - generic [ref=f2e223]: 카키
+        - article [ref=f2e225]:
+          - link "[밀레니엄] 클래식 선케어 아이보리 상품 보기" [ref=f2e226] [cursor=pointer]:
+            - /url: /products/6f296fb3-e3e8-4483-aff0-1ca636b7f31b
+            - img "[밀레니엄] 클래식 선케어 아이보리 제품 이미지" [ref=f2e227]
+            - generic [ref=f2e228]: 10% OFF
+          - generic [ref=f2e229]:
+            - generic [ref=f2e230]:
+              - paragraph [ref=f2e231]: 밀레니엄
+              - link "[밀레니엄] 클래식 선케어 아이보리" [ref=f2e232] [cursor=pointer]:
+                - /url: /products/6f296fb3-e3e8-4483-aff0-1ca636b7f31b
+            - generic [ref=f2e233]:
+              - strong [ref=f2e234]: ₩12,591
+              - deletion [ref=f2e235]: ₩13,990
+            - generic [ref=f2e236]: 아이보리
+        - article [ref=f2e238]:
+          - link "[글로우업] 베이직 클렌징 아이보리 상품 보기" [ref=f2e239] [cursor=pointer]:
+            - /url: /products/d19bcbae-7bda-46f0-b9f9-1a4f378eefa9
+            - img "[글로우업] 베이직 클렌징 아이보리 제품 이미지" [ref=f2e240]
+            - generic [ref=f2e241]: 5% OFF
+          - generic [ref=f2e242]:
+            - generic [ref=f2e243]:
+              - paragraph [ref=f2e244]: 글로우업
+              - link "[글로우업] 베이직 클렌징 아이보리" [ref=f2e245] [cursor=pointer]:
+                - /url: /products/d19bcbae-7bda-46f0-b9f9-1a4f378eefa9
+            - generic [ref=f2e246]:
+              - strong [ref=f2e247]: ₩33,241
+              - deletion [ref=f2e248]: ₩34,990
+            - generic [ref=f2e249]: 아이보리
+        - article [ref=f2e251]:
+          - link "[포레스트] 프리미엄 스킨케어 그레이 상품 보기" [ref=f2e252] [cursor=pointer]:
+            - /url: /products/ed444b3f-1f1e-4acf-80d0-7332bb297ab0
+            - img "[포레스트] 프리미엄 스킨케어 그레이 제품 이미지" [ref=f2e253]
+            - generic [ref=f2e254]: 15% OFF
+          - generic [ref=f2e255]:
+            - generic [ref=f2e256]:
+              - paragraph [ref=f2e257]: 포레스트
+              - link "[포레스트] 프리미엄 스킨케어 그레이" [ref=f2e258] [cursor=pointer]:
+                - /url: /products/ed444b3f-1f1e-4acf-80d0-7332bb297ab0
+            - generic [ref=f2e259]:
+              - strong [ref=f2e260]: ₩97,742
+              - deletion [ref=f2e261]: ₩114,990
+            - generic [ref=f2e262]: 그레이
+        - article [ref=f2e264]:
+          - link "[블루문] 소프트 수영복 버건디 상품 보기" [ref=f2e265] [cursor=pointer]:
+            - /url: /products/160d89f3-db68-4f80-adf8-8cdc162ef220
+            - img "[블루문] 소프트 수영복 버건디 제품 이미지" [ref=f2e266]
+            - generic [ref=f2e267]: 15% OFF
+          - generic [ref=f2e268]:
+            - generic [ref=f2e269]:
+              - paragraph [ref=f2e270]: 블루문
+              - link "[블루문] 소프트 수영복 버건디" [ref=f2e271] [cursor=pointer]:
+                - /url: /products/160d89f3-db68-4f80-adf8-8cdc162ef220
+            - generic [ref=f2e272]:
+              - strong [ref=f2e273]: ₩306,842
+              - deletion [ref=f2e274]: ₩360,990
+            - generic [ref=f2e275]: 버건디
+        - article [ref=f2e277]:
+          - link "[코튼하우스] 라이트 자전거용품 그레이 상품 보기" [ref=f2e278] [cursor=pointer]:
+            - /url: /products/760acf72-27dc-4986-a47c-36653bb57b05
+            - img "[코튼하우스] 라이트 자전거용품 그레이 제품 이미지" [ref=f2e279]
+            - generic [ref=f2e280]: 시즌오프
+          - generic [ref=f2e281]:
+            - generic [ref=f2e282]:
+              - paragraph [ref=f2e283]: 코튼하우스
+              - link "[코튼하우스] 라이트 자전거용품 그레이" [ref=f2e284] [cursor=pointer]:
+                - /url: /products/760acf72-27dc-4986-a47c-36653bb57b05
+            - strong [ref=f2e286]: ₩79,990
+            - generic [ref=f2e287]: 그레이
+        - article [ref=f2e289]:
+          - link "[코튼하우스] 미니멀 텐트 블랙 상품 보기" [ref=f2e290] [cursor=pointer]:
+            - /url: /products/bbff32ee-cc33-4655-aa46-ab69910716d3
+            - img "[코튼하우스] 미니멀 텐트 블랙 제품 이미지" [ref=f2e291]
+            - generic [ref=f2e292]: 시즌오프
+          - generic [ref=f2e293]:
+            - generic [ref=f2e294]:
+              - paragraph [ref=f2e295]: 코튼하우스
+              - link "[코튼하우스] 미니멀 텐트 블랙" [ref=f2e296] [cursor=pointer]:
+                - /url: /products/bbff32ee-cc33-4655-aa46-ab69910716d3
+            - strong [ref=f2e298]: ₩273,990
+            - generic [ref=f2e299]: 블랙
+        - article [ref=f2e301]:
+          - link "[포레스트] 프리미엄 등산화 브라운 상품 보기" [ref=f2e302] [cursor=pointer]:
+            - /url: /products/fd552cd7-98fc-4767-8174-3736a80c7aa1
+            - img "[포레스트] 프리미엄 등산화 브라운 제품 이미지" [ref=f2e303]
+            - generic [ref=f2e304]: 10% OFF
+          - generic [ref=f2e305]:
+            - generic [ref=f2e306]:
+              - paragraph [ref=f2e307]: 포레스트
+              - link "[포레스트] 프리미엄 등산화 브라운" [ref=f2e308] [cursor=pointer]:
+                - /url: /products/fd552cd7-98fc-4767-8174-3736a80c7aa1
+            - generic [ref=f2e309]:
+              - strong [ref=f2e310]: ₩45,891
+              - deletion [ref=f2e311]: ₩50,990
+            - generic [ref=f2e312]: 브라운
+        - article [ref=f2e314]:
+          - link "[스튜디오온] 오버핏 덤벨 베이지 상품 보기" [ref=f2e315] [cursor=pointer]:
+            - /url: /products/7a373b98-7d0c-42a4-b183-292a4b47aef2
+            - img "[스튜디오온] 오버핏 덤벨 베이지 제품 이미지" [ref=f2e316]
+            - generic [ref=f2e317]: 5% OFF
+          - generic [ref=f2e318]:
+            - generic [ref=f2e319]:
+              - paragraph [ref=f2e320]: 스튜디오온
+              - link "[스튜디오온] 오버핏 덤벨 베이지" [ref=f2e321] [cursor=pointer]:
+                - /url: /products/7a373b98-7d0c-42a4-b183-292a4b47aef2
+            - generic [ref=f2e322]:
+              - strong [ref=f2e323]: ₩44,641
+              - deletion [ref=f2e324]: ₩46,990
+            - generic [ref=f2e325]: 베이지
+        - article [ref=f2e327]:
+          - link "[포레스트] 미니멀 요가매트 브라운 상품 보기" [ref=f2e328] [cursor=pointer]:
+            - /url: /products/2cd17332-a546-4f28-8b65-8e03a773b7da
+            - img "[포레스트] 미니멀 요가매트 브라운 제품 이미지" [ref=f2e329]
+            - generic [ref=f2e330]: 20% OFF
+          - generic [ref=f2e331]:
+            - generic [ref=f2e332]:
+              - paragraph [ref=f2e333]: 포레스트
+              - link "[포레스트] 미니멀 요가매트 브라운" [ref=f2e334] [cursor=pointer]:
+                - /url: /products/2cd17332-a546-4f28-8b65-8e03a773b7da
+            - generic [ref=f2e335]:
+              - strong [ref=f2e336]: ₩403,992
+              - deletion [ref=f2e337]: ₩504,990
+            - generic [ref=f2e338]: 브라운
+        - article [ref=f2e340]:
+          - link "[글로우업] 오버핏 러그 블랙 상품 보기" [ref=f2e341] [cursor=pointer]:
+            - /url: /products/8cd9a755-821d-4741-8513-aa051af42831
+            - img "[글로우업] 오버핏 러그 블랙 제품 이미지" [ref=f2e342]
+            - generic [ref=f2e343]: 50% OFF
+          - generic [ref=f2e344]:
+            - generic [ref=f2e345]:
+              - paragraph [ref=f2e346]: 글로우업
+              - link "[글로우업] 오버핏 러그 블랙" [ref=f2e347] [cursor=pointer]:
+                - /url: /products/8cd9a755-821d-4741-8513-aa051af42831
+            - generic [ref=f2e348]:
+              - strong [ref=f2e349]: ₩169,495
+              - deletion [ref=f2e350]: ₩338,990
+            - generic [ref=f2e351]: 블랙
+        - article [ref=f2e353]:
+          - link "[밀레니엄] 스탠다드 커튼 아이보리 상품 보기" [ref=f2e354] [cursor=pointer]:
+            - /url: /products/d745102b-838a-4319-bbb3-ea3e6cda72b4
+            - img "[밀레니엄] 스탠다드 커튼 아이보리 제품 이미지" [ref=f2e355]
+            - generic [ref=f2e356]: 30% OFF
+          - generic [ref=f2e357]:
+            - generic [ref=f2e358]:
+              - paragraph [ref=f2e359]: 밀레니엄
+              - link "[밀레니엄] 스탠다드 커튼 아이보리" [ref=f2e360] [cursor=pointer]:
+                - /url: /products/d745102b-838a-4319-bbb3-ea3e6cda72b4
+            - generic [ref=f2e361]:
+              - strong [ref=f2e362]: ₩227,493
+              - deletion [ref=f2e363]: ₩324,990
+            - generic [ref=f2e364]: 아이보리
+        - article [ref=f2e366]:
+          - link "[밀레니엄] 라이트 주방용품 화이트 상품 보기" [ref=f2e367] [cursor=pointer]:
+            - /url: /products/577eba24-0298-49dc-aeb7-ab8111013dd6
+            - img "[밀레니엄] 라이트 주방용품 화이트 제품 이미지" [ref=f2e368]
+            - generic [ref=f2e369]: 10% OFF
+          - generic [ref=f2e370]:
+            - generic [ref=f2e371]:
+              - paragraph [ref=f2e372]: 밀레니엄
+              - link "[밀레니엄] 라이트 주방용품 화이트" [ref=f2e373] [cursor=pointer]:
+                - /url: /products/577eba24-0298-49dc-aeb7-ab8111013dd6
+            - generic [ref=f2e374]:
+              - strong [ref=f2e375]: ₩161,091
+              - deletion [ref=f2e376]: ₩178,990
+            - generic [ref=f2e377]: 화이트
+        - article [ref=f2e379]:
+          - link "[노르딕랩] 소프트 수납 아이보리 상품 보기" [ref=f2e380] [cursor=pointer]:
+            - /url: /products/483c9724-bea1-49f5-a8b1-d7c6770becf3
+            - img "[노르딕랩] 소프트 수납 아이보리 제품 이미지" [ref=f2e381]
+            - generic [ref=f2e382]: 베스트
+          - generic [ref=f2e383]:
+            - generic [ref=f2e384]:
+              - paragraph [ref=f2e385]: 노르딕랩
+              - link "[노르딕랩] 소프트 수납 아이보리" [ref=f2e386] [cursor=pointer]:
+                - /url: /products/483c9724-bea1-49f5-a8b1-d7c6770becf3
+            - strong [ref=f2e388]: ₩142,990
+            - generic [ref=f2e389]: 아이보리
+        - article [ref=f2e391]:
+          - link "[밀레니엄] 베이직 조명 브라운 상품 보기" [ref=f2e392] [cursor=pointer]:
+            - /url: /products/bce0c0d8-7dfa-4f1b-8281-1b45e8d04d89
+            - img "[밀레니엄] 베이직 조명 브라운 제품 이미지" [ref=f2e393]
+            - generic [ref=f2e394]: 30% OFF
+          - generic [ref=f2e395]:
+            - generic [ref=f2e396]:
+              - paragraph [ref=f2e397]: 밀레니엄
+              - link "[밀레니엄] 베이직 조명 브라운" [ref=f2e398] [cursor=pointer]:
+                - /url: /products/bce0c0d8-7dfa-4f1b-8281-1b45e8d04d89
+            - generic [ref=f2e399]:
+              - strong [ref=f2e400]: ₩247,793
+              - deletion [ref=f2e401]: ₩353,990
+            - generic [ref=f2e402]: 브라운
+        - article [ref=f2e404]:
+          - link "[스튜디오온] 스탠다드 침구 베이지 상품 보기" [ref=f2e405] [cursor=pointer]:
+            - /url: /products/2a7fa6b2-e9d7-4c00-87ee-010ab6bb1fcb
+            - img "[스튜디오온] 스탠다드 침구 베이지 제품 이미지" [ref=f2e406]
+            - generic [ref=f2e407]: 가성비
+          - generic [ref=f2e408]:
+            - generic [ref=f2e409]:
+              - paragraph [ref=f2e410]: 스튜디오온
+              - link "[스튜디오온] 스탠다드 침구 베이지" [ref=f2e411] [cursor=pointer]:
+                - /url: /products/2a7fa6b2-e9d7-4c00-87ee-010ab6bb1fcb
+            - strong [ref=f2e413]: ₩187,990
+            - generic [ref=f2e414]: 베이지
+      - generic [ref=f2e416]:
+        - generic [ref=f2e417]: 1 / 10
+        - link "다음" [ref=f2e418] [cursor=pointer]:
+          - /url: /shop?page=1
+  - contentinfo [ref=f2e419]:
+    - generic [ref=f2e420]:
+      - paragraph [ref=f2e421]: OMI
+      - paragraph [ref=f2e422]: 일상의 움직임을 위한 조용한 형태.
+    - generic [ref=f2e423]:
+      - link "주문 조회" [ref=f2e424] [cursor=pointer]:
+        - /url: /account/orders
+      - link "배송지 관리" [ref=f2e425] [cursor=pointer]:
+        - /url: /account/addresses
+      - link "고객 지원" [ref=f2e426] [cursor=pointer]:
+        - /url: /support
+    - paragraph [ref=f2e427]: © 2026 OMI
+  - button "Open Next.js Dev Tools" [ref=f2e433] [cursor=pointer]

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI — 전체 기능 디자인</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+<style>
+.ix{width:min(1180px,100%);margin:0 auto;padding:0 24px}
+.ix-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:30px}
+.ix-card{display:block;padding:24px;border-radius:var(--radius-card);background:var(--surface);box-shadow:0 2px 14px rgba(0,0,0,.07);transition:transform var(--motion-standard),box-shadow var(--motion-standard)}
+.ix-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.13);color:inherit}
+.ix-card .no{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--text-muted)}
+.ix-card h3{font-size:21px;font-weight:700;letter-spacing:-.035em;margin:9px 0 8px}
+.ix-card p{font-size:13px;color:var(--text-muted);line-height:1.6;margin:0 0 14px}
+.ix-card ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:5px}
+.ix-card li{font-size:11px;padding:4px 9px;border-radius:var(--radius-pill);background:var(--surface-muted);color:var(--text)}
+.ix-tbl{width:100%;border-collapse:collapse;margin-top:22px;font-size:13.5px}
+.ix-tbl th{text-align:left;padding:11px 12px;border-bottom:1.5px solid var(--text);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+.ix-tbl td{padding:13px 12px;border-bottom:1px solid var(--border-soft);vertical-align:top;line-height:1.6}
+.ix-tbl td:first-child{white-space:nowrap;font-weight:600}
+.ix-tbl code{font-family:var(--font-mono);font-size:12px;background:var(--surface-muted);padding:2px 6px;border-radius:5px}
+.ix-fix{display:grid;gap:10px;margin-top:22px}
+.ix-fix div{display:grid;grid-template-columns:26px 1fr;gap:14px;padding:16px 18px;border-radius:var(--radius-control);background:var(--surface)}
+.ix-fix b{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+.ix-fix p{margin:0;font-size:13.5px;line-height:1.65}
+.ix-fix p strong{font-weight:600}
+.ix-note{margin-top:22px;padding:18px 20px;border-radius:var(--radius-control);background:var(--warning-soft);color:var(--warning);font-size:13.5px;line-height:1.7}
+.ix-note b{font-weight:700}
+.ix-note ul{margin:10px 0 0;padding-left:18px}
+.ix-note li{margin-bottom:5px}
+</style>
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMISYS · 고객용 전체 기능 디자인</p>
+  <h1>OMI 디자인 세트</h1>
+  <p>백엔드 <b>chanhoan/omisys</b>와 프론트엔드 <b>chanhoan/omisys_frontend</b>의 API 계약(9종 OpenAPI · zod contracts)을 기준으로, 고객용 전 기능의 <b>모든 화면과 모든 상태</b>를 설계했다. 스타일은 기존 방향(Apple 계열 · Pretendard · 라운드 28)을 유지하되, 기존 CSS에 남아 있던 결함을 함께 정리했다.</p>
+  <p>산출물은 <b>실제 제품 CSS를 그대로 쓰는 HTML 페이지</b>다. 클래스명이 저장소와 100% 일치하므로 마크업을 그대로 옮길 수 있다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a class="is-on" href="index.html">인덱스</a>
+  <a href="OMI 01 홈 스토어 검색.html">01</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03</a>
+  <a href="OMI 04 주문 배송.html">04</a>
+  <a href="OMI 05 계정 혜택 인증.html">05</a>
+  <a href="OMI 06 모바일 앱.html">06</a>
+</nav>
+
+<div class="ix" style="margin-top:34px">
+  <div class="ix-cards">
+    <a class="ix-card" href="OMI 01 홈 스토어 검색.html">
+      <span class="no">01</span>
+      <h3>홈 · 스토어 · 검색</h3>
+      <p>발견 경로. 로그인 전후로 헤더 구조와 홈 구성이 달라진다.</p>
+      <ul><li>홈 비로그인</li><li>홈 로그인</li><li>홈 로딩</li><li>PLP 기본</li><li>필터 적용</li><li>결과 없음</li><li>조회 실패</li><li>검색 3상태</li></ul>
+    </a>
+    <a class="ix-card" href="OMI 02 상품 리뷰 사전예약.html">
+      <span class="no">02</span>
+      <h3>상품 · 리뷰 · 사전예약</h3>
+      <p>재고·1인 한도·품절을 실제 필드로 표현. 리뷰는 1인 1건 제약 반영.</p>
+      <ul><li>PDP 구매가능</li><li>재고 임박</li><li>품절</li><li>404</li><li>리뷰 작성·수정·삭제</li><li>사전예약 3상태</li><li>이벤트</li></ul>
+    </a>
+    <a class="ix-card" href="OMI 03 장바구니 체크아웃 결제.html">
+      <span class="no">03</span>
+      <h3>장바구니 · 체크아웃 · 결제</h3>
+      <p>쿠폰 선택과 포인트 사용을 신규 설계. 대기열 화면 포함.</p>
+      <ul><li>장바구니 3상태</li><li>체크아웃</li><li>쿠폰·포인트</li><li>배송지 없음</li><li>대기열 4상태</li><li>결제 성공·실패·확인중</li></ul>
+    </a>
+    <a class="ix-card" href="OMI 04 주문 배송.html">
+      <span class="no">04</span>
+      <h3>주문 · 배송</h3>
+      <p>주문 5상태와 배송 추적 타임라인. 취소 확인 플로우 신규.</p>
+      <ul><li>주문 목록</li><li>주문 상세</li><li>취소 확인</li><li>환불 완료</li><li>배송 목록</li><li>추적 타임라인</li><li>정보 없음</li></ul>
+    </a>
+    <a class="ix-card" href="OMI 05 계정 혜택 인증.html">
+      <span class="no">05</span>
+      <h3>계정 · 혜택 · 인증</h3>
+      <p>등급 진척도, 쿠폰 상태별 분류, 포인트 내역, 주소 관리.</p>
+      <ul><li>마이페이지</li><li>세션 만료</li><li>등급·쿠폰·포인트</li><li>주소 CRUD</li><li>로그인 3상태</li><li>회원가입</li></ul>
+    </a>
+    <a class="ix-card" href="OMI 06 모바일 앱.html">
+      <span class="no">06</span>
+      <h3>모바일 앱 (Expo)</h3>
+      <p>동일 토큰, 네이티브 관용구. 탭 4개와 결제 딥링크 복귀.</p>
+      <ul><li>탭 홈·스토어·검색·계정</li><li>PDP·옵션 시트</li><li>장바구니</li><li>대기열</li><li>결제 복귀 3상태</li><li>추적</li><li>인증</li></ul>
+    </a>
+  </div>
+</div>
+
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>기존 스타일에서 고친 것</h2><span>omi.css — globals.css 교체본</span></div>
+  <p class="pv-note" style="max-width:88ch;padding-top:14px">기존 <code>globals.css</code>는 에디토리얼 세리프 시스템 위에 Apple 시스템을 덧칠한 3중 레이어였고, 아래쪽 규칙이 위쪽을 덮다 만 잔재가 남아 있었다. 클래스명은 전부 유지했으므로 저장소 JSX는 수정 없이 동작한다.</p>
+  <div class="ix-fix">
+    <div><b>01</b><p><strong>웜 베이지 잔재 제거.</strong> <code>#e6e2d9</code> <code>#e5e1d8</code> <code>#cac7bf</code> <code>#aaa69e</code>가 쿨 그레이 토큰(<code>--surface-muted:#e8e8ed</code>)과 한 화면에 공존했다. 전부 토큰으로 대체.</p></div>
+    <div><b>02</b><p><strong>토큰 밖 임의 색 정리.</strong> 세일가·에러의 러스트 레드 <code>#8b2f20</code> → <code>--danger</code>, 장바구니 배지 <code>#000</code> → <code>--accent</code>, 상태 배지 <code>#1a3a1a</code>/<code>#3a1a1a</code> → 상태별 소프트 토큰.</p></div>
+    <div><b>03</b><p><strong>레거시 별칭 사용 중단.</strong> <code>--ink/--muted/--paper/--line</code>과 <code>--text/--border</code>가 파일 안에서 섞여 쓰였다. 신규 규칙은 후자만 사용하고, 별칭은 호환용으로만 남겼다.</p></div>
+    <div><b>04</b><p><strong>다크모드 실제 동작.</strong> 정의는 있었지만 <code>#fff</code>·<code>#1d1d1f</code>·베이지 하드코딩이 많아 깨졌다. 이미지 위 텍스트를 제외한 모든 색을 토큰화했다. 캠페인 밴드처럼 <b>의도적으로 어두운</b> 영역은 <code>--band</code>/<code>--band-text</code> 전용 쌍으로 분리해 양 테마에서 흰 글씨 대비를 유지한다. 각 문서 우상단에서 라이트/다크를 전환해 확인할 수 있다.</p></div>
+    <div><b>05</b><p><strong>중복 정의 통합.</strong> <code>.section</code> 3중, <code>.eyebrow</code> 2중 정의를 각 1회로. <code>.order-summary</code>가 장바구니와 주문상세에서 다른 의미로 쓰이던 충돌을 <code>.order-summary</code>(요약 카드)와 <code>.order-amounts</code>(금액 내역)로 분리.</p></div>
+    <div><b>06</b><p><strong>레이아웃 버그.</strong> <code>.button{gap:28px}</code>(아이콘이 라벨에서 28px 떨어짐) → 8px. <code>.campaign-copy h2{white-space:nowrap}</code>은 한글에서 넘쳐 제거. <code>.filter-bar .sort-button:first-of-type{margin-left:auto}</code>는 <code>:first-of-type</code>이 형제 중 첫 <code>button</code>을 가리켜 <b>매칭되지 않던</b> 규칙 — 인접 형제 조합으로 수정.</p></div>
+    <div><b>07</b><p><strong>가독성.</strong> 9~10px 텍스트(배지·메타·브랜드·아코디언 본문)를 11px 이상, 본문은 13.5px 이상으로. 폼 입력 높이 38px → 44px로 올려 모바일 터치 기준을 맞췄다.</p></div>
+    <div><b>08</b><p><strong>서체 이원화 종료.</strong> 세리프 <code>--font-display</code>가 절반만 덮여 같은 페이지 안에서 제목 서체가 달랐다(이벤트·장바구니 상품명·계정 링크). Pretendard 단일로 통일하고 <code>letter-spacing</code>을 크기별로 조정.</p></div>
+    <div><b>09</b><p><strong>숫자 정렬.</strong> 가격·수량·포인트·주문번호에 <code>font-variant-numeric: tabular-nums</code>를 적용해 목록에서 자릿수가 흔들리지 않게 했다.</p></div>
+    <div><b>10</b><p><strong>스켈레톤.</strong> 배경이 테두리색 <code>--line</code>이라 카드가 아니라 선처럼 보였다. <code>--surface-muted</code> + 카드 라운드로 실제 자리와 겹치게 수정.</p></div>
+    <div><b>11</b><p><strong>on-tint 대비.</strong> <code>--accent</code>는 흰 배경 기준값이라 밝은 틴트(<code>--accent-soft</code>) 위 전경으로 쓰면 4.12:1로 AA 미달이었다 — warning·success·danger 형제는 전경을 별도의 짙은 값으로 잡아 5.1~5.8:1을 얻고 있어 accent만 누락이었다. on-tint 전용 <code>--accent-strong</code>(라이트 <code>#0057b0</code> = 6.17:1)을 추가해 배송중 배지, 정보 배너, 내 리뷰·기본배송지 배지, 할인 금액, <code>.more-link</code>에 적용했다. 버튼·링크의 <code>--accent</code> 값은 그대로 유지.</p></div>
+    <div><b>12</b><p><strong>한국어 줄바꿈.</strong> 한국어는 <code>word-break</code> 기본값에서 글자 단위로 끊기므로 “추천 검색어로 / 도” 같은 어절 중간 분리가 생겼다. <code>word-break:keep-all</code>로 어절을 지키고, 나아가 본문을 <b>문장당 한 블록</b>(<code>.s</code>)으로 나눠 한 문장이 여러 줄로 쪼개지지 않게 했다. 전 페이지 63개 문장을 측정해 한 줄에 들어가는지 확인했고, 사이드바처럼 좁은 칼럼에서는 문장 자체를 짧게 다듬었다.</p></div>
+    <div><b>13</b><p><strong>화면 문구에서 기술 용어 제거.</strong> 사용자가 알 필요 없는 구현 사항이 UI 본문에 들어가 있었다 — 검색 엔진 이름, 결제사와 복구 경로, 중복방지 헤더명, 기기 등록 엔드포인트. 모두 사용자 언어로 바꿨다. 개발자용 설명은 화면 밖 주석에만 남긴다.</p></div>
+    <div><b>14</b><p><strong>금액·수량 줄바꿈 방지.</strong> <code>keep-all</code>을 켜자 금액이 한 덩어리 단어가 되어, 좁은 사이드바에서 <code>overflow-wrap</code>이 숫자 중간을 끊었다(<code>₩297,00 / 0</code>). 금액·수량·운송장 같은 수치 슬롯은 <code>white-space:nowrap</code>으로 고정하고, 라벨 쪽만 줄어들게 했다.</p></div>
+    <div><b>15</b><p><strong>주문 상품 행 정렬.</strong> <code>.checkout-items li</code>가 <code>justify-content:space-between</code>이라 상품명 길이에 따라 수량 위치가 행마다 어긋났다. <code>minmax(0,1fr) 3.5em auto</code> 그리드로 바꿔 수량과 금액이 세로 축으로 정렬된다.</p></div>
+  </div>
+</section>
+
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>계약에는 있었지만 화면이 없던 기능</h2><span>신규 설계</span></div>
+  <table class="ix-tbl">
+    <thead><tr><th>기능</th><th>계약 근거</th><th>설계</th></tr></thead>
+    <tbody>
+      <tr><td>대기열</td><td><code>202 QUEUE_WAITING</code> · <code>rank</code> · <code>retryAfterSeconds</code></td><td>순번 다이얼 + 진행 게이지 + 재확인 카운트다운. 대기·입장직전·만료·매진 4상태.</td></tr>
+      <tr><td>쿠폰 선택</td><td><code>orderProductInfos[].userCouponId</code> · <code>couponSchema.minBuyPrice</code> · <code>maxDiscountPrice</code></td><td>할인액 미리 계산해 표시, 조건 미달 쿠폰은 사유와 함께 비활성. 현재 코드는 <code>null</code> 고정 전송.</td></tr>
+      <tr><td>포인트 사용</td><td><code>pointPrice</code> · <code>GET /api/users/me</code>의 <code>point</code></td><td>보유·사용 가능 상한 표시, 전액 사용 버튼. 현재 코드는 <code>0</code> 고정 전송.</td></tr>
+      <tr><td>배송 추적</td><td><code>trackingHistorySchema.history[]</code></td><td>수직 타임라인. 현재 단계 강조, 미도래 단계 예고. 운송장 카드 신규.</td></tr>
+      <tr><td>등급</td><td><code>GET /api/users/me/tier</code> · <code>totalSpent</code> · <code>nextTierAmount</code></td><td>4단계 진척 바 + 다음 등급까지 남은 금액.</td></tr>
+      <tr><td>사전예약 상태</td><td><code>state</code> · <code>availableQuantity</code> · <code>releaseDateTime</code></td><td>진행·오픈예정·마감 3배지, 잔여 게이지, 카운트다운, 상태별 행동 분기.</td></tr>
+      <tr><td>재고 · 1인 한도</td><td><code>stock</code> · <code>limitCountPerUser</code> · <code>soldout</code></td><td>PDP 재고 라인(정상·임박·품절), 한도 안내, 장바구니 수량 상한 설명.</td></tr>
+      <tr><td>주문 취소</td><td><code>POST /api/orders/{orderId}/cancel</code></td><td>확인 다이얼로그 + 쿠폰·포인트 반환 명시.</td></tr>
+      <tr><td>리뷰 수정 · 삭제</td><td><code>PATCH</code> · <code>DELETE /api/reviews/{reviewId}</code></td><td>내 리뷰 배지, 별점 입력, 글자수 카운터, 삭제 확인.</td></tr>
+      <tr><td>실패 · 빈 상태</td><td><code>safeParse</code> 실패 · <code>content.length === 0</code> · <code>401</code></td><td>전 목록·상세에 빈 상태와 에러 화면. 기존에는 빈 화면으로 동일하게 나타났다.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>구현 전 확인이 필요한 사항</h2><span>백엔드 · 프론트 협의</span></div>
+  <div class="ix-note">
+    <b>디자인만으로는 해결되지 않는 항목입니다.</b>
+    <ul>
+      <li><b>대기열 202 계약</b> — 게이트웨이가 대기 시 빈 body <code>200</code>을 반환하면 정상 성공과 구분할 수 없습니다. <code>202</code> + <code>{ rank, retryAfterSeconds }</code> 응답이 전제입니다.</li>
+      <li><b>Idempotency-Key 처리</b> — 프론트는 전송하지만 주문 서비스에 수신 처리 코드가 확인되지 않았습니다. 중복 결제 방지 문구는 백엔드 구현을 가정합니다.</li>
+      <li><b>장바구니 비우기 시점</b> — 현재 결제창 이동 <em>전에</em> <code>clear()</code>가 호출되어 결제 실패 시 장바구니가 복구되지 않습니다. 결제 확정 후로 옮기는 것을 권장합니다.</li>
+      <li><b>리뷰 캐시</b> — <code>getReviews</code>가 <code>revalidate: 30</code>이라 작성·수정 직후 목록이 최대 30초간 옛 데이터입니다. 낙관적 갱신 또는 태그 무효화가 필요합니다.</li>
+      <li><b>재입고 알림</b> — 품절 대체 행동으로 설계했으나 대응 엔드포인트가 계약에 없습니다.</li>
+      <li><b>관리자 콘솔</b> — 관리자용 51개 API는 이번 범위에서 제외했습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

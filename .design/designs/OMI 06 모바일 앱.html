@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 06 — 모바일 앱</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 06 / 06</p>
+  <h1>모바일 앱 (Expo)</h1>
+  <p>웹과 <b>동일한 토큰</b>을 쓰되 네이티브 관용구를 따른다 — 하단 탭 4개, 시트, 딥링크 복귀. 터치 타깃은 최소 44pt, 결제는 외부 브라우저로 나갔다가 <code>/checkout/result</code>로 복귀한 뒤 <b>서버 재조회</b>로 상태를 확정한다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a class="is-on" href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>탭 · 홈 / 스토어 / 검색 / 계정</h2><span>apps/mobile/app/(tabs)</span></div>
+  <div class="app-grid">
+
+    <!-- 홈 · 비로그인 -->
+    <div>
+      <div class="app-frame-label"><b>홈 — 비로그인</b><code>(tabs)/index.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head">
+            <h1>OMI</h1>
+            <div class="app-head-actions">
+              <span class="app-icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></span>
+              <span class="app-icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></span>
+            </div>
+          </div>
+          <div class="phone-scroll">
+            <div class="app-hero">
+              <img alt="Drop 04" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80">
+              <div class="app-hero-copy"><p class="eyebrow">DROP 04 · F/W</p><h2>조용한 형태,<br>매일의 움직임.</h2></div>
+            </div>
+            <div class="app-sec"><h2>새로 나온 제품</h2><a href="#">전체</a></div>
+            <div class="app-pgrid">
+              <div class="app-pcard">
+                <span class="app-pcard-img"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge">10% OFF</span></span>
+                <b>Night Shirt</b><span>Black</span><strong>₩89,000<del>₩99,000</del></strong>
+              </div>
+              <div class="app-pcard">
+                <span class="app-pcard-img"><img alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge">20% OFF</span></span>
+                <b>Soft Structure Jacket</b><span>Ivory</span><strong>₩151,200</strong>
+              </div>
+            </div>
+          </div>
+          <nav class="app-nav">
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">헤더 우측에 로그인 진입점 대신 아이콘만 둔다 — 계정 탭이 그 역할을 한다.</p>
+    </div>
+
+    <!-- 홈 · 로그인 -->
+    <div>
+      <div class="app-frame-label"><b>홈 — 로그인</b><code>등급 배너 + 이어서 보기</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head">
+            <h1>OMI</h1>
+            <div class="app-head-actions">
+              <span class="app-icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></span>
+              <span class="app-icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="app-badge">3</span></span>
+            </div>
+          </div>
+          <div class="phone-scroll">
+            <div class="app-tile" style="background:var(--accent);color:#fff;margin-bottom:14px">
+              <span><b style="display:block;font-size:14px">GOLD · 2,480 P</b><span style="font-size:11.5px;opacity:.85">쿠폰 3장 사용 가능</span></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:#fff"><path d="M9 5l7 7-7 7"></path></svg>
+            </div>
+            <div class="app-hero">
+              <img alt="Drop 04" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80">
+              <div class="app-hero-copy"><p class="eyebrow">회원 선공개 · 24시간</p><h2>Drop 04를<br>먼저 만나보세요.</h2></div>
+            </div>
+            <div class="app-sec"><h2>이어서 보기</h2><a href="#">전체</a></div>
+            <div class="app-pgrid">
+              <div class="app-pcard">
+                <span class="app-pcard-img"><img alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=400&q=80"></span>
+                <b>Quiet Wide Trousers</b><span>최근 본 제품</span><strong>₩119,000</strong>
+              </div>
+              <div class="app-pcard">
+                <span class="app-pcard-img"><img alt="Layer Knit" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge">NEW</span></span>
+                <b>Layer Knit</b><span>Oatmeal</span><strong>₩128,000</strong>
+              </div>
+            </div>
+          </div>
+          <nav class="app-nav">
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">등급·포인트 배너가 계정 탭 진입 없이 혜택을 노출한다.</p>
+    </div>
+
+    <!-- 스토어 -->
+    <div>
+      <div class="app-frame-label"><b>스토어</b><code>(tabs)/shop.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><h1>스토어</h1><div class="app-head-actions"><span class="app-icon-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg></span></div></div>
+          <div class="phone-scroll">
+            <div class="app-chips"><span class="app-chip is-on">전체</span><span class="app-chip">아우터</span><span class="app-chip">니트</span><span class="app-chip">셔츠</span></div>
+            <div class="app-pgrid">
+              <div class="app-pcard"><span class="app-pcard-img"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge">10% OFF</span></span><b>Night Shirt</b><span>12개 남음</span><strong>₩89,000</strong></div>
+              <div class="app-pcard"><span class="app-pcard-img"><img alt="Soft Structure Jacket" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge">20% OFF</span></span><b>Soft Structure Jacket</b><span>3개 남음</span><strong>₩151,200</strong></div>
+              <div class="app-pcard"><span class="app-pcard-img"><img alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=400&q=80"></span><b>Quiet Wide Trousers</b><span>20개 남음</span><strong>₩119,000</strong></div>
+              <div class="app-pcard"><span class="app-pcard-img"><img alt="Frame Mini Bag" src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=400&q=80"><span class="app-pcard-badge soldout">SOLD OUT</span></span><b>Frame Mini Bag</b><span>품절</span><strong>₩79,000</strong></div>
+            </div>
+          </div>
+          <nav class="app-nav">
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 검색 -->
+    <div>
+      <div class="app-frame-label"><b>검색 — 입력 전</b><code>(tabs)/search.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><h1>검색</h1></div>
+          <div class="phone-scroll">
+            <div class="app-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>제품, 색상으로 검색</div>
+            <p class="app-list-title">최근 검색</p>
+            <div class="app-chips" style="flex-wrap:wrap;overflow:visible"><span class="app-chip">니트</span><span class="app-chip">와이드 팬츠</span><span class="app-chip">아이보리</span></div>
+            <p class="app-list-title">인기 검색어</p>
+            <div class="app-row"><div class="app-row-body"><b>01 니트</b></div></div>
+            <div class="app-row"><div class="app-row-body"><b>02 아우터</b></div></div>
+            <div class="app-row"><div class="app-row-body"><b>03 드롭 04</b></div></div>
+            <div class="app-row"><div class="app-row-body"><b>04 액세서리</b></div></div>
+          </div>
+          <nav class="app-nav">
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 계정 · 로그인 -->
+    <div>
+      <div class="app-frame-label"><b>계정 — 로그인</b><code>(tabs)/account.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><h1>계정</h1></div>
+          <div class="phone-scroll">
+            <div class="app-profile">
+              <span class="app-avatar" aria-hidden="true">민</span>
+              <div><b>김민준</b><span>GOLD 등급 · minjun@example.com</span></div>
+            </div>
+            <div class="app-stats">
+              <div class="app-stat"><b>2,480</b><span>포인트</span></div>
+              <div class="app-stat"><b>3</b><span>쿠폰</span></div>
+              <div class="app-stat"><b>2</b><span>진행 주문</span></div>
+            </div>
+            <p class="app-list-title">주문 · 배송</p>
+            <div class="app-tile"><span>주문 내역</span><span class="app-tile-end">4건<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span></div>
+            <div class="app-tile"><span>배송 조회</span><span class="app-tile-end">2건<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span></div>
+            <p class="app-list-title">혜택</p>
+            <div class="app-tile"><span>쿠폰 · 포인트</span><span class="app-tile-end"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span></div>
+            <div class="app-tile"><span>배송지 관리</span><span class="app-tile-end"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></span></div>
+          </div>
+          <nav class="app-nav">
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 계정 · 비로그인 -->
+    <div>
+      <div class="app-frame-label"><b>계정 — 비로그인</b><code>세션 없음</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><h1>계정</h1></div>
+          <div class="app-center">
+            <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg></span>
+            <h2>로그인하고<br>혜택을 받으세요</h2>
+            <p>주문 내역, 배송 조회, 쿠폰과 포인트를 한곳에서 관리할 수 있습니다.</p>
+            <div style="display:grid;gap:8px;width:100%;max-width:220px;margin-top:6px">
+              <button class="button dark" type="button">로그인</button>
+              <button class="button ghost" type="button">회원가입</button>
+            </div>
+          </div>
+          <nav class="app-nav">
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>홈</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>스토어</a>
+            <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16.5 16.5 4 4"></path></svg>검색</a>
+            <a class="is-on" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"></path></svg>계정</a>
+          </nav>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>상품 · 장바구니 · 결제</h2><span>products/[productId] · cart · checkout/result</span></div>
+  <div class="app-grid">
+
+    <!-- PDP -->
+    <div>
+      <div class="app-frame-label"><b>상품 상세</b><code>products/[productId].tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="phone-scroll is-flush">
+            <div class="app-gallery">
+              <span class="app-back-float"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span>
+              <img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80">
+              <span class="app-dots"><i class="is-on"></i><i></i><i></i><i></i></span>
+            </div>
+            <div class="app-pdp-body">
+              <p class="eyebrow">OMI · DROP 04</p>
+              <h1>Night Shirt</h1>
+              <p class="app-note">가벼운 레이어와 느슨한 실루엣의 드롭 셔츠.</p>
+              <div class="app-pdp-price"><strong>₩89,000</strong><span>10%</span><del>₩99,000</del></div>
+              <p class="stock-line" style="font-size:12px;margin-bottom:12px"><span class="stock-dot"></span>재고 12개 · 1인 2개 한정</p>
+              <dl class="app-facts">
+                <div><dt>색상</dt><dd>Black</dd></div>
+                <div><dt>사이즈</dt><dd>M</dd></div>
+                <div><dt>평점</dt><dd>★ 4.8 (24)</dd></div>
+              </dl>
+            </div>
+          </div>
+          <div class="app-bar">
+            <div class="app-bar-row"><span>총 금액</span><strong>₩89,000</strong></div>
+            <button class="button dark" type="button">장바구니에 담기</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">하단 고정 바가 항상 가격과 주요 행동을 유지한다.</p>
+    </div>
+
+    <!-- PDP 시트 -->
+    <div>
+      <div class="app-frame-label"><b>상품 — 옵션 시트</b><code>사이즈 선택</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body" style="position:relative">
+          <div class="phone-scroll is-flush">
+            <div class="app-gallery">
+              <img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=80">
+            </div>
+            <div class="app-pdp-body"><h1>Night Shirt</h1><div class="app-pdp-price"><strong>₩89,000</strong></div></div>
+          </div>
+          <div class="app-scrim"></div>
+          <div class="app-sheet">
+            <div class="app-sheet-grip"></div>
+            <h3>사이즈 선택</h3>
+            <div class="app-size-grid">
+              <span class="app-size">S</span>
+              <span class="app-size is-on">M</span>
+              <span class="app-size">L</span>
+              <span class="app-size is-off">XL</span>
+            </div>
+            <div class="app-bar-row" style="padding:4px 0 12px"><span>수량 · 최대 2개</span><span class="app-qty"><button type="button">−</button><span>1</span><button type="button">+</button></span></div>
+            <button class="button dark" type="button" style="width:100%">₩89,000 담기</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">품절 사이즈는 취소선 + 비활성. <code>limitCountPerUser</code>가 수량 상한을 문장으로 설명한다.</p>
+    </div>
+
+    <!-- 장바구니 -->
+    <div>
+      <div class="app-frame-label"><b>장바구니</b><code>cart.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span class="app-head-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span><span class="app-head-title">장바구니 3</span><span style="width:32px"></span></div>
+          <div class="phone-scroll">
+            <div class="app-row">
+              <span class="app-row-thumb"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=200&q=80"></span>
+              <div class="app-row-body"><b>Night Shirt</b><span>Black · M</span><strong>₩178,000</strong>
+                <span class="app-qty"><button type="button">−</button><span>2</span><button type="button" disabled>+</button></span>
+              </div>
+              <div class="app-row-end"><button class="app-remove" type="button">삭제</button></div>
+            </div>
+            <div class="app-row">
+              <span class="app-row-thumb"><img alt="Quiet Wide Trousers" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=200&q=80"></span>
+              <div class="app-row-body"><b>Quiet Wide Trousers</b><span>Grey · M</span><strong>₩119,000</strong>
+                <span class="app-qty"><button type="button">−</button><span>1</span><button type="button">+</button></span>
+              </div>
+              <div class="app-row-end"><button class="app-remove" type="button">삭제</button></div>
+            </div>
+            <p class="app-note" style="margin-top:14px">₩50,000 이상 무료배송이 적용되었습니다.</p>
+          </div>
+          <div class="app-bar">
+            <div class="app-bar-row"><span>상품 ₩297,000 · 할인 −₩29,000</span></div>
+            <div class="app-bar-row"><span>결제 예정</span><strong>₩268,000</strong></div>
+            <button class="button dark" type="button">주문하기</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 장바구니 빈 -->
+    <div>
+      <div class="app-frame-label"><b>장바구니 — 비어 있음</b></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span class="app-head-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span><span class="app-head-title">장바구니</span><span style="width:32px"></span></div>
+          <div class="app-center">
+            <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></span>
+            <h2>담긴 제품이 없습니다</h2>
+            <p>마음에 드는 제품을 담아보세요.</p>
+            <button class="button dark" type="button" style="margin-top:6px">스토어 보기</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 대기열 -->
+    <div>
+      <div class="app-frame-label"><b>대기열</b><code>202 QUEUE_WAITING</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span style="width:32px"></span><span class="app-head-title">접속 대기</span><span style="width:32px"></span></div>
+          <div class="app-queue">
+            <div class="queue-dial" style="width:132px;height:132px;margin:0 auto 8px">
+              <svg viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="54"></circle>
+                <circle class="bar" cx="60" cy="60" r="54" stroke-dasharray="339.3" stroke-dashoffset="98"></circle>
+              </svg>
+              <b style="font-size:32px">154<small>내 순번</small></b>
+            </div>
+            <h2>순서를 기다리고 있습니다</h2>
+            <p><span class="s">앱을 열어두면 자동으로 입장됩니다.</span><span class="s">예상 대기 약 2분.</span></p>
+            <p class="app-note">3초 후 다시 확인합니다</p>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">앱은 백그라운드 진입 시 순번이 해제될 수 있음을 안내한다.</p>
+    </div>
+
+    <!-- 결제 성공 -->
+    <div>
+      <div class="app-frame-label"><b>결제 복귀 — 성공</b><code>checkout/result.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-center">
+            <span class="app-check"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17l9-10"></path></svg></span>
+            <h2>주문이 완료되었습니다</h2>
+            <p>#OMI-20260901-0042<br>₩264,820 · 카카오페이</p>
+            <div style="display:grid;gap:8px;width:100%;max-width:220px;margin-top:8px">
+              <button class="button dark" type="button">주문 상세 보기</button>
+              <button class="button ghost" type="button">계속 쇼핑하기</button>
+            </div>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+      <p class="pv-note">딥링크 파라미터가 아니라 <code>GET /api/orders/{orderId}</code> 재조회 결과를 표시한다.</p>
+    </div>
+
+    <!-- 결제 확인중 -->
+    <div>
+      <div class="app-frame-label"><b>결제 복귀 — 확인 중</b><em>서버 재조회</em></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-center">
+            <span class="app-spinner"></span>
+            <h2>결제 결과를<br>확인하고 있습니다</h2>
+            <p><span class="s">앱을 닫지 말아주세요.</span><span class="s">최대 10초가 걸릴 수 있습니다.</span></p>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 결제 실패 -->
+    <div>
+      <div class="app-frame-label"><b>결제 복귀 — 실패</b><code>status=fail</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-center">
+            <span class="app-check is-fail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></span>
+            <h2>결제가 완료되지<br>않았습니다</h2>
+            <p><span class="s">장바구니는 그대로 남아 있습니다.</span><span class="s">다시 시도해주세요.</span></p>
+            <div style="display:grid;gap:8px;width:100%;max-width:220px;margin-top:8px">
+              <button class="button dark" type="button">다시 결제하기</button>
+              <button class="button ghost" type="button">장바구니로</button>
+            </div>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 주문 상세 -->
+    <div>
+      <div class="app-frame-label"><b>주문 상세 · 배송 추적</b><code>orders/[orderId].tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span class="app-head-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span><span class="app-head-title">주문 상세</span><span style="width:32px"></span></div>
+          <div class="phone-scroll">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+              <span class="status-badge status-shipping">배송 중</span>
+              <span class="app-note">09.04 도착 예정</span>
+            </div>
+            <div class="app-row">
+              <span class="app-row-thumb"><img alt="Night Shirt" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=200&q=80"></span>
+              <div class="app-row-body"><b>Night Shirt</b><span>Black · M · 2개</span><strong>₩178,000</strong></div>
+            </div>
+            <p class="app-list-title">배송 추적</p>
+            <ol class="app-track">
+              <li class="is-current"><span class="app-track-rail"><span class="app-track-dot"></span></span><div class="app-track-body"><b>배송 출발</b><time>09.03 08:12</time></div></li>
+              <li class="is-done"><span class="app-track-rail"><span class="app-track-dot"></span></span><div class="app-track-body"><b>배송지 도착</b><time>09.03 05:40</time></div></li>
+              <li class="is-done"><span class="app-track-rail"><span class="app-track-dot"></span></span><div class="app-track-body"><b>집화 완료</b><time>09.02 16:02</time></div></li>
+              <li class="is-pending"><span class="app-track-rail"><span class="app-track-dot"></span></span><div class="app-track-body"><b>배송 완료</b><time>예정 09.04</time></div></li>
+            </ol>
+          </div>
+          <div class="app-bar"><button class="button ghost" type="button">택배사에서 보기</button></div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 로그인 -->
+    <div>
+      <div class="app-frame-label"><b>로그인</b><code>login.tsx</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span class="app-head-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span><span class="app-head-title">로그인</span><span style="width:32px"></span></div>
+          <div class="phone-scroll">
+            <h2 style="font-size:24px;font-weight:700;letter-spacing:-.045em;margin:8px 0 20px;line-height:1.15">다시 만나<br>반갑습니다.</h2>
+            <div class="app-field"><label>이메일</label><input type="email" value="minjun@example.com"></div>
+            <div class="app-field"><label>비밀번호</label><input type="password" value="••••••••"></div>
+            <button class="button dark" type="button" style="width:100%;margin-top:4px">로그인</button>
+            <p class="app-note" style="text-align:center;margin-top:16px">계정이 없으신가요? 회원가입</p>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 로그인 오류 -->
+    <div>
+      <div class="app-frame-label"><b>로그인 — 오류</b><code>401</code></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮▮▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><span class="app-head-back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></span><span class="app-head-title">로그인</span><span style="width:32px"></span></div>
+          <div class="phone-scroll">
+            <h2 style="font-size:24px;font-weight:700;letter-spacing:-.045em;margin:8px 0 16px;line-height:1.15">다시 만나<br>반갑습니다.</h2>
+            <div class="form-error-box" style="margin-bottom:16px;font-size:12.5px"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16v.01"></path></svg><span>이메일 또는 비밀번호가 올바르지 않습니다.</span></div>
+            <div class="app-field"><label>이메일</label><input aria-invalid="true" type="email" value="minjun@example.com"></div>
+            <div class="app-field"><label>비밀번호</label><input aria-invalid="true" type="password" value="••••"></div>
+            <button class="button dark" type="button" style="width:100%;margin-top:4px">로그인</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 오프라인 -->
+    <div>
+      <div class="app-frame-label"><b>네트워크 오류</b><em>앱 전역 상태</em></div>
+      <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>▮ ᯤ ▰</span></div>
+        <div class="phone-body">
+          <div class="app-head"><h1>OMI</h1></div>
+          <div class="app-center">
+            <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5a16 16 0 0 1 18 0M6.5 12.5a11 11 0 0 1 11 0M10 16.5a6 6 0 0 1 4 0"></path><path d="M12 20v.01"></path></svg></span>
+            <h2>연결이 불안정합니다</h2>
+            <p>네트워크를 확인한 뒤 다시 시도해주세요.</p>
+            <button class="button dark" type="button" style="margin-top:6px">다시 시도</button>
+          </div>
+          <div class="phone-home"><i></i></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

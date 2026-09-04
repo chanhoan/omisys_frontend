@@ -3,15 +3,13 @@
 import Link from 'next/link'
 
 import { useCart } from './cart-provider'
+import { HeaderBagIcon } from './icons'
 
 export function CartLink() {
   const { itemCount } = useCart()
   return (
-    <Link className="header-icon-link cart-icon-link" href="/cart" aria-label={`장바구니, 상품 ${itemCount}개`}>
-      <svg aria-hidden="true" className="header-icon" viewBox="0 0 24 24">
-        <path d="M6.5 8.5h11l1 12h-13l1-12Z" />
-        <path d="M9 9V6.75a3 3 0 0 1 6 0V9" />
-      </svg>
+    <Link className="header-icon-link" href="/cart" aria-label={itemCount > 0 ? `장바구니 ${itemCount}개` : '장바구니'}>
+      <HeaderBagIcon />
       {itemCount > 0 ? <span className="cart-count" key={itemCount}>{itemCount}</span> : null}
     </Link>
   )

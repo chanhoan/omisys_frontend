@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMI 02 — 상품 상세 · 리뷰 · 사전예약</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="omi.css">
+<link rel="stylesheet" href="doc.css">
+</head>
+<body class="doc-body">
+
+<div class="doc-head">
+  <p class="eyebrow">OMI DESIGN · 02 / 05</p>
+  <h1>상품 상세 · 리뷰 · 사전예약</h1>
+  <p>PDP는 <code>GET /api/products/detail/{id}</code>가 <code>{ product, reviews }</code> 래퍼로 오는 것을 전제로 한다. 재고·1인 구매한도·품절은 모두 <code>ProductResponse</code>의 실제 필드(<code>stock</code>, <code>limitCountPerUser</code>, <code>soldout</code>)로 표현하고, 리뷰는 <b>상품당 1인 1건</b> 제약을 UI에 반영한다.</p>
+</div>
+
+<nav class="doc-nav">
+  <a href="OMI 01 홈 스토어 검색.html">01 홈·스토어·검색</a>
+  <a class="is-on" href="OMI 02 상품 리뷰 사전예약.html">02 상품·리뷰·사전예약</a>
+  <a href="OMI 03 장바구니 체크아웃 결제.html">03 장바구니·체크아웃·결제</a>
+  <a href="OMI 04 주문 배송.html">04 주문·배송</a>
+  <a href="OMI 05 계정 혜택 인증.html">05 계정·혜택·인증</a>
+  <a href="OMI 06 모바일 앱.html">06 모바일 앱</a>
+  <a href="index.html">인덱스</a>
+</nav>
+
+<!-- ═══════════════ PDP ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>상품 상세 (PDP)</h2><span>/products/[productId]</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>PDP — 구매 가능 · 비로그인</b><code>GET /api/products/detail/{id}</code></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg></a>
+          <a href="#">로그인</a>
+        </nav>
+      </header>
+      <main>
+        <div class="pdp">
+          <div class="pdp-gallery">
+            <div class="pdp-image"><img alt="Night Shirt 정면" src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=900&q=85"></div>
+            <div class="pdp-image"><img alt="Night Shirt 디테일" src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=85"></div>
+            <div class="pdp-image"><img alt="Night Shirt 착용" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85"></div>
+            <div class="pdp-image"><img alt="Night Shirt 소재" src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?auto=format&fit=crop&w=900&q=85"></div>
+          </div>
+          <aside class="pdp-info">
+            <p class="eyebrow">OMI · DROP 04</p>
+            <h1>Night Shirt</h1>
+            <p class="pdp-korean">가벼운 레이어와 느슨한 실루엣으로 완성한 드롭 셔츠.</p>
+            <div class="pdp-rating"><span class="review-stars" aria-hidden="true">★★★★★</span><span>4.8</span><a href="#">리뷰 24개</a></div>
+            <div class="pdp-price"><strong>₩89,000</strong><span>10%</span><del>₩99,000</del></div>
+            <p class="stock-line"><span class="stock-dot"></span>재고 12개 · 바로 배송 가능</p>
+            <dl class="product-facts">
+              <div><dt>색상</dt><dd>Black</dd></div>
+              <div><dt>사이즈</dt><dd>M</dd></div>
+              <div><dt>1인 구매 한도</dt><dd>2개</dd></div>
+              <div><dt>누적 판매</dt><dd>82개</dd></div>
+            </dl>
+            <div class="form-actions" style="margin:0">
+              <button class="button dark full" type="button">장바구니에 담기</button>
+            </div>
+            <p class="limit-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></svg><span>이 제품은 1인당 최대 <b>2개</b>까지 구매할 수 있습니다.</span></p>
+            <div class="pdp-notes">
+              <details open><summary>소재 및 관리<span></span></summary><p>겉감 코튼 100%. 찬물 손세탁 권장, 건조기 사용 금지. 다림질은 낮은 온도에서.</p></details>
+              <details><summary>배송 및 반품<span></span></summary><p>₩50,000 이상 무료배송. 영업일 기준 2~4일 소요. 미착용 제품은 수령 후 14일 내 반품 가능합니다.</p></details>
+              <details><summary>사이즈 가이드<span></span></summary><p>모델 신장 182cm, M 착용. 어깨가 넓은 편이면 한 사이즈 업을 권장합니다.</p></details>
+            </div>
+          </aside>
+        </div>
+
+        <section class="section pdp-reviews">
+          <div class="section-heading"><div><p class="eyebrow">REVIEWS</p><h2>리뷰 24개.</h2></div></div>
+          <div class="review-summary">
+            <div class="review-score"><b>4.8</b><span>/ 5.0</span></div>
+            <div class="review-bars">
+              <div class="review-bar"><span>5점</span><i><em style="width:79%"></em></i><span>19</span></div>
+              <div class="review-bar"><span>4점</span><i><em style="width:17%"></em></i><span>4</span></div>
+              <div class="review-bar"><span>3점</span><i><em style="width:4%"></em></i><span>1</span></div>
+              <div class="review-bar"><span>2점</span><i><em style="width:0"></em></i><span>0</span></div>
+              <div class="review-bar"><span>1점</span><i><em style="width:0"></em></i><span>0</span></div>
+            </div>
+          </div>
+          <div class="gate-card" style="margin-top:20px">
+            <h2>리뷰는 구매 후 작성할 수 있습니다</h2>
+            <p><span class="s">이 제품을 주문한 계정만 리뷰를 남길 수 있습니다.</span><span class="s">로그인 후 주문 내역에서 작성해주세요.</span></p>
+            <a class="button dark" href="#">로그인</a>
+          </div>
+          <div class="review-list">
+            <article class="review-item"><div class="review-head"><span class="review-stars" aria-hidden="true">★★★★★</span><span class="review-meta"><span>user_8f2</span><span>2026.08.24</span></span></div><p>얇지만 형태가 살아 있어서 레이어링하기 좋습니다. 어깨 라인이 특히 마음에 들어요.</p></article>
+            <article class="review-item"><div class="review-head"><span class="review-stars" aria-hidden="true">★★★★★</span><span class="review-meta"><span>user_2c9</span><span>2026.08.19</span></span></div><p>색이 사진보다 조금 더 진합니다. 그래도 만족스럽고 사이즈는 정사이즈로 맞았습니다.</p></article>
+            <article class="review-item"><div class="review-head"><span class="review-stars" aria-hidden="true">★★★★☆</span><span class="review-meta"><span>user_d41</span><span>2026.08.11</span></span></div><p>소매 길이가 살짝 긴 편. 키 170 기준으로 한 번 접어 입고 있습니다.</p></article>
+          </div>
+          <nav class="pagination" aria-label="리뷰 페이지"><a href="#" aria-disabled="true">‹</a><a href="#" aria-current="page">1</a><a href="#">2</a><a href="#">3</a><a href="#">›</a></nav>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 세일가 강조색이 임의의 러스트 <code>#8b2f20</code>였다 → <code>--danger</code> 토큰. 사양표·아코디언 본문이 12px였던 것을 13.5px로 올렸다. <b>신규:</b> 재고 표시(<code>.stock-line</code>)와 1인 한도 안내(<code>.limit-note</code>)가 없어서 <code>stock</code>·<code>limitCountPerUser</code>가 화면에 전혀 드러나지 않았다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>PDP — 재고 임박</b><code>stock &lt;= 5</code></div>
+      <div class="pv-frame">
+        <main>
+          <div class="pdp" style="grid-template-columns:1fr">
+            <aside class="pdp-info">
+              <p class="eyebrow">OMI · EDITORIAL</p>
+              <h1>Soft Structure Jacket</h1>
+              <p class="pdp-korean">구조적인 선과 부드러운 촉감을 함께 살린 재킷.</p>
+              <div class="pdp-rating"><span class="review-stars" aria-hidden="true">★★★★★</span><span>4.6</span><a href="#">리뷰 18개</a></div>
+              <div class="pdp-price"><strong>₩151,200</strong><span>20%</span><del>₩189,000</del></div>
+              <p class="stock-line is-low"><span class="stock-dot"></span>재고 3개 남음 · 곧 품절될 수 있습니다</p>
+              <dl class="product-facts"><div><dt>색상</dt><dd>Ivory</dd></div><div><dt>사이즈</dt><dd>Free</dd></div><div><dt>1인 구매 한도</dt><dd>1개</dd></div></dl>
+              <button class="button dark full" type="button">장바구니에 담기</button>
+              <p class="limit-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v.01M12 11v5"></path></svg><span>1인당 <b>1개</b> 한정 제품입니다.</span></p>
+            </aside>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>PDP — 품절</b><code>soldout: true · stock: 0</code></div>
+      <div class="pv-frame">
+        <main>
+          <div class="pdp" style="grid-template-columns:1fr">
+            <aside class="pdp-info">
+              <p class="eyebrow">OMI · LIMITED</p>
+              <h1>Frame Mini Bag</h1>
+              <p class="pdp-korean">정돈된 프레임과 짧은 스트랩의 미니 백.</p>
+              <div class="pdp-rating"><span class="review-stars" aria-hidden="true">★★★★★</span><span>4.9</span><a href="#">리뷰 9개</a></div>
+              <div class="pdp-price"><strong>₩79,000</strong></div>
+              <p class="stock-line is-out"><span class="stock-dot"></span>품절 · 재입고 미정</p>
+              <dl class="product-facts"><div><dt>색상</dt><dd>Silver</dd></div><div><dt>사이즈</dt><dd>One Size</dd></div><div><dt>누적 판매</dt><dd>43개</dd></div></dl>
+              <button class="button dark full" type="button" disabled>품절</button>
+              <div style="margin-top:10px"><button class="button ghost full" type="button">재입고 알림 신청</button></div>
+              <p class="app-note" style="margin-top:12px">재입고 시 알림으로 가장 먼저 안내드립니다.</p>
+            </aside>
+          </div>
+        </main>
+      </div>
+      <p class="pv-note"><b>수정:</b> 비활성 버튼 배경이 웜 베이지 <code>#aaa69e</code>였다 → <code>--surface-muted</code> + <code>--text-faint</code>. 품절 시 대체 행동(재입고 알림)이 없던 자리를 채웠다.</p>
+    </div>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>PDP — 로그인 · 리뷰 작성 가능</b><code>주문 이력 있음 · 기존 리뷰 없음</code></div>
+    <div class="pv-frame">
+      <main>
+        <section class="section pdp-reviews" style="padding-top:40px">
+          <div class="section-heading"><div><p class="eyebrow">REVIEWS</p><h2>리뷰 24개.</h2></div></div>
+          <div class="review-summary">
+            <div class="review-score"><b>4.8</b><span>/ 5.0</span></div>
+            <div class="review-bars">
+              <div class="review-bar"><span>5점</span><i><em style="width:79%"></em></i><span>19</span></div>
+              <div class="review-bar"><span>4점</span><i><em style="width:17%"></em></i><span>4</span></div>
+              <div class="review-bar"><span>3점</span><i><em style="width:4%"></em></i><span>1</span></div>
+            </div>
+          </div>
+          <form class="review-form">
+            <div class="review-form-head"><strong>리뷰 작성</strong><span class="app-note">Night Shirt · 2026.08.02 주문</span></div>
+            <label>별점
+              <span class="rating-input" role="radiogroup" aria-label="별점">
+                <button class="is-on" type="button" aria-label="1점">★</button>
+                <button class="is-on" type="button" aria-label="2점">★</button>
+                <button class="is-on" type="button" aria-label="3점">★</button>
+                <button class="is-on" type="button" aria-label="4점">★</button>
+                <button type="button" aria-label="5점">★</button>
+              </span>
+            </label>
+            <label>내용
+              <textarea placeholder="사이즈, 소재, 착용감을 알려주시면 다른 분들께 도움이 됩니다.">얇지만 형태가 살아 있어서 레이어링하기 좋습니다.</textarea>
+            </label>
+            <p class="char-count">32 / 1,000</p>
+            <div class="form-actions" style="margin:0"><button class="button dark" type="submit">리뷰 등록</button><button class="button ghost" type="button">취소</button></div>
+          </form>
+          <div class="review-list">
+            <article class="review-item"><div class="review-head"><span class="review-stars" aria-hidden="true">★★★★★</span><span class="review-meta"><span>user_8f2</span><span>2026.08.24</span></span></div><p>얇지만 형태가 살아 있어서 레이어링하기 좋습니다.</p></article>
+            <article class="review-item"><div class="review-head"><span class="review-stars" aria-hidden="true">★★★★★</span><span class="review-meta"><span>user_2c9</span><span>2026.08.19</span></span></div><p>색이 사진보다 조금 더 진합니다.</p></article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>계약 근거:</b> <code>reviewUpdateSchema</code>는 <code>rating 1~5</code>, <code>content 1~1000</code>. 별점을 <code>&lt;select&gt;</code>에서 별 버튼으로 바꾸고 글자수 카운터를 붙여 서버 400을 폼에서 막는다. 백엔드가 <code>existsByProductIdAndUserId</code>로 <b>상품당 1인 1리뷰</b>를 강제하므로, 이미 리뷰가 있으면 이 폼 대신 아래 '내 리뷰' 상태를 보여준다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>내 리뷰 — 수정 모드</b><code>PATCH /api/reviews/{reviewId}</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="section pdp-reviews" style="padding-top:36px">
+            <div class="section-heading compact" style="margin-top:0"><h2>내 리뷰</h2></div>
+            <form class="review-form">
+              <div class="review-form-head"><strong>리뷰 수정</strong><span class="app-note">2026.08.24 작성</span></div>
+              <label>별점
+                <span class="rating-input" role="radiogroup" aria-label="별점">
+                  <button class="is-on" type="button">★</button><button class="is-on" type="button">★</button><button class="is-on" type="button">★</button><button class="is-on" type="button">★</button><button class="is-on" type="button">★</button>
+                </span>
+              </label>
+              <label>내용<textarea>얇지만 형태가 살아 있어서 레이어링하기 좋습니다. 어깨 라인이 특히 마음에 들어요.</textarea></label>
+              <p class="char-count">47 / 1,000</p>
+              <div class="form-actions" style="margin:0"><button class="button dark" type="submit">저장</button><button class="button ghost" type="button">취소</button></div>
+            </form>
+            <p class="pv-note" style="padding-left:0"></p>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note">응답은 <code>ApiResponseVoid</code> — <code>data</code>를 읽지 않는다. <code>getReviews</code>가 <code>revalidate: 30</code> 캐시라 저장 직후 목록이 최대 30초간 옛 데이터일 수 있어, 저장 후 <b>낙관적 갱신</b>으로 내 리뷰만 즉시 교체한다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>내 리뷰 — 삭제 확인</b><code>DELETE /api/reviews/{reviewId}</code></div>
+      <div class="pv-frame">
+        <div class="dialog-scrim">
+          <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-rv">
+            <h2 id="dlg-rv">리뷰를 삭제할까요?</h2>
+            <p><span class="s">삭제한 리뷰는 복구할 수 없습니다.</span><span class="s">이 제품에는 다시 리뷰를 작성할 수 있습니다.</span></p>
+            <div class="dialog-actions"><button class="button ghost" type="button">취소</button><button class="button danger" type="button">삭제</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="pv-note"><b>신규:</b> 삭제가 즉시 실행되던 자리에 확인 단계를 넣었다. 소유권 검증은 백엔드(<code>review.validateOwner</code>)가 하므로 이 UI는 편의 장치이지 보안 경계가 아니다.</p>
+    </div>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>내 리뷰 — 작성 완료 상태</b><em>1인 1리뷰라 폼 대신 표시</em></div>
+      <div class="pv-frame">
+        <main>
+          <section class="section pdp-reviews" style="padding-top:36px">
+            <div class="section-heading compact" style="margin-top:0"><h2>내 리뷰</h2></div>
+            <div class="review-list" style="margin-top:16px">
+              <article class="review-item">
+                <div class="review-head">
+                  <span><span class="review-stars" aria-hidden="true">★★★★★</span> <span class="review-own">내 리뷰</span></span>
+                  <span class="review-actions"><button type="button">수정</button><button class="is-danger" type="button">삭제</button></span>
+                </div>
+                <span class="review-meta"><span>2026.08.24</span></span>
+                <p>얇지만 형태가 살아 있어서 레이어링하기 좋습니다. 어깨 라인이 특히 마음에 들어요.</p>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>리뷰 — 아직 없음</b><code>content.length === 0</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="section pdp-reviews" style="padding-top:36px">
+            <div class="section-heading" style="margin-bottom:16px"><div><p class="eyebrow">REVIEWS</p><h2>리뷰.</h2></div></div>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5l2.4 5 5.4.7-4 3.8.9 5.5-4.7-2.5-4.7 2.5.9-5.5-4-3.8 5.4-.7z"></path></svg></span>
+              <h2>첫 리뷰를 기다리고 있습니다</h2>
+              <p>이 제품을 구매하셨다면 주문 내역에서 리뷰를 남길 수 있습니다.</p>
+              <a class="button ghost" href="#">주문 내역 보기</a>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>PDP — 조회 실패 / 404</b><code>getProduct → null</code><em>D1 계약 드리프트 방어</em></div>
+    <div class="pv-frame">
+      <main>
+        <section class="empty-page section">
+          <p class="eyebrow">NOT FOUND</p>
+          <h1>제품을 찾을 수 없습니다</h1>
+          <p><span class="s">삭제되었거나 비공개로 전환된 제품입니다.</span><span class="s">스토어에서 다른 제품을 확인해보세요.</span></p>
+          <div class="form-actions" style="justify-content:center"><a class="button dark" href="#">스토어 보기</a><a class="button ghost" href="#">고객지원</a></div>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><code>public: false</code> 또는 <code>deleted: true</code>인 제품, 그리고 zod <code>safeParse</code> 실패까지 이 화면으로 수렴한다. D1(<code>isPublic</code> vs <code>public</code> 키 불일치)이 PDP 전면 파손으로 나타났던 만큼, 실패 경로에 명시적 화면을 두는 것이 회귀 감지에도 도움이 된다.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ 사전예약 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>사전예약</h2><span>/preorder · PreOrderResponse</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>사전예약 — 상태별 목록</b><code>GET /api/preorders</code><em>state · availableQuantity · releaseDateTime</em></div>
+    <div class="pv-frame">
+      <header class="site-header">
+        <a class="wordmark" href="#">OMI</a>
+        <nav class="desktop-nav"><a href="#">스토어</a><a href="#">신상품</a><a href="#">프리오더</a><a href="#">이벤트</a></nav>
+        <nav class="utility-nav">
+          <a class="header-icon-link" href="#" aria-label="검색"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.75" cy="10.75" r="6.25"></circle><path d="m15.5 15.5 4 4"></path></svg></a>
+          <a class="header-icon-link" href="#" aria-label="장바구니 2개"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 7.5h13l-1 12h-11z"></path><path d="M9 7.5V6a3 3 0 0 1 6 0v1.5"></path></svg><span class="cart-count">2</span></a>
+          <span class="header-user"><a href="#">민준</a><button class="button small ghost" type="button">로그아웃</button></span>
+        </nav>
+      </header>
+      <main>
+        <section class="listing-page section">
+          <div class="listing-title"><div><p class="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div><p>진행 3건</p></div>
+          <ul class="preorder-list">
+            <li class="preorder-card">
+              <div class="preorder-copy">
+                <span class="preorder-state is-open">진행 중</span>
+                <h2>Drop 04 — Night Shift 세트</h2>
+                <div class="preorder-meta"><span>예약 종료 <b>2026.09.08 23:59</b></span><span>출고 예정 <b>2026.09.20</b></span></div>
+                <div class="preorder-stock">
+                  <div class="queue-bar"><i style="width:72%"></i></div>
+                  <p class="app-note">잔여 <b>84</b> / 300개 · 72% 예약됨</p>
+                </div>
+              </div>
+              <div style="display:grid;gap:9px;min-width:180px">
+                <button class="button dark" type="button">예약하기</button>
+                <a class="more-link" href="#" style="text-align:center;font-size:13px">상세 보기 ›</a>
+              </div>
+            </li>
+            <li class="preorder-card">
+              <div class="preorder-copy">
+                <span class="preorder-state is-scheduled">오픈 예정</span>
+                <h2>Wool Coat — Charcoal</h2>
+                <div class="preorder-meta"><span>예약 시작 <b>2026.09.05 11:00</b></span><span>출고 예정 <b>2026.10.02</b></span></div>
+                <div class="preorder-countdown" aria-label="오픈까지 남은 시간">
+                  <div><b>03</b><span>일</span></div><div><b>07</b><span>시간</span></div><div><b>42</b><span>분</span></div>
+                </div>
+              </div>
+              <div style="display:grid;gap:9px;min-width:180px">
+                <button class="button ghost" type="button">오픈 알림 신청</button>
+                <a class="more-link" href="#" style="text-align:center;font-size:13px">상세 보기 ›</a>
+              </div>
+            </li>
+            <li class="preorder-card">
+              <div class="preorder-copy">
+                <span class="preorder-state is-closed">마감</span>
+                <h2>Layer Knit — Oatmeal</h2>
+                <div class="preorder-meta"><span>예약 종료 <b>2026.08.22</b></span><span>출고 <b>2026.09.01 완료</b></span></div>
+                <p class="app-note" style="margin-top:12px">예약 수량 300개 전량 마감되었습니다.</p>
+              </div>
+              <div style="display:grid;gap:9px;min-width:180px">
+                <button class="button ghost" type="button" disabled>마감됨</button>
+                <a class="more-link" href="#" style="text-align:center;font-size:13px">일반 판매 보기 ›</a>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>신규:</b> <code>state</code>가 텍스트로만 노출되던 것을 3상태 배지 + 상태별 행동으로 분리했다. <code>availableQuantity</code>는 잔여 게이지, 오픈 예정은 <code>startDateTime</code> 기준 카운트다운, 마감은 비활성 + 일반 판매 우회로. <b>수정:</b> 카드 테두리를 <code>1px solid --line</code>에서 <code>--surface</code> + 그림자로 바꿔 다른 카드(상품·쿠폰)와 같은 재질로 통일했다.</p>
+  </div>
+
+  <div class="pv-row">
+    <div class="pv">
+      <div class="pv-label"><b>사전예약 — 비로그인 예약 시도</b></div>
+      <div class="pv-frame">
+        <main>
+          <section class="listing-page section" style="padding-top:40px">
+            <div class="gate-card">
+              <h2>로그인이 필요합니다</h2>
+              <p><span class="s">사전예약은 회원 계정으로만 신청할 수 있습니다.</span><span class="s">로그인 후 이 페이지로 돌아옵니다.</span></p>
+              <div class="form-actions" style="justify-content:center"><a class="button dark" href="#">로그인</a><a class="button ghost" href="#">회원가입</a></div>
+            </div>
+          </section>
+        </main>
+      </div>
+      <p class="pv-note"><code>?next=/preorder</code>로 복귀 경로를 유지한다.</p>
+    </div>
+
+    <div class="pv">
+      <div class="pv-label"><b>사전예약 — 진행 없음</b><code>content.length === 0</code></div>
+      <div class="pv-frame">
+        <main>
+          <section class="listing-page section" style="padding-top:40px">
+            <div class="listing-title" style="padding-top:0"><div><p class="eyebrow">PRE-ORDER</p><h1>사전예약.</h1></div></div>
+            <div class="state-block">
+              <span class="state-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg></span>
+              <h2>예정된 사전예약이 없습니다</h2>
+              <p><span class="s">새 드롭이 열리면 알려드릴까요?</span><span class="s">알림을 신청하면 오픈 시각에 맞춰 안내합니다.</span></p>
+              <button class="button dark" type="button">드롭 알림 신청</button>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ 이벤트 ═══════════════ -->
+<section class="doc-sec">
+  <div class="doc-sec-head"><h2>이벤트</h2><span>/events · /events/[eventId]</span></div>
+
+  <div class="pv">
+    <div class="pv-label"><b>이벤트 — 목록</b><code>GET /api/events</code></div>
+    <div class="pv-frame">
+      <main>
+        <section class="listing-page section">
+          <div class="listing-title"><div><p class="eyebrow">EVENTS</p><h1>이벤트.</h1></div><p>진행 2건 · 종료 1건</p></div>
+          <ul class="event-list">
+            <li class="event-card"><a href="#">
+              <span class="event-image"><img alt="가을 시즌 오프" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=900&q=85"></span>
+              <span class="event-copy"><span class="event-live">진행 중</span><h2>가을 아우터 최대 20%</h2><p class="event-period">2026.08.28 – 2026.09.14</p></span>
+            </a></li>
+            <li class="event-card"><a href="#">
+              <span class="event-image"><img alt="첫 구매 혜택" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85"></span>
+              <span class="event-copy"><span class="event-live">진행 중</span><h2>첫 구매 15% 쿠폰</h2><p class="event-period">2026.07.01 – 상시</p></span>
+            </a></li>
+            <li class="event-card"><a href="#">
+              <span class="event-image"><img alt="여름 클리어런스" src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=900&q=85"></span>
+              <span class="event-copy"><h2>여름 클리어런스</h2><p class="event-period">종료 · 2026.06.10 – 2026.07.20</p></span>
+            </a></li>
+          </ul>
+        </section>
+      </main>
+    </div>
+    <p class="pv-note"><b>수정:</b> 이벤트 제목이 세리프(<code>--font-display</code>)로 남아 있어 같은 페이지의 다른 제목과 서체가 달랐다. 전면 Pretendard로 통일. <b>신규:</b> <code>startAt</code>/<code>endAt</code>으로 진행·종료를 판별해 배지와 기간 문구를 나눈다 — 기존에는 종료된 이벤트가 진행 중인 것과 동일하게 보였다.</p>
+  </div>
+
+  <div class="pv">
+    <div class="pv-label"><b>이벤트 — 상세</b><code>GET /api/events/{eventId}</code></div>
+    <div class="pv-frame">
+      <main>
+        <section class="feature-page section">
+          <div class="feature-image"><img alt="가을 아우터 이벤트" src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=1200&q=85"></div>
+          <div class="feature-copy">
+            <p class="eyebrow">EVENT · 진행 중</p>
+            <h1>가을 아우터<br>최대 20%.</h1>
+            <p><span class="s">선선해지는 계절에 맞춰 아우터 라인을 준비했습니다.</span><span class="s">기간 중 아우터 카테고리 전 제품에 자동 할인이 적용되며,</span><span class="s">보유하신 쿠폰과 중복으로 사용할 수 있습니다.</span></p>
+            <p class="event-period" style="margin-bottom:24px">2026.08.28 11:00 – 2026.09.14 23:59</p>
+            <div class="form-actions" style="margin-top:0"><a class="button dark" href="#">아우터 보기</a><a class="button ghost" href="#">쿠폰 확인</a></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</section>
+
+<div style="height:80px"></div>
+<script src="doc.js"></script>
+</body>
+</html>

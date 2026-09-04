@@ -11,6 +11,10 @@ export default tseslint.config(
       '**/dist/**',
       '**/node_modules/**',
       'reference/**',
+      // 디자인 시안(브라우저 목업)과 Workflow 하네스 스크립트는 앱 빌드 대상이 아니다.
+      // .claude 는 워크플로 스크립트만 제외한다 — 그 아래 앱 코드가 생기면 린트를 계속 받도록.
+      '.design/**',
+      '.claude/workflows/**',
     ],
   },
   js.configs.recommended,

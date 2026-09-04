@@ -5,14 +5,15 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div>
         <p className="wordmark">OMI</p>
-        <p>일상의 움직임을 위한 조용한 형태.</p>
+        <p>조용한 형태, 매일의 움직임.</p>
       </div>
-      <div className="footer-links">
-        <Link href="/account/orders">주문 조회</Link>
-        <Link href="/account/addresses">배송지 관리</Link>
-        <Link href="/support">고객 지원</Link>
-      </div>
-      <p className="footer-meta">© 2026 OMI</p>
+      <nav aria-label="푸터 메뉴" className="footer-links">
+        <Link href="/shop">스토어</Link>
+        <Link href="/support">고객지원</Link>
+        <Link href="/support#returns">배송·반품</Link>
+        <Link href="/support#terms">이용약관</Link>
+      </nav>
+      <p className="footer-meta">© 2026 OMI. 사업자등록번호 000-00-00000. 서울특별시 성동구.</p>
     </footer>
   )
 }

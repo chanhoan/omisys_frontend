@@ -13,7 +13,7 @@ describe('ProductShowcase', () => {
 
     expect(screen.getByText(hero.productName)).toBeVisible()
     expect(screen.getByText(formatWon(hero.discountedPrice))).toBeVisible()
-    expect(screen.getByRole('link', { name: '구매하기' })).toHaveAttribute('href', `/products/${hero.productId}`)
-    expect(screen.getByRole('link', { name: /더 알아보기/ })).toHaveAttribute('href', '/shop')
+    expect(screen.getByRole('link', { name: '스토어 보기' })).toHaveAttribute('href', '/shop')
+    expect(screen.getByRole('link', { name: /드롭 04 살펴보기/ })).toHaveAttribute('href', '/shop?sort=newest')
   })
 })

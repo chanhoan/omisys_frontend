@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 
+import { FormErrorBox } from './form-error-box'
+
 export function LoginForm({ nextPath }: { nextPath?: string }) {
   const router = useRouter()
   const [error, setError] = useState<string>()
@@ -31,23 +33,25 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
         body: JSON.stringify(parsed.data),
       })
       const payload = await response.json() as { message?: string }
-      if (!response.ok) throw new Error(payload.message || '로그인하지 못했습니다.')
+      if (!response.ok) throw new Error(payload.message || '이메일 또는 비밀번호가 올바르지 않습니다.')
       router.replace(safeNextPath(nextPath))
       router.refresh()
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : '로그인하지 못했습니다.')
+      setError(reason instanceof Error ? reason.message : '이메일 또는 비밀번호가 올바르지 않습니다.')
     } finally {
       setPending(false)
     }
   }
 
+  const invalid = error !== undefined || undefined
+
   return (
     <form className="auth-form" onSubmit={submit}>
-      <label>아이디<input autoComplete="username" name="username" required /></label>
-      <label>비밀번호<input autoComplete="current-password" name="password" required type="password" /></label>
-      {error ? <p className="form-error" role="alert">{error}</p> : null}
-      <button className="button dark full" disabled={pending} type="submit">{pending ? 'Signing in…' : 'Sign in'}</button>
-      <p className="auth-switch">처음 방문하셨나요? <Link href="/signup">Create account</Link></p>
+      {error ? <FormErrorBox>{error}</FormErrorBox> : null}
+      <label>아이디<input aria-invalid={invalid} autoComplete="username" disabled={pending} name="username" placeholder="영문·숫자 4~10자" required /></label>
+      <label>비밀번호<input aria-invalid={invalid} autoComplete="current-password" disabled={pending} name="password" placeholder="8자 이상" required type="password" /></label>
+      <button className="button dark full" disabled={pending} type="submit">{pending ? '로그인 중…' : '로그인'}</button>
+      <p className="auth-switch">계정이 없으신가요? <Link href="/signup">회원가입</Link></p>
     </form>
   )
 }
