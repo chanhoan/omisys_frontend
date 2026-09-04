@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { cartReducer, createEmptyCart, getCartSummary, toCartItem } from './cart'
+import { cartReducer, createEmptyCart, getCartSummary, getPurchaseLimit, toCartItem } from './cart'
 import { catalogProducts } from './fixtures'
 
 describe('cartReducer', () => {
@@ -34,5 +34,43 @@ describe('cartReducer', () => {
 
   it('does not add sold-out products', () => {
     expect(cartReducer(createEmptyCart(), { type: 'add', product: catalogProducts[3] })).toEqual(createEmptyCart())
+  })
+})
+
+// 계약상 limitCountPerUser === 0 은 "한도 없음" 이다. SOURCE: packages/api/src/contracts.ts:24
+describe('per-user purchase limit of 0', () => {
+  const unlimited = { ...catalogProducts[0], limitCountPerUser: 0 }
+
+  it('reads 0, null and undefined as no limit', () => {
+    expect(getPurchaseLimit(0)).toBeNull()
+    expect(getPurchaseLimit(null)).toBeNull()
+    expect(getPurchaseLimit(undefined)).toBeNull()
+  })
+
+  it('keeps a positive limit as-is', () => {
+    expect(getPurchaseLimit(3)).toBe(3)
+  })
+
+  it('keeps adding a product whose limit is 0', () => {
+    const once = cartReducer(createEmptyCart(), { type: 'add', product: unlimited })
+    const twice = cartReducer(once, { type: 'add', product: unlimited })
+    const thrice = cartReducer(twice, { type: 'add', product: unlimited })
+
+    expect(thrice.items[0].quantity).toBe(3)
+  })
+
+  it('does not clamp the quantity of a product whose limit is 0', () => {
+    const added = cartReducer(createEmptyCart(), { type: 'add', product: unlimited })
+    const raised = cartReducer(added, { type: 'setQuantity', productId: unlimited.productId, quantity: 7 })
+
+    expect(raised.items[0].quantity).toBe(7)
+  })
+
+  it('still enforces a positive limit', () => {
+    const limited = { ...catalogProducts[0], limitCountPerUser: 2 }
+    const added = cartReducer(createEmptyCart(), { type: 'add', product: limited })
+    const raised = cartReducer(added, { type: 'setQuantity', productId: limited.productId, quantity: 9 })
+
+    expect(raised.items[0].quantity).toBe(2)
   })
 })

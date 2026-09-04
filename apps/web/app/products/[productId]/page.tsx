@@ -1,4 +1,4 @@
-import { formatDate, formatWon } from '@omi/domain'
+import { formatDate, formatWon, getPurchaseLimit } from '@omi/domain'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -45,6 +45,8 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const reviews = reviewPage?.content ?? []
   const reviewTotal = reviewPage?.totalElements ?? 0
   const stockState = product.soldout || product.stock === 0 ? 'out' : product.stock <= 5 ? 'low' : 'normal'
+  // 계약상 limitCountPerUser === 0 은 한도 없음을 뜻한다.
+  const purchaseLimit = getPurchaseLimit(product.limitCountPerUser)
   const stockLabel = stockState === 'out'
     ? '품절 · 재입고 미정'
     : stockState === 'low'
@@ -84,16 +86,16 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
         <dl className="product-facts">
           <div><dt>색상</dt><dd>{product.mainColor}</dd></div>
           <div><dt>사이즈</dt><dd>{product.size}</dd></div>
-          {stockState === 'out' ? null : <div><dt>1인 구매 한도</dt><dd>{product.limitCountPerUser}개</dd></div>}
+          {stockState === 'out' ? null : <div><dt>1인 구매 한도</dt><dd>{purchaseLimit === null ? '제한 없음' : `${purchaseLimit}개`}</dd></div>}
           {product.salesCount > 0 ? <div><dt>누적 판매</dt><dd>{product.salesCount}개</dd></div> : null}
         </dl>
         <AddToCart product={product} />
-        {stockState === 'out' ? null : (
+        {stockState === 'out' || purchaseLimit === null ? null : (
           <p className="limit-note">
             <InfoIcon />
-            <span>{product.limitCountPerUser === 1
+            <span>{purchaseLimit === 1
               ? <>1인당 <b>1개</b> 한정 제품입니다.</>
-              : <>이 제품은 1인당 최대 <b>{product.limitCountPerUser}개</b>까지 구매할 수 있습니다.</>}</span>
+              : <>이 제품은 1인당 최대 <b>{purchaseLimit}개</b>까지 구매할 수 있습니다.</>}</span>
           </p>
         )}
         <div className="pdp-notes">

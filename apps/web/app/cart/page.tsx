@@ -1,6 +1,6 @@
 'use client'
 
-import { formatWon } from '@omi/domain'
+import { formatWon, getPurchaseLimit } from '@omi/domain'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -37,7 +37,8 @@ export default function CartPage() {
           <div className="cart-layout">
             <div className="cart-items">
               {state.items.map((item) => {
-                const atLimit = item.limitCountPerUser != null && item.quantity >= item.limitCountPerUser
+                const purchaseLimit = getPurchaseLimit(item.limitCountPerUser)
+                const atLimit = purchaseLimit != null && item.quantity >= purchaseLimit
                 return (
                   <article className="cart-item" key={item.productId} style={item.soldout ? { opacity: 0.6 } : undefined}>
                     <span className="cart-thumb">{item.thumbnailImgUrl ? <Image alt={item.name} fill sizes="140px" src={item.thumbnailImgUrl} /> : null}</span>
@@ -54,7 +55,7 @@ export default function CartPage() {
                             <span>{item.quantity}</span>
                             <button aria-label="수량 늘리기" disabled={atLimit} onClick={() => setQuantity(item.productId, item.quantity + 1)} type="button">+</button>
                           </div>
-                          {atLimit ? <p className="app-note" style={{ marginTop: 8 }}>1인 구매 한도 {item.limitCountPerUser}개에 도달했습니다.</p> : null}
+                          {atLimit ? <p className="app-note" style={{ marginTop: 8 }}>1인 구매 한도 {purchaseLimit}개에 도달했습니다.</p> : null}
                         </>
                       )}
                       <button className="remove-button" onClick={() => remove(item.productId)} type="button">삭제</button>

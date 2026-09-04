@@ -59,6 +59,22 @@ export function getCouponIneligibility(coupon: Coupon, subtotal: number, now = n
   return null
 }
 
+// 결제 리다이렉트 주소는 게이트웨이 응답 본문에서 그대로 온다. 응답이 변조되면 임의 사이트로
+// 보내는 오픈 리다이렉트가 되므로, 같은 오리진이 아니면 https 만 허용해 스킴 주입(javascript:,
+// data:)과 평문 다운그레이드를 막는다.
+// NOTE: 외부 PG 호스트 allowlist 가 확정되면 이 함수에서 host 검사를 함께 수행해야 한다.
+export function resolveCheckoutUrl(raw: string, origin: string): string {
+  let url: URL
+  try {
+    url = new URL(raw, origin)
+  } catch {
+    throw new Error('결제 페이지 주소가 올바르지 않습니다.')
+  }
+  if (url.origin === origin) return url.toString()
+  if (url.protocol !== 'https:') throw new Error('결제 페이지 주소가 올바르지 않습니다.')
+  return url.toString()
+}
+
 export function getPointLimit(availablePoints: number, subtotalAfterCoupon: number): number {
   return Math.max(0, Math.min(availablePoints, subtotalAfterCoupon))
 }
@@ -161,7 +177,7 @@ export function CheckoutForm({ addresses, availablePoints, coupons }: CheckoutFo
       if (checkoutUrl) {
         // The payment provider has not confirmed the charge yet. Keep the cart until a
         // terminal result is available so a failed or cancelled payment can be retried.
-        window.location.href = checkoutUrl
+        window.location.assign(resolveCheckoutUrl(checkoutUrl, window.location.origin))
       } else {
         await clear()
         idempotencyKey.current = null

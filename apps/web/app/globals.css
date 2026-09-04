@@ -529,8 +529,10 @@ h1,h2,h3{word-break:keep-all}
 .address-info .address-default-tag,.address-default-tag{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:var(--radius-pill);
   background:var(--accent-soft);color:var(--accent-strong);font-size:11px;font-weight:600;vertical-align:middle}
 .address-actions{display:flex;gap:10px;align-items:center}
-.address-form-wrapper{margin-top:24px}
-.address-form{background:var(--surface);border-radius:var(--radius-card);padding:26px;display:grid;gap:16px;max-width:520px}
+/* 배송지 폼과 주소 검색 패널을 좌우로 나란히 세운다. 높이는 각자 내용에 맞춘다 —
+   패널을 폼 높이에 맞춰 늘리면 위젯 아래에만 여백이 쌓여 위아래 여백이 어긋난다. */
+.address-form-wrapper{margin-top:24px;display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:24px}
+.address-form{background:var(--surface);border-radius:var(--radius-card);padding:26px;display:grid;gap:16px;flex:1 1 420px;max-width:520px}
 .address-form h3{margin:0 0 6px;font-size:17px;font-weight:700;letter-spacing:-.03em}
 .address-form label{display:grid;gap:7px;font-size:12.5px;color:var(--text-muted)}
 .address-form input{min-height:44px;padding:0 14px;border:1px solid var(--border);border-radius:var(--radius-control);
@@ -638,6 +640,14 @@ h1,h2,h3{word-break:keep-all}
 .dialog p{color:var(--text-muted);font-size:13.5px;line-height:1.65;margin:0 0 20px}
 .dialog-actions{display:flex;gap:10px}
 .dialog-actions .button{flex:1}
+/* 패딩 26 · 내부 gap 16 은 .address-form 카드와 같은 리듬이다. */
+.address-search-panel{background:var(--surface);border-radius:var(--radius-card);padding:26px;display:flex;flex-direction:column;gap:16px;flex:1 1 420px;max-width:520px}
+.address-search-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.address-search-header h2{margin:0;font-size:17px;font-weight:700;letter-spacing:-.03em}
+/* 위젯 iframe 은 height:100% 라 부모 높이가 확정이어야 한다(min-height 만으로는 0 으로 접힌다).
+   높이는 위젯 기본값 500px 고정 — 카드 높이에 맞춰 늘리면 위젯 내부 레이아웃이 깨진다.
+   SOURCE: postcode.v2.js DEFAULT_HEIGHT:500 (MIN_HEIGHT:400) */
+.address-search-embed{width:100%;height:500px;border:1px solid var(--border);border-radius:var(--radius-control);overflow:hidden}
 .banner{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;border-radius:var(--radius-control);font-size:13px;line-height:1.55;margin-bottom:20px}
 .banner svg{width:16px;height:16px;flex:none;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .banner.is-info{background:var(--accent-soft);color:var(--accent-strong)}

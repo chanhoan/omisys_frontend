@@ -81,6 +81,9 @@ export function QueueClient({ returnHref = '/shop' }: { returnHref?: string }) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const cancelledRef = useRef(false)
 
+  // setTimeout 재귀 호출이 선언 전 poll 을 잡지 않도록 ref 를 거친다.
+  const pollRef = useRef<() => Promise<void>>(async () => {})
+
   const poll = useCallback(async () => {
     try {
       const { response, data } = await readQueueStatus()
@@ -91,7 +94,7 @@ export function QueueClient({ returnHref = '/shop' }: { returnHref?: string }) {
         setInitialRank((current) => current ?? data.rank)
         setView({ kind: 'waiting', rank: data.rank, retryAfterSeconds: seconds })
         setCountdown(seconds)
-        timerRef.current = setTimeout(() => { void poll() }, seconds * 1000)
+        timerRef.current = setTimeout(() => { void pollRef.current() }, seconds * 1000)
         return
       }
 
@@ -117,8 +120,15 @@ export function QueueClient({ returnHref = '/shop' }: { returnHref?: string }) {
   }, [])
 
   useEffect(() => {
+    pollRef.current = poll
+  }, [poll])
+
+  useEffect(() => {
     if (!getQueuedIntent()) return
     cancelledRef.current = false
+    // poll 은 첫 await 이전에 setState 를 하지 않아 규칙이 막으려는 동기 연쇄 렌더가 없다.
+    // 타이머로 미루면 마운트 직후 첫 조회가 사라져 대기열 진입이 한 틱 늦어진다.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void poll()
     return () => {
       cancelledRef.current = true

@@ -140,6 +140,20 @@ describe('QueueClient', () => {
     expect(fetch).not.toHaveBeenCalled()
   })
 
+  // queue-client.tsx 의 react-hooks/set-state-in-effect 억제는 "poll 이 첫 await 전에는
+  // 상태를 건드리지 않는다" 는 전제 위에 서 있다. 그 전제를 여기서 고정한다.
+  it('does not change the view before the first await inside poll', () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
+      queueResponse(202, { state: 'WAITING', rank: 5, retryAfterSeconds: 30 }),
+    ))
+
+    render(<QueueClient />)
+
+    // 마운트 이펙트가 poll() 을 호출한 직후 — 아직 아무것도 flush 하지 않은 시점이다.
+    expect(screen.getByText('순번을 확인하고 있습니다')).toBeVisible()
+    expect(screen.queryByText('거의 다 왔습니다')).not.toBeInTheDocument()
+  })
+
   it('clears its scheduled poll on unmount', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(
       queueResponse(202, { state: 'WAITING', rank: 5, retryAfterSeconds: 30 }),

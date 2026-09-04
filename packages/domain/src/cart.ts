@@ -49,9 +49,15 @@ export function toCartItem(product: Product, quantity: number): CartItemView {
   }
 }
 
-// Server-hydrated items have no per-user limit, so leave their quantity uncapped.
+// The contract sends `0` for "no per-user cap" (Product.java's default), and server-hydrated
+// items carry no limit at all. Both mean unlimited. SOURCE: packages/api/src/contracts.ts:24
+export function getPurchaseLimit(limit: number | null | undefined): number | null {
+  return limit == null || limit === 0 ? null : limit
+}
+
 function cappedQuantity(item: CartItemView, quantity: number): number {
-  return item.limitCountPerUser != null ? Math.min(quantity, item.limitCountPerUser) : quantity
+  const limit = getPurchaseLimit(item.limitCountPerUser)
+  return limit != null ? Math.min(quantity, limit) : quantity
 }
 
 export function createEmptyCart(): CartState {
@@ -78,11 +84,13 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
   const existing = state.items.find((item) => item.productId === action.product.productId)
   if (!existing) return { items: [...state.items, toCartItem(action.product, 1)] }
   // Prefer the incoming product's limit — hydrated items may lack limitCountPerUser.
-  const limit = action.product.limitCountPerUser ?? existing.limitCountPerUser
+  // Store the raw value so consumers can still tell "unlimited" (0) from "unknown" (undefined).
+  const rawLimit = action.product.limitCountPerUser ?? existing.limitCountPerUser
+  const limit = getPurchaseLimit(rawLimit)
   if (limit != null && existing.quantity >= limit) return state
   return {
     items: state.items.map((item) => item.productId === action.product.productId
-      ? { ...item, quantity: item.quantity + 1, limitCountPerUser: limit }
+      ? { ...item, quantity: item.quantity + 1, limitCountPerUser: rawLimit }
       : item),
   }
 }

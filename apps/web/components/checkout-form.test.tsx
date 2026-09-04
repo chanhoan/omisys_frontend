@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/vitest'
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { CheckoutForm, getCouponDiscount, getCouponIneligibility, getPointLimit } from './checkout-form'
+import { CheckoutForm, getCouponDiscount, getCouponIneligibility, getPointLimit, resolveCheckoutUrl } from './checkout-form'
 import { clearQueuedIntent, getQueuedIntent } from './queue-intent-store'
 
 const clear = vi.fn(async () => {})
@@ -100,6 +100,16 @@ describe('CheckoutForm', () => {
     const [, secondInit] = vi.mocked(fetch).mock.calls[1] as [string, RequestInit]
     expect(firstInit.headers).toMatchObject({ 'Idempotency-Key': 'request-key' })
     expect(secondInit.headers).toMatchObject({ 'Idempotency-Key': 'request-key' })
+  })
+
+  it('rejects checkout redirects that are not same-origin or https', () => {
+    const origin = 'https://shop.example.com'
+
+    expect(resolveCheckoutUrl('#payment-provider', origin)).toBe(`${origin}/#payment-provider`)
+    expect(resolveCheckoutUrl('https://pg.example.com/pay', origin)).toBe('https://pg.example.com/pay')
+    expect(() => resolveCheckoutUrl('javascript:alert(1)', origin)).toThrow('결제 페이지 주소가 올바르지 않습니다.')
+    expect(() => resolveCheckoutUrl('http://pg.example.com/pay', origin)).toThrow('결제 페이지 주소가 올바르지 않습니다.')
+    expect(() => resolveCheckoutUrl('data:text/html,<script>', origin)).toThrow('결제 페이지 주소가 올바르지 않습니다.')
   })
 
   it('keeps the cart when the order response sends the shopper to an external payment step', async () => {
