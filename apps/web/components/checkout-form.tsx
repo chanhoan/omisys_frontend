@@ -137,7 +137,7 @@ export function CheckoutForm({ addresses, availablePoints, coupons }: CheckoutFo
     try {
       idempotencyKey.current ??= crypto.randomUUID()
       const order = {
-        orderType: 'NORMAL' as const,
+        orderType: 'STANDARD' as const,
         orderProductInfos: state.items.map((item) => ({
           productId: item.productId,
           quantity: item.quantity,
