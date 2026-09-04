@@ -41,3 +41,6 @@ claude/
 
 docs/plans/
 docs/code-review
+
+# Next 가 next dev/next build 마다 재생성하며, 무시 대상인 .next/ 경로를 import 한다.
+apps/web/next-env.d.ts
